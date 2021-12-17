@@ -74,16 +74,24 @@ class UserView(ModelView):
     def is_accessible(self):
         return current_user.is_authenticated and current_user.user_role == UserRole.ADMIN
 
-class Stats_view(BaseView):
+class Profit_stats_view(BaseView):
     @expose('/')
     @login_required
     def index(self):
-        return self.render('admin/stats.html', stats=utils.stat_profit())
+        return self.render('admin/profit_stats.html', stats=utils.stat_profit())
+
+class Medicine_stats_view(BaseView):
+    @expose('/')
+    @login_required
+    def index(self):
+        return self.render('admin/profit_stats.html', stats=utils.stat_medicine())
 
 admin=Admin(app=app, name='Quản Trị Hệ Thống', template_mode='bootstrap4', index_view=MyAdminIndexView())
 admin.add_view(UserView(User, db.session,name="Tài Khoản"))
 admin.add_view(MedicalBillView(Medical_bill, db.session,name="Phiếu Khám"))
 admin.add_view(MedicineView(Medicine, db.session,name="Danh Mục Thuốc"))
 admin.add_view(AboutUsView(name = "Về Chúng Tôi"))
+admin.add_view(Profit_stats_view(name="Thống kê doanh thu"))
+admin.add_view(Medicine_stats_view(name="Thống kê tần suất sử dụng thuốc"))
 admin.add_view(BackHome(name="Trở Về"))
 admin.add_view(LogoutView(name="Đăng Xuất"))
