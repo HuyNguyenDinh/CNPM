@@ -1,0 +1,45 @@
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top">
+    <!-- Brand -->
+    <img width="30px" style="margin-right: 10px" src="{{url_for('static', filename = 'images/logo.png')}}">
+    <!-- Links -->
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link" href="{{url_for('homepage')}}"><i class="fas fa-home"></i></i>   Trang Chủ  </a>
+        </li>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbardrop"
+               data-toggle="dropdown">
+               <i class="fas fa-users"></i>   Về Chúng Tôi
+            </a>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="#">Tin Tức</a>
+                <a class="dropdown-item" href="#">Chuyên Khoa</a>
+                <a class="dropdown-item" href="#">Tuyển Dụng</a>
+            </div>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#"><i class="fas fa-file-signature"></i>   Đăng Ký Khám Bệnh  </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#"><i class="fas fa-phone-square"></i>   Liên hệ Tư Vấn  </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#"><i class="fas fa-comments"></i>   Phản Hồi  </a>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#"
+               data-toggle="dropdown">
+               <i class="fas fa-sign-in-alt"></i>   Đăng Nhập
+            </a>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="#">Nhân Viên</a>
+                <a class="dropdown-item" href="{{ url_for('admin.index')}}">Quản Trị Hệ Thống</a>
+            </div>
+        </li>
+
+
+    </ul>
+    <form class="form-inline">
+        <input class="form-control mr-sm-2" name="keysword" type="text" placeholder="Nhập để tìm kiếm....">
+        <button class="btn btn-info" type="submit">Tìm Kiếm</button>
+    </form>
+</nav>
