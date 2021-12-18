@@ -5,7 +5,6 @@ from datetime import datetime
 from enum import Enum as UserEnum
 from flask_login import UserMixin, current_user
 import hashlib
-#alo
 
 class BaseModel(db.Model):
     __abstract__ = True

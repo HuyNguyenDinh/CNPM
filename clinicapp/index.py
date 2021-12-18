@@ -3,8 +3,6 @@ from flask import render_template, redirect, request
 from flask_login import login_user
 import hashlib
 
-
-
 @app.route("/")
 def homepage():
     return render_template('index.html')

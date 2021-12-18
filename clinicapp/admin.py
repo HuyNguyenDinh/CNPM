@@ -1,5 +1,5 @@
 from flask_admin import  BaseView, expose,AdminIndexView
-from flask import  redirect
+from flask import  redirect, request
 from flask_admin import Admin
 from clinicapp import app, db, utils
 from flask_admin.contrib.sqla import ModelView
@@ -72,7 +72,10 @@ class Profit_stats_view(BaseView):
     @expose('/')
     @login_required
     def index(self):
-        return self.render('admin/profit_stats.html', stats=utils.stat_profit())
+        month = request.args.get('month')
+        year = request.args.get('year')
+        return self.render('admin/profit_stats.html', stats=utils.stat_profit(month=month, year=year),\
+                           total_profit=utils.get_total_bill_in_month(month=month, year=year))
     def is_accessible(self):
         return current_user.is_authenticated and current_user.user_role == UserRole.ADMIN
 
@@ -81,7 +84,9 @@ class Medicine_stats_view(BaseView):
     @expose('/')
     @login_required
     def index(self):
-        return self.render('admin/profit_stats.html', stats=utils.stat_medicine())
+        month = request.args.get('month')
+        year = request.args.get('year')
+        return self.render('admin/medicine_stats.html', stats=utils.stat_medicine(month=month, year=year))
     def is_accessible(self):
         return current_user.is_authenticated and current_user.user_role == UserRole.ADMIN
 

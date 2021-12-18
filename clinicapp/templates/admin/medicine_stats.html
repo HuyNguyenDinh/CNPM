@@ -9,17 +9,17 @@
             <div class="col-md-6 col-xs-12">
                 <table class="table">
                     <tr class="col-md-6 col-xs-12">
-                        <th>Ngày</th>
-                        <th>Số lượng bệnh nhân</th>
-                        <th>Doanh thu</th>
-                        <th>Số lượng sản phẩm</th>
+                        <th>Thuốc</th>
+                        <th>Đơn vị tính</th>
+                        <th>Số lượng</th>
+                        <th>Số lần dùng</th>
                     </tr>
                     {% for s in stats %}
                     <tr class="col-md-6 col-xs-12">
                         <td>{{s[0]}}</td>
-                        <td>{{s[2]}}</td>
                         <td>{{s[1]}}</td>
-                        <td>{{"{:,.1f}".format(s[1]/total_profit * 100)}}%</td>
+                        <td>{{s[2]}}</td>
+                        <td>{{s[3]}}</td>
                     </tr>
                     {% endfor %}
                 </table>
@@ -32,9 +32,10 @@
     <script>
         window.onload = function() {
             let labels = [], data = []
-
+            temp = ""
             {% for s in stats %}
-                labels.push('{{s[1]}}')
+                temp = '{{s[0] + '-' + s[1]}}'
+                labels.push(temp)
                 data.push({{s[2]}})
             {% endfor %}
 
