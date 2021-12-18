@@ -1,0 +1,108 @@
+.form-inline{
+    margin-right: 0;
+    margin-left: auto;
+}
+*{
+ box-sizing: border-box;
+}
+.jumbotron{
+    background-color:#17a2b8 !important;
+    color: white !important;
+    height: 175px !important;
+}
+.dropdown-menu{
+       background-color:#343a40 !important;
+}
+.dropdown-item{
+           color: rgba(255,255,255,.5) !important;
+}
+.dropdown-item:hover{
+    background-color: lightgray !important;
+    color: #343a40  !important;
+}
+/*CSS cho footer*/
+footer{
+    position: relative;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    color: rgba(255,255,255,.5);
+    background-color: #343a40;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+}
+.col30{
+    width: 30%;
+    padding-right: 20px;
+}
+.col50{
+    width: 50%;
+}
+.col50 p{
+   font-size: 15px;
+   font-style: italic;
+   text-align: center;
+}
+div.allfoot{
+    display: flex;
+    padding: 20px 10px;
+}
+textarea {
+    width: 95%;
+    height: 60px;
+    border-radius: 5px;
+}
+.col30 input[type = submit]{
+    background-color: #138496;
+    width: 20%;
+    margin-left: 75%;
+    height: 30px;
+     border-radius: 5px;
+     color: white;
+}
+ul.contact{
+    list-style-type: none;
+}
+ul.social{
+    display: flex;
+    list-style-type: none;
+    background-color: #343a40;
+}
+
+ul.social li{
+    width: 15%;
+    padding: 0 5px;
+}
+ul.social li img{
+    width: 100%;
+}
+/*Keyframes*/
+@keyframes  faded {
+    0% {
+      opacity: 1;
+    }
+    20% {
+      opacity: 1;
+    }
+    40% {
+      opacity: 0;
+    }
+    60% {
+      opacity: 0;
+    }
+    80% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  @keyframes doimau{
+    from{
+        color: darkgray;
+    }
+    to{
+        color:black;
+    }
+}
