@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Enum, Float, Boolean, Date, ForeignKey, Text
+from sqlalchemy import Column, Integer, String, Enum, Float, Boolean, Date, ForeignKey, Text, Table
 from sqlalchemy.orm import relationship
 from clinicapp import db, utils
 from datetime import datetime
@@ -68,14 +68,13 @@ class Medicine_unit(BaseModel):
     name = Column(String(20), nullable=False, primary_key=True)
     price = Column(Float, default=0)
     medicine_id = Column(Integer, ForeignKey(Medicine.id), nullable=False, primary_key=True)
-    medical_bill_details = relationship('Medical_bill_detail', backref='medicine_unit', lazy=True)
-
+    medical_bill_details = relationship('Medical_bill_detail', backref='medicine_unit', lazy='subquery')
     def __str__(self):
         return self.name
 
 
 class Medical_bill_detail(db.Model):
-    __tablename__ = 'medical_bill_detail'
+    __tablename__ = 'medicine_bill_detail'
     __table_args__ = {'extend_existing': True}
     medical_bill_id = Column(Integer, ForeignKey(Medical_bill.id), nullable=False, primary_key=True)
     medicine_unit_id = Column(Integer, ForeignKey(Medicine_unit.id), nullable=False, primary_key=True)
