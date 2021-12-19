@@ -4,7 +4,12 @@
 
 {% block body %}
     {% if current_user.is_authenticated %}
-        <h1>Thống kê doanh thu</h1>
+        <h1>Thống kê tần suất sử dụng thuốc</h1>
+        <form method="get">
+            <input type="number" name="month" min="1" max="12" value="{{last_m_y.get('month')}}">
+            <input type="number" name="year" value="{{last_m_y.get('year')}}">
+            <input type="submit">
+        </form>
         <div class="row">
             <div class="col-md-6 col-xs-12">
                 <table class="table">

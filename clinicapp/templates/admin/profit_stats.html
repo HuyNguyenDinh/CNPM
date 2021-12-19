@@ -7,7 +7,8 @@
         <h1>Thống kê doanh thu</h1>
         <div>
             <form method="get">
-                <input type="month" name="MaY">
+                <input type="number" name="month" min="1" max="12" value="{{last_m_y.get('month')}}">
+                <input type="number" name="year" value="{{last_m_y.get('year')}}">
                 <input type="submit">
             </form>
         </div>
