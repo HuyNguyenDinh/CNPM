@@ -41,11 +41,11 @@
 
             const ctx = document.getElementById('myCategoryStatChart').getContext('2d');
             const myChart = new Chart(ctx, {
-                type: 'doughnut',
+                type: 'bar',
                 data: {
                     labels: labels,
                     datasets: [{
-                        label: 'Thong ke so luong san pham theo danh muc',
+                        label: 'Thong ke so luong tung loai thuoc',
                         data: data,
                         backgroundColor: [
                             'rgba(255, 99, 132, 0.2)',
