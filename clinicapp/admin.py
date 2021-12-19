@@ -95,7 +95,6 @@ class Profit_stats_view(BaseView):
     @expose('/')
     @login_required
     def index(self):
-
         month = request.args.get('month')
         year = request.args.get('year')
         return self.render('admin/profit_stats.html', stats=utils.stat_profit(month=month, year=year),\
@@ -109,9 +108,8 @@ class Medicine_stats_view(BaseView):
     @expose('/')
     @login_required
     def index(self):
-        temp = str(request.args.get('month'))
-        month = temp[1]
-        year = temp[0]
+        month = request.args.get('month')
+        year = request.args.get('year')
         return self.render('admin/medicine_stats.html', stats=utils.stat_medicine(month=month, year=year),\
                            last_m_y=utils.get_last_month_in_bill())
     def is_accessible(self):
