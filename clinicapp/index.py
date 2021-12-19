@@ -1,6 +1,7 @@
 from clinicapp import app, login
 from flask import render_template, redirect, request
 from flask_login import login_user
+from flask_admin import expose
 import hashlib
 
 @app.route("/")
@@ -17,7 +18,10 @@ def login_admin():
             login_user(user=user)
     return redirect('/admin')
 
-
+@expose('/')
+@app.route('/user')
+def edit_profile():
+    return redirect('/admin/user')
 @login.user_loader
 def get_user(user_id):
     return User.query.get(user_id)

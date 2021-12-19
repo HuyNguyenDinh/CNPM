@@ -5,6 +5,12 @@
 {% block body %}
     {% if current_user.is_authenticated %}
         <h1>Thống kê doanh thu</h1>
+        <div>
+            <form method="get">
+                <input type="month" name="MaY">
+                <input type="submit">
+            </form>
+        </div>
         <div class="row">
             <div class="col-md-6 col-xs-12">
                 <table class="table">

@@ -61,16 +61,25 @@ class Medicine(BaseModel):
         return self.name
 
 
-class Medicine_unit(BaseModel):
-    __tablename__ = 'medicine_unit'
+class Unit_tag(BaseModel):
+    __tablename__ = 'unit_tag'
     __table_args__ = {'extend_existing': True}
-    name = Column(String(20), nullable=False, primary_key=True)
-    price = Column(Float, default=0)
-    medicine_id = Column(Integer, ForeignKey(Medicine.id), nullable=False, primary_key=True)
-    medical_bill_details = relationship('Medical_bill_detail', backref='medicine_unit', lazy='subquery')
+    name = Column(String(50), nullable=False, unique=True)
+    medicine_units = relationship('Medicine_unit', backref='unit_tag', lazy=True)
+
     def __str__(self):
         return self.name
 
+class Medicine_unit(BaseModel):
+    __tablename__ = 'medicine_unit'
+    __table_args__ = {'extend_existing': True}
+    unit_id = Column(Integer, ForeignKey(Unit_tag.id), nullable=False)
+    price = Column(Float, default=0)
+    medicine_id = Column(Integer, ForeignKey(Medicine.id), nullable=False)
+    medical_bill_details = relationship('Medical_bill_detail', backref='medicine_unit', lazy=True)
+
+    def __str__(self):
+        return str(self.medicine) + "-" + str(self.unit_tag)
 
 class Medical_bill_detail(db.Model):
     __tablename__ = 'medicine_bill_detail'
@@ -78,6 +87,9 @@ class Medical_bill_detail(db.Model):
     medical_bill_id = Column(Integer, ForeignKey(Medical_bill.id), nullable=False, primary_key=True)
     medicine_unit_id = Column(Integer, ForeignKey(Medicine_unit.id), nullable=False, primary_key=True)
     quantity = Column(Integer, default=0)
+
+    def __str__(self):
+        return "id:" + str(self.medical_bill_id) + "-" + self.medicine_unit.medicine + "-" + self.medicine_unit.unit_tag
 
 if __name__ == '__main__':
     db.create_all()

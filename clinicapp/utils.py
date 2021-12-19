@@ -1,4 +1,4 @@
-from clinicapp.models import Medical_bill, Medicine, Medicine_unit, Medical_bill_detail, Bill
+from clinicapp.models import Medical_bill, Medicine, Medicine_unit, Medical_bill_detail, Bill, Unit_tag, User, UserRole
 from clinicapp import db
 from sqlalchemy import func, extract, desc
 from datetime import date, datetime
@@ -38,15 +38,15 @@ def stat_profit(month=None, year=None):
         month = tempe.get('month')
         year = tempe.get('year')
     if month and year:
-        if type(month) is not int:
+        if type(month) is not int and month is not None:
             month = int(month)
-        if type(year) is not int:
+        if type(year) is not int and year is not None:
             year = int(year)
         bills = db.session.query(Medical_bill.create_date, func.sum(Bill.value), func.count(Medical_bill.id)) \
                                     .join(Bill, Medical_bill.id == Bill.medical_bill_id) \
                                     .group_by(Medical_bill.create_date)\
-                                    .filter(extract('month', Medical_bill.create_date) == int(month), \
-                                            extract('year', Medical_bill.create_date) == int(year))
+                                    .filter(extract('month', Medical_bill.create_date) == month, \
+                                            extract('year', Medical_bill.create_date) == year)
     else:
         pass
     return bills.all()
@@ -65,18 +65,23 @@ def stat_medicine(month=None, year=None):
         month = tempe.get('month')
         year = tempe.get('year')
     if month and year:
-        if type(month) is not int:
+        if type(month) is not int and month is not None:
             month = int(month)
-        if type(year) is not int:
+        if type(year) is not int and year is not None:
             year = int(year)
-        med_unit = db.session.query(Medicine.name, Medicine_unit.name, func.sum(Medical_bill_detail.quantity),\
+        med_unit = db.session.query(Medicine.name, Unit_tag.name, func.sum(Medical_bill_detail.quantity), Medicine_unit.unit_id,\
                                 func.count(Medical_bill_detail.medicine_unit_id), Medical_bill.create_date)\
+                                .join(Unit_tag, Unit_tag.id == Medicine_unit.unit_id)\
                                 .join(Medicine, Medicine.id == Medicine_unit.medicine_id)\
                                 .join(Medical_bill_detail, Medical_bill_detail.medicine_unit_id == Medicine_unit.id)\
                                 .join(Medical_bill, Medical_bill_detail.medical_bill_id == Medical_bill.id)\
-                                .group_by(Medicine.name, Medicine_unit.name, Medical_bill.create_date) \
-                                .filter(extract('month', Medical_bill.create_date) == int(month), \
-                                        extract('year', Medical_bill.create_date) == int(year))
+                                .group_by(Medicine.name, Unit_tag.name, Medical_bill.create_date) \
+                                .filter(extract('month', Medical_bill.create_date) == month, \
+                                        extract('year', Medical_bill.create_date) == year)
     else:
         pass
     return med_unit.all()
+
+def get_list_admin(user):
+    dsqtv = User.query.filter( User.user_role == UserRole.ADMIN and User.name != user.name).all()
+    return dsqtv
