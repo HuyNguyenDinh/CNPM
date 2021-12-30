@@ -33,6 +33,7 @@ def get_last_month_in_bill():
     return {'month': last_month, 'year': last_year}
 
 def stat_profit(month=None, year=None):
+    bills = None
     if not month or not year:
         tempe = get_last_month_in_bill()
         month = tempe.get('month')
@@ -47,8 +48,8 @@ def stat_profit(month=None, year=None):
                                     .group_by(Medical_bill.create_date)\
                                     .filter(extract('month', Medical_bill.create_date) == month, \
                                             extract('year', Medical_bill.create_date) == year)
-    else:
-        pass
+    if not bills:
+        return None
     return bills.all()
 
 def get_total_bill_in_month(month=None, year=None):
@@ -60,6 +61,7 @@ def get_total_bill_in_month(month=None, year=None):
     return total_profit
 
 def stat_medicine(month=None, year=None):
+    med_unit = None
     if not month or not year:
         tempe = get_last_month_in_bill()
         month = tempe.get('month')
@@ -78,10 +80,10 @@ def stat_medicine(month=None, year=None):
                                 .group_by(Medicine.name, Unit_tag.name, Medical_bill.create_date) \
                                 .filter(extract('month', Medical_bill.create_date) == month, \
                                         extract('year', Medical_bill.create_date) == year)
-    else:
-        pass
+    if not med_unit:
+        return None
     return med_unit.all()
 
 def get_list_admin(user):
-    dsqtv = User.query.filter( User.user_role == UserRole.ADMIN and User.name != user.name).all()
+    dsqtv = User.query.filter(User.user_role == UserRole.ADMIN and User.name != user.name).all()
     return dsqtv

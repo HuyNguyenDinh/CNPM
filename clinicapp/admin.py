@@ -95,8 +95,14 @@ class Profit_stats_view(BaseView):
     @expose('/')
     @login_required
     def index(self):
-        month = request.args.get('month')
-        year = request.args.get('year')
+        month_year = request.args.get('month')
+        month = None
+        year = None
+        temp = []
+        if month_year:
+            temp = month_year.split('-')
+            month = temp[1]
+            year = temp[0]
         return self.render('admin/profit_stats.html', stats=utils.stat_profit(month=month, year=year),\
                            total_profit=utils.get_total_bill_in_month(month=month, year=year),\
                            last_m_y=utils.get_last_month_in_bill())
@@ -108,8 +114,14 @@ class Medicine_stats_view(BaseView):
     @expose('/')
     @login_required
     def index(self):
-        month = request.args.get('month')
-        year = request.args.get('year')
+        month_year = request.args.get('month')
+        month = None
+        year = None
+        temp = []
+        if month_year:
+            temp = month_year.split('-')
+            month = temp[1]
+            year = temp[0]
         return self.render('admin/medicine_stats.html', stats=utils.stat_medicine(month=month, year=year),\
                            last_m_y=utils.get_last_month_in_bill())
     def is_accessible(self):

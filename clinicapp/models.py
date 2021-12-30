@@ -23,7 +23,7 @@ class User(BaseModel, UserMixin):
     name = Column(String(100), nullable=False)
     username = Column(String(20), nullable=False, unique=False)
     password = Column(String(255), nullable=False, default=str(hashlib.md5(str(1).encode("utf-8")).hexdigest()))
-    avatar = Column(String(100), default='abc')
+    avatar = Column(String(100), default='')
     joined_date = Column(Date, default=datetime.now())
     user_role = Column(Enum(UserRole), default=UserRole.NURSE)
     medical_bills = relationship('Medical_bill', backref='user', lazy=True)
