@@ -1,5 +1,5 @@
 from clinicapp import db, utils, models
-from datetime import datetime
+from datetime import datetime, date
 
 if __name__ == '__main__':
     u1 = models.User(name="Thu", username="thu123", user_role=models.UserRole.ADMIN)
@@ -11,14 +11,42 @@ if __name__ == '__main__':
         db.session.add(u)
     db.session.commit()
 
-    mb1 = models.Medical_bill(user_id=1, diagnosis="abc", symptom="xyz")
-    mb2 = models.Medical_bill(user_id=2, diagnosis="abc", symptom="xyz", create_date=datetime(2021, 12, 16))
-    mb3 = models.Medical_bill(user_id=3, diagnosis="abc", symptom="xyz", create_date=datetime(2021, 12, 15))
-    mb4 = models.Medical_bill(user_id=4, diagnosis="abc", symptom="xyz")
-    mb5 = models.Medical_bill(user_id=3, diagnosis="abc", symptom="xyz", create_date=datetime(2021, 12, 15))
-    mb6 = models.Medical_bill(user_id=4, diagnosis="abc", symptom="xyz", create_date=datetime(2021, 5, 20))
-    mb7 = models.Medical_bill(user_id=2, diagnosis="abc", symptom="xyz", create_date=datetime(2021, 5, 19))
-    mb8 = models.Medical_bill(user_id=4, diagnosis="abc", symptom="xyz", create_date=datetime(2021, 5, 17))
+    p1 = models.Patient(first_name="Thu", last_name="Nguyen Van", sex=models.Sex.MALE,date_of_birth=datetime.now())
+    p2 = models.Patient(first_name="Hieu", last_name="Nguyen Ngoc", sex=models.Sex.MALE, date_of_birth=datetime.now())
+    p3 = models.Patient(first_name="Huy", last_name="Nguyen Dinh", sex=models.Sex.MALE, date_of_birth=datetime.now())
+    p4 = models.Patient(first_name="Huynh", last_name="Tran Le", sex=models.Sex.MALE, date_of_birth=datetime.now())
+    pa = [p1, p2, p3, p4]
+    for p in pa:
+        db.session.add(p)
+    db.session.commit()
+
+    e1 = models.Examination(user_id=1)
+    e1.patients.append(p1)
+    e2 = models.Examination(user_id=2)
+    e2.patients.append(p2)
+    e3 = models.Examination(user_id=3)
+    e3.patients.append(p3)
+    e4 = models.Examination(user_id=4)
+    e4.patients.append(p4)
+    exam = [e1, e2, e3, e4]
+    for e in exam:
+        db.session.add(e)
+    db.session.commit()
+
+    mb1 = models.Medical_bill(user_id=1, diagnosis="abc", symptom="xyz", patient_id=1)
+    mb2 = models.Medical_bill(user_id=2, diagnosis="abc", symptom="xyz", \
+                              create_date=datetime(2021, 12, 16), patient_id=2)
+    mb3 = models.Medical_bill(user_id=3, diagnosis="abc", symptom="xyz",\
+                              create_date=datetime(2021, 12, 15), patient_id=3)
+    mb4 = models.Medical_bill(user_id=4, diagnosis="abc", symptom="xyz", patient_id=4)
+    mb5 = models.Medical_bill(user_id=3, diagnosis="abc", symptom="xyz",\
+                              create_date=datetime(2021, 12, 15), patient_id=1)
+    mb6 = models.Medical_bill(user_id=4, diagnosis="abc", symptom="xyz",\
+                              create_date=datetime(2021, 5, 20), patient_id=2)
+    mb7 = models.Medical_bill(user_id=2, diagnosis="abc", symptom="xyz",\
+                              create_date=datetime(2021, 5, 19), patient_id=3)
+    mb8 = models.Medical_bill(user_id=4, diagnosis="abc", symptom="xyz",\
+                              create_date=datetime(2021, 5, 17), patient_id=4)
     mbs = [mb1, mb2, mb3, mb4, mb5, mb6, mb7, mb8]
     for mb in mbs:
         db.session.add(mb)
@@ -81,6 +109,10 @@ if __name__ == '__main__':
     for b in bills:
         bill = models.Bill(medical_bill_id=b[0], value=b[1])
         db.session.add(bill)
+    db.session.commit()
+
+    other = models.Other()
+    db.session.add(other)
     db.session.commit()
 
     db.create_all()
