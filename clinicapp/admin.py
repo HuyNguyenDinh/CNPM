@@ -130,7 +130,7 @@ class Medicine_stats_view(BaseView):
 class MyAdminIndexView(AdminIndexView):
     @expose('/')
     def index(self):
-        return self.render('admin/index.html', dsqtv = get_list_admin(current_user))
+        return self.render('admin/index.html', dsqtv = get_list_admin(current_user), role = check_role(current_user))
 
 admin=Admin(app=app, name='Quản Trị Hệ Thống', template_mode='bootstrap4', index_view=MyAdminIndexView())
 admin.add_view(UserView(User, db.session,name="Tài Khoản"))
