@@ -1,5 +1,5 @@
-.form-inline{
-    margin-right: 0;
+.avatar-user{
+    margin-right: 10px;
     margin-left: auto;
 }
 *{
@@ -98,11 +98,3 @@ ul.social li img{
       opacity: 1;
     }
   }
-  @keyframes doimau{
-    from{
-        color: darkgray;
-    }
-    to{
-        color:black;
-    }
-}

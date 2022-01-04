@@ -10,7 +10,7 @@
     {%endif%}
   <div class="card-body">
     <h4 class="card-title">{{current_user.name}}</h4>
-    <p class="card-text">Quản trị viên hệ thống</p>
+    <p class="card-text">Vai trò: {{role}}</p>
     <a href="{{url_for('edit_profile')}}" class="btn btn-info">Edit Profile</a>
   </div>
 </div>
@@ -21,7 +21,7 @@
   <table class="table" width="100%" >
     <thead>
       <tr>
-        <th>Avatar</th>
+        <th>Ảnh đại diện</th>
         <th>Tên quản trị viên</th>
         <th>Ngày khởi tạo</th>
       </tr>

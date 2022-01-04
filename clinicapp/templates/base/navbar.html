@@ -6,6 +6,7 @@
         <li class="nav-item">
             <a class="nav-link" href="{{url_for('homepage')}}"><i class="fas fa-home"></i></i>   Trang Chủ  </a>
         </li>
+        {%if not current_user.is_authenticated%}
         <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbardrop"
                data-toggle="dropdown">
@@ -25,21 +26,31 @@
         </li>
         <li class="nav-item">
             <a class="nav-link" href="#"><i class="fas fa-comments"></i>   Phản Hồi  </a>
-        <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#"
-               data-toggle="dropdown">
-               <i class="fas fa-sign-in-alt"></i>   Đăng Nhập
-            </a>
-            <div class="dropdown-menu">
-                <a class="dropdown-item" href="#">Nhân Viên</a>
-                <a class="dropdown-item" href="{{ url_for('admin.index')}}">Quản Trị Hệ Thống</a>
-            </div>
         </li>
-
-
+        {%endif%}
+        {% if current_user.is_authenticated %}
+         <li class="nav-item" >
+            <a class="nav-link" href="{{ url_for(path_role) }}"><i class="fas fa-undo"></i>   Trở Lại Trang Nghiệp Vụ  </a>
+        </li>
+        <li class="nav-item" >
+            <a class="nav-link" href="{{ url_for('user_logout') }}"><i class="fas fa-sign-out-alt"></i>   Đăng Xuất  </a>
+        </li>
+        {%else%}
+        <li class="nav-item" >
+            <a class="nav-link" href="{{ url_for('employee_login')}}"><i class="fas fa-sign-in-alt"></i>   Đăng Nhập  </a>
+        </li>
+        {%endif%}
     </ul>
-    <form class="form-inline">
-        <input class="form-control mr-sm-2" name="keysword" type="text" placeholder="Nhập để tìm kiếm....">
-        <button class="btn btn-info" type="submit">Tìm Kiếm</button>
-    </form>
+    {% if current_user.is_authenticated %}
+        <div class="avatar-user">
+            <a class="nav-link" href="#" title="{{current_user.name}}">
+                {% if current_user.avatar %}
+                  <img class="rounded-circle" src="{{current_user.avatar}}" width="30px">
+                {%else%}
+                 <img class="rounded-circle" src="{{ url_for('static', filename = 'images/dfavt.jpg')}}" width="30px">
+                {%endif%}
+            </a>
+        </div>
+    {%endif%}
+
 </nav>

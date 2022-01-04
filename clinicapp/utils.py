@@ -2,6 +2,7 @@ from clinicapp.models import Medical_bill, Medicine, Medicine_unit, Medical_bill
 from clinicapp import db
 from sqlalchemy import func, extract, desc
 from datetime import date, datetime
+import hashlib
 
 def add_medicine_unit():
     pass
@@ -85,5 +86,27 @@ def stat_medicine(month=None, year=None):
     return med_unit.all()
 
 def get_list_admin(user):
-    dsqtv = User.query.filter(User.user_role == UserRole.ADMIN and User.name != user.name).all()
+    dsqtv = []
+    if user.is_authenticated:
+        dsqtv = User.query.filter(User.user_role == UserRole.ADMIN, User.name != user.name).all()
     return dsqtv
+
+def check_login(username , password):
+    if username and password:
+        password = str(hashlib.md5(password.strip().encode('utf-8')).hexdigest())
+        return User.query.filter(User.username.__eq__(username.strip()), User.password.__eq__(password)).first()
+
+def check_role(user):
+    if user.is_authenticated:
+        if user.user_role == UserRole.ADMIN:
+            return "Quản trị viên hệ thống"
+        elif user.user_role == UserRole.NURSE:
+            return  "Y tá"
+        return "Bác sĩ"
+def find_path(user):
+    if user.is_authenticated:
+        if user.user_role == UserRole.DOCTOR:
+            return "doctor_view"
+        elif user.user_role == UserRole.NURSE:
+            return  "nurse_view"
+        return "return_admin_page"
