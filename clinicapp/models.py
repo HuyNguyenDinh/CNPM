@@ -1,10 +1,12 @@
 from sqlalchemy import Column, Integer, String, Enum, Float, Boolean, Date, ForeignKey, Text, Table
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship, backref
 from clinicapp import db, utils
 from datetime import datetime
 from enum import Enum as UserEnum
 from flask_login import UserMixin, current_user
 import hashlib
+
+limit_registry = 30
 
 class BaseModel(db.Model):
     __abstract__ = True
@@ -16,6 +18,9 @@ class UserRole(UserEnum):
     NURSE = 2
     DOCTOR = 3
 
+class Sex(UserEnum):
+    MALE = 1
+    FEMALE = 2
 
 class User(BaseModel, UserMixin):
     __tablename__='user'
@@ -27,10 +32,41 @@ class User(BaseModel, UserMixin):
     joined_date = Column(Date, default=datetime.now())
     user_role = Column(Enum(UserRole), default=UserRole.NURSE)
     medical_bills = relationship('Medical_bill', backref='user', lazy=True)
+    examinations = relationship('Examination', backref='user', lazy=True)
 
     def __str__(self):
         return self.name
 
+class Other(BaseModel):
+    __tablename__ = 'other'
+    __table_args__ = {'extend_existing': True}
+    cost = Column(Float, default=100000.0, nullable=False)
+    slot = Column(Integer, default=30, nullable=False)
+    active = Column(Boolean, default=True)
+
+Exam_patient = db.Table('exam_patient',\
+                        Column('exam_id', Integer, ForeignKey('examination.id'), primary_key=True),\
+                        Column('patient_id', Integer, ForeignKey('patient.id'), primary_key=True),\
+                        extend_existing=True)
+
+class Examination(BaseModel):
+    __tablename__ = 'examination'
+    __table_args__ = {'extend_existing': True}
+    date = Column(Date, default=datetime.now())
+    user_id = Column(Integer, ForeignKey(User.id), nullable=False)
+    apply = Column(Boolean, default=False)
+    patients = relationship('Patient', secondary=Exam_patient, lazy='subquery',\
+                            backref=backref('examinations', lazy=True))
+
+class Patient(BaseModel):
+    __tablename__ = 'patient'
+    __table_args__ = {'extend_existing': True}
+    first_name = Column(String(20), nullable=False)
+    last_name = Column(String(50), nullable=False)
+    date_of_birth = Column(Date, nullable=False)
+    sex = Column(Enum(Sex), nullable=False)
+    phone_number = Column(String(50))
+    medical_bills = relationship('Medical_bill', backref='patient', lazy=True)
 
 class Medical_bill(BaseModel):
     __tablename__ = 'medical_bill'
@@ -41,6 +77,7 @@ class Medical_bill(BaseModel):
     user_id = Column(Integer, ForeignKey(User.id), nullable=False)
     medical_bill_detail = relationship('Medical_bill_detail', backref='medical_bill', lazy=True)
     bill = relationship('Bill', backref='medical_bill', lazy=True)
+    patient_id = Column(Integer, ForeignKey(Patient.id), nullable=False)
 
 
 class Bill(BaseModel):
@@ -48,6 +85,7 @@ class Bill(BaseModel):
     __table_args__ = {'extend_existing': True}
     value = Column(Float, default=0)
     medical_bill_id = Column(Integer, ForeignKey(Medical_bill.id), nullable=False)
+    pay = Column(Boolean, default=False)
 
 
 class Medicine(BaseModel):
