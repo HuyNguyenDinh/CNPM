@@ -1,5 +1,5 @@
-from flask_admin import  BaseView, expose,AdminIndexView
-from flask import  redirect, request
+from flask_admin import BaseView, expose,AdminIndexView
+from flask import redirect, request
 from flask_admin import Admin
 from clinicapp import app, db, utils
 from flask_admin.contrib.sqla import ModelView
@@ -12,6 +12,8 @@ class BackHome(BaseView):
     @expose('/')
     def index(self):
         return redirect('/')
+    def is_accessible(self):
+        return current_user.is_authenticated == False
 
 
 class LogoutView(BaseView):

@@ -2,31 +2,39 @@ from clinicapp import db, utils, models
 from datetime import datetime, date
 
 if __name__ == '__main__':
-    u1 = models.User(name="Thu", username="thu123", user_role=models.UserRole.ADMIN)
-    u2 = models.User(name="Hieu", username="hieu123", user_role=models.UserRole.ADMIN)
-    u3 = models.User(name="Huy", username="huy123", user_role=models.UserRole.ADMIN)
-    u4 = models.User(name="Huynh", username="huynh123", user_role=models.UserRole.ADMIN)
+    u1 = models.User(name="Thu", username="thu123", user_role=models.UserRole.ADMIN,\
+                     sex=models.Sex.MALE, date_of_birth=datetime.now())
+    u2 = models.User(name="Hieu", username="hieu123", user_role=models.UserRole.ADMIN,\
+                     sex=models.Sex.MALE, date_of_birth=datetime.now())
+    u3 = models.User(name="Huy", username="huy123", user_role=models.UserRole.ADMIN,\
+                     sex=models.Sex.MALE, date_of_birth=datetime.now())
+    u4 = models.User(name="Huynh", username="huynh123", user_role=models.UserRole.ADMIN,\
+                     sex=models.Sex.MALE, date_of_birth=datetime.now())
     users = [u1, u2, u3, u4]
     for u in users:
         db.session.add(u)
     db.session.commit()
 
-    p1 = models.Patient(first_name="Thu", last_name="Nguyen Van", sex=models.Sex.MALE,date_of_birth=datetime.now())
-    p2 = models.Patient(first_name="Hieu", last_name="Nguyen Ngoc", sex=models.Sex.MALE, date_of_birth=datetime.now())
-    p3 = models.Patient(first_name="Huy", last_name="Nguyen Dinh", sex=models.Sex.MALE, date_of_birth=datetime.now())
-    p4 = models.Patient(first_name="Huynh", last_name="Tran Le", sex=models.Sex.MALE, date_of_birth=datetime.now())
+    p1 = models.Patient(first_name="Thu", last_name="Nguyen Van", sex=models.Sex.MALE,\
+                        date_of_birth=datetime.now(), phone_number='123549539')
+    p2 = models.Patient(first_name="Hieu", last_name="Nguyen Ngoc", sex=models.Sex.MALE,\
+                        date_of_birth=datetime.now(), phone_number='134665472')
+    p3 = models.Patient(first_name="Huy", last_name="Nguyen Dinh", sex=models.Sex.MALE,\
+                        date_of_birth=datetime.now(), phone_number='134422472')
+    p4 = models.Patient(first_name="Huynh", last_name="Tran Le", sex=models.Sex.MALE,\
+                        date_of_birth=datetime.now(), phone_number='131265512')
     pa = [p1, p2, p3, p4]
     for p in pa:
         db.session.add(p)
     db.session.commit()
 
-    e1 = models.Examination(user_id=1)
+    e1 = models.Examination(user_id=1, date=datetime(2021, 12, 31))
     e1.patients.append(p1)
-    e2 = models.Examination(user_id=2)
+    e2 = models.Examination(user_id=2, date=datetime(2022, 1, 1))
     e2.patients.append(p2)
-    e3 = models.Examination(user_id=3)
+    e3 = models.Examination(user_id=3, date=datetime(2021, 1, 2))
     e3.patients.append(p3)
-    e4 = models.Examination(user_id=4)
+    e4 = models.Examination(user_id=4, date=datetime.now())
     e4.patients.append(p4)
     exam = [e1, e2, e3, e4]
     for e in exam:
