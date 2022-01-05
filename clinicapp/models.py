@@ -6,8 +6,6 @@ from enum import Enum as UserEnum
 from flask_login import UserMixin, current_user
 import hashlib
 
-limit_registry = 30
-
 class BaseModel(db.Model):
     __abstract__ = True
     id = Column(Integer, primary_key=True, autoincrement=True)
@@ -21,16 +19,19 @@ class UserRole(UserEnum):
 class Sex(UserEnum):
     MALE = 1
     FEMALE = 2
+    UNSPECIFIED = 3
 
 class User(BaseModel, UserMixin):
     __tablename__='user'
     __table_args__ = {'extend_existing': True}
     name = Column(String(100), nullable=False)
-    username = Column(String(20), nullable=False, unique=False)
+    username = Column(String(20), nullable=False, unique=True)
     password = Column(String(255), nullable=False, default=str(hashlib.md5(str(1).encode("utf-8")).hexdigest()))
+    date_of_birth = Column(Date, nullable=False)
+    sex = Column(Enum(Sex), nullable=False)
     avatar = Column(String(100), default='')
     joined_date = Column(Date, default=datetime.now())
-    user_role = Column(Enum(UserRole), default=UserRole.NURSE)
+    user_role = Column(Enum(UserRole), nullable=False)
     medical_bills = relationship('Medical_bill', backref='user', lazy=True)
     examinations = relationship('Examination', backref='user', lazy=True)
 
@@ -52,7 +53,7 @@ Exam_patient = db.Table('exam_patient',\
 class Examination(BaseModel):
     __tablename__ = 'examination'
     __table_args__ = {'extend_existing': True}
-    date = Column(Date, default=datetime.now())
+    date = Column(Date, nullable=False, unique=True)
     user_id = Column(Integer, ForeignKey(User.id), nullable=False)
     apply = Column(Boolean, default=False)
     patients = relationship('Patient', secondary=Exam_patient, lazy='subquery',\
@@ -65,7 +66,7 @@ class Patient(BaseModel):
     last_name = Column(String(50), nullable=False)
     date_of_birth = Column(Date, nullable=False)
     sex = Column(Enum(Sex), nullable=False)
-    phone_number = Column(String(50))
+    phone_number = Column(String(50), nullable=False)
     medical_bills = relationship('Medical_bill', backref='patient', lazy=True)
 
 class Medical_bill(BaseModel):
