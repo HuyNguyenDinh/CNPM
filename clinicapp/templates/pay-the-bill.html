@@ -1,0 +1,45 @@
+{% extends "nurse-view.html" %}
+{% block details%}
+<br>
+<div class="thanh-toan-hoa-don">
+    <h1 style="margin-bottom: 20px;color:#17a2b8">Thanh Toán Hóa Đơn</h1>
+    <form method="get">
+        <input type="date" name="month">
+        <input type="submit">
+    </form>
+    <h4 style="margin-bottom: 20px;">Danh sách bệnh nhân</h4>
+    <table id="table-thanh-toan-hoa-don">
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>Trần Lê Huỳnh</td>
+            <td>22/01/2001</td>
+            <td>
+                <button style="background-color: lightgreen;">Đã thanh toán</button>
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>
+                <button style="background-color: gray;">Chưa thanh toán</button>
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>
+                <button style="background-color: lightgreen;">Đã thanh toán</button>
+            </td>
+        </tr>
+    </table>
+</div>
+<br>
+{%endblock%}

@@ -1,0 +1,50 @@
+{% extends "nurse-view.html" %}
+{% block details%}
+<br>
+<form class="dang-ky-kham-benh-y-ta">
+        <h1 style="color:#17a2b8">Đăng Ký Khám Bệnh</h1>
+        <table id="table-1" style="margin: auto;">
+          <tr>
+            <td>Họ</td>
+            <td>
+              <input type="text"  name="">
+            </td>
+            <td>Tên</td>
+            <td>
+              <input type="text"  name="">
+            </td>
+          </tr>
+          <tr>
+            <td>Giới tính</td>
+            <td>
+                <select style="border: solid 2px; border-radius: 3px">
+                    <option>Nam</option>
+                    <option>Nữ</option>
+                    <option>Không muốn trả lời</option>
+                </select>
+            </td>
+          </tr>
+          <tr>
+            <td>Ngày sinh</td>
+            <td>
+              <input type="date"  name="">
+            </td>
+          </tr>
+          <tr>
+            <td>SĐT: </td>
+            <td>
+              <input type="text"  name="">
+            </td>
+          </tr>
+        </table>
+        <div style="display: flex; justify-content: center; align-item: center;margin-bottom: 20px;">
+          <div style="margin-right: 15px;">Ngày khám</div>
+          <input type="date"  name="">
+        </div>
+        <div style="display: flex; justify-content: center; align-item: center;">
+          <div>Kiểm tra trạng thái</div>
+          <div>Có thể đăng ký</div>
+        </div>
+        <div id="button"><button class="btn btn-info">Đăng ký</button></div>
+      </form>
+{%endblock%}
