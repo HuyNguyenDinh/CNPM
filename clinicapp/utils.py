@@ -175,8 +175,17 @@ def check_role(user):
         if user.user_role == UserRole.ADMIN:
             return "Quản trị viên hệ thống"
         elif user.user_role == UserRole.NURSE:
-            return  "Y tá"
+            return "Y tá"
         return "Bác sĩ"
+
+def check_sex(user):
+    if user.is_authenticated:
+        if user.sex == Sex.MALE:
+            return "Nam"
+        elif user.sex == Sex.FEMALE:
+            return  "Nữ"
+        return "Không muốn trả lời"
+
 def find_path(user):
     if user.is_authenticated:
         if user.user_role == UserRole.DOCTOR:

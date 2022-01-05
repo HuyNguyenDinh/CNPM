@@ -1,0 +1,55 @@
+{% extends "nurse-view.html" %}
+{% block details%}
+<!--    Lập danh sách khám-->
+<br>
+<div class="lap-danh-sach-kham">
+    <h1 style="margin-bottom: 20px;color:#17a2b8">Lập Danh Sách Khám</h1>
+    <div style="display: flex; justify-content: center; align-items: center; margin-bottom: 40px;">
+        <form method="get">
+            <input type="date" name="month">
+            <input type="submit">
+        </form>
+        <div style="border: 1px solid black; border-radius: 10px; padding: 0 10px 0 10px; color: lightcoral;">Chưa lập
+        </div>
+    </div>
+    <h4 style="margin-bottom: 20px;">Danh sách đăng ký</h4>
+    <table id="table-lap-danh-sach-kham">
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>Trần Lê Huỳnh</td>
+            <td>22/01/2001</td>
+            <td>
+                <button style="background-color: lightgreen;">Z</button>
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>
+                <button style="background-color: lightgreen;">Z</button>
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>
+                <button style="background-color: lightgreen;">Z</button>
+            </td>
+        </tr>
+    </table>
+    <div class="lap-danh-sach-kham-button">
+        <button>Lập danh sách khám</button>
+    </div>
+    <div style="color: lightgreen; font-style: italic;">*hệ thống sẽ gửi thông báo lịch khám quá SMS đến khách hàng
+    </div>
+</div>
+<br>
+{%endblock%}
