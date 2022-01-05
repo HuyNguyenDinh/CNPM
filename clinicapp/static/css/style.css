@@ -98,3 +98,213 @@ ul.social li img{
       opacity: 1;
     }
   }
+/* ve chung toi */
+.ve-chung-toi {
+    text-align: center;
+    min-height: 86vh;
+    margin-top: 80px;
+}
+
+.ve-chung-toi-picture {
+    display: flex;
+    align-item: center;
+    justify-content: space-evenly;
+}
+
+.ve-chung-toi-picture div {
+    width: 300px;
+    height: 300px;
+    border-radius: 10px;
+    text-align: center;
+    margin-top: 20px;
+    background-color: white;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 20px 0px;
+}
+
+.ve-chung-toi-picture div img {
+    width: 250px;
+    height: 250px;
+    border-radius: 10px;
+}
+
+/* dang ky kham benh */
+.dang-ky-kham-benh {
+    height: 80vh;
+}
+.dang-ky-kham-benh h1 {
+    text-align: center;
+}
+
+#table-1 {
+   border-spacing: 20px;
+  border-collapse: separate;
+}
+
+#table-1 input {
+    border-radius:3px;
+}
+
+#button {
+    display: flex;
+    justify-content: center;
+    align-item: center;
+    padding: 10px;
+    margin-top: 20px;
+    margin-bottom: 100px;
+}
+
+#button button {
+    background-color: #17a2b8;
+    border-radius: 5px;
+}
+
+/* Thong tin y ta */
+.thong-tin-y-ta div {
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.thong-tin-y-ta h1 {
+  text-align: center;
+  margin-bottom: 70px;
+}
+
+.anh-y-ta {
+  margin-right: 15px;
+}
+
+.anh-y-ta {
+  width: 200px;
+  height: 200px;
+  border-radius: 5px;
+}
+
+#table-y-ta {
+  border-spacing: 20px;
+  border-collapse: separate;
+}
+
+/* Thanh toán hóa đơn */
+
+.thanh-toan-hoa-don {
+  text-align: center;
+}
+
+#table-thanh-toan-hoa-don {
+  text-align: center;
+  width: 1000px;
+  border: 1px solid black;
+  margin: 0 auto;
+  border-collapse: collapse;
+}
+
+#table-thanh-toan-hoa-don td {
+  padding: 10px;
+  border: 1px solid black;
+}
+
+#table-thanh-toan-hoa-don td button {
+  border-radius: 10px;
+  padding: 0 20px 0 20px;
+}
+
+/* Chi tiết thanh toán hóa đơn */
+#talbe1-chi-tiet-thanh-toan-hoa-don {
+  margin: 0 auto;
+  border-spacing: 20px;
+  border-collapse: separate;
+}
+
+#talbe2-chi-tiet-thanh-toan-hoa-don {
+  margin: 0 auto;
+  /*border: 1px solid black;*/
+  width: 1000px;
+  border-collapse: collapse;
+}
+
+#talbe2-chi-tiet-thanh-toan-hoa-don td {
+  border: 1px solid black;
+  padding: 10px;
+}
+
+.chi-tiet-thanh-toan-hoa-don-button {
+  display: flex;
+  margin-top: 40px;
+  justify-content: center;
+  align-items: center;
+}
+
+.chi-tiet-thanh-toan-hoa-don-button button {
+  border-radius: 10px;
+  background-color: lightgreen;
+  padding: 10px 15px 10px 15px;
+}
+
+/* Lập danh sách khám*/
+.lap-danh-sach-kham {
+  text-align: center;
+}
+
+#table-lap-danh-sach-kham {
+  text-align: center;
+  width: 1000px;
+  border: 1px solid black;
+  margin: 0 auto;
+  border-collapse: collapse;
+}
+
+#table-lap-danh-sach-kham td {
+  padding: 10px;
+  border: 1px solid black;
+}
+
+#table-lap-danh-sach-kham td button {
+  border-radius: 10px;
+  padding: 0 20px 0 20px;
+}
+
+.lap-danh-sach-kham-button {
+  display: flex;
+  margin-top: 40px;
+  justify-content: center;
+  align-items: center;
+}
+
+.lap-danh-sach-kham-button button {
+  border-radius: 10px;
+  background-color: lightgreen;
+  padding: 10px 15px 10px 15px;
+}
+
+/*Đăng ký khám bệnh*/
+
+.dang-ky-kham-benh-y-ta h1 {
+  text-align: center;
+}
+
+#table-1 {
+  border-spacing: 20px;
+  border-collapse: separate;
+}
+
+#table-1 input {
+  border-radius: 3px;
+}
+
+#button {
+  display: flex;
+  justify-content: center;
+  align-item: center;
+  padding: 10px;
+  margin-top: 20px;
+  margin-bottom: 100px;
+}
+
+#button button {
+  background-color: #17a2b8;
+  border-radius: 5px;
+}
+
+

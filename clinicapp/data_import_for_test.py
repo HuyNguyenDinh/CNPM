@@ -3,14 +3,16 @@ from datetime import datetime, date
 
 if __name__ == '__main__':
     u1 = models.User(name="Thu", username="thu123", user_role=models.UserRole.ADMIN,\
-                     sex=models.Sex.MALE, date_of_birth=datetime.now())
+                     sex=models.Sex.MALE, date_of_birth=datetime.now(), phone_number='131543512', email='ABC')
     u2 = models.User(name="Hieu", username="hieu123", user_role=models.UserRole.ADMIN,\
-                     sex=models.Sex.MALE, date_of_birth=datetime.now())
+                     sex=models.Sex.MALE, date_of_birth=datetime.now(), phone_number='175665512', email='XYZ')
     u3 = models.User(name="Huy", username="huy123", user_role=models.UserRole.ADMIN,\
-                     sex=models.Sex.MALE, date_of_birth=datetime.now())
+                     sex=models.Sex.MALE, date_of_birth=datetime.now(), phone_number='131286712', email='423')
     u4 = models.User(name="Huynh", username="huynh123", user_role=models.UserRole.ADMIN,\
-                     sex=models.Sex.MALE, date_of_birth=datetime.now())
-    users = [u1, u2, u3, u4]
+                     sex=models.Sex.MALE, date_of_birth=datetime.now(), phone_number='131265756', email='A756C')
+    u5 = models.User(name="USER1", username="user1", user_role=models.UserRole.NURSE, \
+                     sex=models.Sex.MALE, date_of_birth=datetime.now(), phone_number='131268762', email='A41C')
+    users = [u1, u2, u3, u4, u5]
     for u in users:
         db.session.add(u)
     db.session.commit()

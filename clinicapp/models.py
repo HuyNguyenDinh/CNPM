@@ -30,6 +30,8 @@ class User(BaseModel, UserMixin):
     date_of_birth = Column(Date, nullable=False)
     sex = Column(Enum(Sex), nullable=False)
     avatar = Column(String(100), default='')
+    phone_number = Column(String(50), nullable=False, unique=True)
+    email = Column(String(100), nullable=False, unique=True)
     joined_date = Column(Date, default=datetime.now())
     user_role = Column(Enum(UserRole), nullable=False)
     medical_bills = relationship('Medical_bill', backref='user', lazy=True)
@@ -68,9 +70,6 @@ class Patient(BaseModel):
     sex = Column(Enum(Sex), nullable=False)
     phone_number = Column(String(50), nullable=False)
     medical_bills = relationship('Medical_bill', backref='patient', lazy=True)
-
-    def __str__(self):
-        return self.last_name + " " + self.first_name
 
 class Medical_bill(BaseModel):
     __tablename__ = 'medical_bill'

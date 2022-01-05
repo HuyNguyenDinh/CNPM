@@ -1,5 +1,5 @@
 from clinicapp.models import Medical_bill, Medicine, Medicine_unit, Medical_bill_detail, Bill, Unit_tag, User, UserRole,\
-    Examination, Patient, Exam_patient
+    Examination, Patient, Exam_patient, Sex
 from clinicapp import db
 from sqlalchemy import func, extract, desc, alias
 import hashlib

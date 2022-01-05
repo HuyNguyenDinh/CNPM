@@ -6,6 +6,13 @@ import hashlib
 
 @app.route("/")
 def homepage():
+    if current_user.is_authenticated:
+        if current_user.user_role == UserRole.NURSE:
+            return redirect('/nurse-view')
+        elif current_user.user_role == UserRole.DOCTOR:
+            return redirect('/doctor-view')
+        else:
+            return redirect('/admin')
     return render_template('index.html')
 
 @app.route("/return-admin")
@@ -37,7 +44,8 @@ def get_user(user_id):
 def common_response():
     path = find_path(current_user)
     return {
-        "path_role": path
+        "path_role": path,
+        "sex": check_sex(current_user)
     }
 
 @app.route('/employee-login', methods = ['post', 'get'])
@@ -72,6 +80,26 @@ def nurse_view():
 def user_logout():
     logout_user()
     return redirect("/")
+
+@app.route('/nurse-view/medical-register')
+@login_required
+def medical_register():
+    return render_template('medical_register.html')
+
+@app.route('/nurse-view/make-medical-list')
+@login_required
+def make_medical_list():
+    return render_template('make_medical_list.html')
+
+@app.route('/nurse-view/pay-the-bill')
+@login_required
+def pay_the_bill():
+    return render_template('pay-the-bill.html')
+
+@app.route('/doctor-view/make-a-medical-bill')
+@login_required
+def make_a_medical_bill():
+    return render_template('make_a_medical_bill.html')
 
 if __name__ == "__main__":
     from clinicapp.admin import *
