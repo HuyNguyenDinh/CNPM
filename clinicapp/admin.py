@@ -32,7 +32,8 @@ class MedicalBillView(ModelView):
     column_labels = {
         'create_date':"Ngày lập phiếu khám",
         'diagnosis': "Chuẩn đoán",
-        'symptom': "Triệu chứng"
+        'symptom': "Triệu chứng",
+        'Patient': "Bệnh nhân"
     }
     column_exclude_list = ['user']
     column_searchable_list = ['diagnosis','symptom']
@@ -77,18 +78,19 @@ class UserView(ModelView):
     can_export = True
     edit_modal = True
     details_modal = True
-    column_filters = ['name','user_role','joined_date']
+    column_filters = ['name','user_role','joined_date', 'sex']
     column_labels = {
         'name':"Tên",
         'username': "Tên đăng nhập",
-        'password': "Mật khẩu",
         'joined_date': "Ngày khởi tạo",
         'user_role': "Vai trò",
-        'avatar':'Ảnh đại diện'
+        'date_of_birth': "Ngày sinh",
+        'sex': "Giới tính"
     }
+    column_list = ['name', 'username', 'joined_date', 'user_role', 'date_of_birth', 'sex']
     column_exclude_list = ['avatar','medical_bills']
-    column_searchable_list = ['name','username','joined_date']
-    form_columns = ('name','username','user_role')
+    column_searchable_list = ['name','username','joined_date', 'date_of_birth', 'sex']
+    form_columns = ('name','username','user_role','date_of_birth', 'sex')
     can_view_details = True
     def is_accessible(self):
         return current_user.is_authenticated and current_user.user_role == UserRole.ADMIN
