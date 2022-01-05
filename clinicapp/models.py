@@ -69,6 +69,9 @@ class Patient(BaseModel):
     phone_number = Column(String(50), nullable=False)
     medical_bills = relationship('Medical_bill', backref='patient', lazy=True)
 
+    def __str__(self):
+        return self.last_name + " " + self.first_name
+
 class Medical_bill(BaseModel):
     __tablename__ = 'medical_bill'
     __table_args__ = {'extend_existing': True}
