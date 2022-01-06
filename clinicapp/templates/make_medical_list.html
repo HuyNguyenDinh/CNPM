@@ -6,48 +6,44 @@
     <h1 style="margin-bottom: 20px;color:#17a2b8">Lập Danh Sách Khám</h1>
     <div style="display: flex; justify-content: center; align-items: center; margin-bottom: 40px;">
         <form method="get">
-            <input type="date" name="month">
+            <input type="date" name="date" value="{{ request.args.get('date') if request.args.get('date')
+                else [last_date.get('year'), last_date.get('month'), last_date.get('day')]|join('-')}}">
             <input type="submit">
         </form>
-        <div style="border: 1px solid black; border-radius: 10px; padding: 0 10px 0 10px; color: lightcoral;">Chưa lập
-        </div>
+        {% if status == True %}
+            <div style="border: 1px solid black; border-radius: 10px; padding: 0 10px 0 10px; color: Green;">
+                Đã lập
+            </div>
+        {% else %}
+            <div style="border: 1px solid black; border-radius: 10px; padding: 0 10px 0 10px; color: Red;">
+                Chưa lập
+            </div>
+        {% endif %}
     </div>
-    <h4 style="margin-bottom: 20px;">Danh sách đăng ký</h4>
+    <br><br>
     <table id="table-lap-danh-sach-kham">
         <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <th>Họ và tên</th>
+            <th>Giới tính</th>
+            <th>Ngày sinh</th>
+            <th>Số điện thoại</th>
         </tr>
-        <tr>
-            <td>1</td>
-            <td>Trần Lê Huỳnh</td>
-            <td>22/01/2001</td>
-            <td>
-                <button style="background-color: lightgreen;">Z</button>
-            </td>
-        </tr>
-        <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td>
-                <button style="background-color: lightgreen;">Z</button>
-            </td>
-        </tr>
-        <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td>
-                <button style="background-color: lightgreen;">Z</button>
-            </td>
-        </tr>
+        {% if med_list %}
+            {% for ml in med_list %}
+                <tr>
+                    <td>{{[ml[1], ml[2]]|join(' ')}}</td>
+                    <td>{{ml[3]}}</td>
+                    <td>{{ml[4]}}</td>
+                    <td>{{ml[5]}}</td>
+                </tr>
+            {% endfor %}
+        {% endif %}
     </table>
-    <div class="lap-danh-sach-kham-button">
-        <button>Lập danh sách khám</button>
-    </div>
+    {% if status == False %}
+        <div class="lap-danh-sach-kham-button">
+            <button>Lập danh sách khám</button>
+        </div>
+    {% endif %}
     <div style="color: lightgreen; font-style: italic;">*hệ thống sẽ gửi thông báo lịch khám quá SMS đến khách hàng
     </div>
 </div>

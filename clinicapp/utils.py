@@ -102,7 +102,8 @@ def count_patient_in_exam(exam_date=None):
 
 def get_patient_in_exam(exam_date=None, sub=None):
     pati = db.session.query(Examination.date, Patient.last_name, Patient.first_name, Patient.sex, Patient.date_of_birth,\
-                            Patient.phone_number, Patient.id).join(Exam_patient, Exam_patient.c.patient_id == Patient.id) \
+                            Patient.phone_number, Patient.id)\
+                            .join(Exam_patient, Exam_patient.c.patient_id == Patient.id) \
                             .join(Examination, Examination.id == Exam_patient.c.exam_id)
     if exam_date:
         temp = exam_date.split('-')
@@ -118,6 +119,30 @@ def get_patient_in_exam(exam_date=None, sub=None):
             return pati
         else:
             return pati.all()
+    else:
+        return None
+
+def get_last_date_of_exam():
+    temp = db.session.query(Examination.date).order_by(Examination.date.desc()).first()
+    day = temp[0].strftime("%d")
+    month = temp[0].strftime("%m")
+    year = temp[0].strftime("%Y")
+    return {'day': day, 'month': month, 'year': year}
+
+def get_status_of_exam(exam_date=None):
+    if exam_date:
+        temp = exam_date.split('-')
+        year = temp[0]
+        month = temp[1]
+        day = temp[2]
+        status = db.session.query(Examination.apply, Examination.date)\
+                                .filter(extract('day', Examination.date) == day, \
+                                        extract('month', Examination.date) == month, \
+                                        extract('year', Examination.date) == year)
+        if len(status.all()) > 0:
+            return status.first()[0]
+        else:
+            return False
     else:
         return None
 
@@ -143,7 +168,8 @@ def get_medical_bill_of_patient_in_an_exam(pte_id=None, exam_date=None, sub=None
         return None
 
 def get_bill_from_medicall_bill_in_day(exam_date=None):
-    bills = db.session.query(Medical_bill.create_date, Patient.last_name, Patient.first_name, Bill.value, Bill.pay)\
+    bills = db.session.query(Medical_bill.create_date, Patient.last_name, Patient.first_name,\
+                             Patient.date_of_birth, Bill.value, Bill.pay)\
                             .join(Bill, Bill.medical_bill_id == Medical_bill.id)\
                             .join(Patient, Medical_bill.patient_id == Patient.id)
     if exam_date:
@@ -154,7 +180,7 @@ def get_bill_from_medicall_bill_in_day(exam_date=None):
         bills = bills.filter(extract('day', Medical_bill.create_date) == day, \
                        extract('month', Medical_bill.create_date) == month, \
                        extract('year', Medical_bill.create_date) == year)
-    if len(bills.all()) <= 0:
+    if len(bills.all()) > 0:
         return bills.all()
     else:
         return None

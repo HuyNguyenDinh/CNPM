@@ -87,12 +87,18 @@ def medical_register():
 @app.route('/nurse-view/make-medical-list')
 @login_required
 def make_medical_list():
-    return render_template('make_medical_list.html')
+    d = request.args.get('date')
+    if not d:
+        temp = utils.get_last_date_of_exam()
+        d = '-'.join([temp.get('year'), temp.get('month'), temp.get('day')])
+    return render_template('make_medical_list.html', last_date=utils.get_last_date_of_exam(),\
+                           med_list=utils.get_patient_in_exam(d), status=utils.get_status_of_exam(d))
 
 @app.route('/nurse-view/pay-the-bill')
 @login_required
 def pay_the_bill():
-    return render_template('pay-the-bill.html')
+    d = request.args.get('date')
+    return render_template('pay-the-bill.html', bill=utils.get_bill_from_medicall_bill_in_day(exam_date=d))
 
 @app.route('/doctor-view/make-a-medical-bill')
 @login_required
