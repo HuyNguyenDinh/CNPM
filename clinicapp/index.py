@@ -100,10 +100,18 @@ def pay_the_bill():
     d = request.args.get('date')
     return render_template('pay-the-bill.html', bill=utils.get_bill_from_medicall_bill_in_day(exam_date=d))
 
+@app.route('/nurse-view/detail-pay-the-bill')
+@login_required
+def detail_pay_the_bill():
+    d = request.args.get('date')
+    return render_template('detail-pay-the-bill.html',bill=utils.get_bill_from_medicall_bill_in_day(exam_date=d))
+
 @app.route('/doctor-view/make-a-medical-bill')
 @login_required
 def make_a_medical_bill():
-    return render_template('make_a_medical_bill.html')
+    d = request.args.get('date')
+    return render_template('make_a_medical_bill.html',pati = utils.get_patient_in_exam(exam_date=d))
+
 
 if __name__ == "__main__":
     from clinicapp.admin import *

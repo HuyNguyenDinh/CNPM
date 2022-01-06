@@ -169,7 +169,7 @@ def get_medical_bill_of_patient_in_an_exam(pte_id=None, exam_date=None, sub=None
 
 def get_bill_from_medicall_bill_in_day(exam_date=None):
     bills = db.session.query(Medical_bill.create_date, Patient.last_name, Patient.first_name,\
-                             Patient.date_of_birth, Bill.value, Bill.pay)\
+                             Patient.date_of_birth, Bill.value, Bill.pay,Bill.id)\
                             .join(Bill, Bill.medical_bill_id == Medical_bill.id)\
                             .join(Patient, Medical_bill.patient_id == Patient.id)
     if exam_date:
@@ -184,6 +184,7 @@ def get_bill_from_medicall_bill_in_day(exam_date=None):
         return bills.all()
     else:
         return None
+
 
 def get_list_admin(user):
     dsqtv = []
