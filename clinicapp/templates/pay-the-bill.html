@@ -27,7 +27,7 @@
                     {% if b[5] == True %}
                     <button class="pay-the-bill_paid" >Đã thanh toán</button>
                     {% else %}
-                    <button class="pay-the-bill_unpaid" onclick="location.href='{{ url_for('detail_pay_the_bill') }}'">Thanh toán</button>
+                    <button onclick="location.href='{{ url_for('detail_pay_the_bill', bill_id=b[6])}}'">Thanh toán</button>
                     {% endif %}
                 </td>
             </tr>
@@ -53,15 +53,16 @@
         color:white;
     }
 </style>
-<script>
-    const elements = document.querySelectorAll('.pay-the-bill_unpaid');
-    elements.forEach(element => {
-        element.addEventListener('click',()=>{
-            element.classList.add("pay-the-bill_paid");
-            element.classList.remove("pay-the-bill_unpaid");
-            element.innerHTML = "Đã thanh toán";
-            element.disabled = true;
-        })
-    })
-</script>
+<!--<script>-->
+<!--    const elements = document.querySelectorAll('.pay-the-bill_unpaid');-->
+<!--    elements.forEach(element => {-->
+<!--        element.addEventListener('click',()=>{-->
+<!--            element.classList.add("pay-the-bill_paid");-->
+<!--            element.classList.remove("pay-the-bill_unpaid");-->
+<!--            element.innerHTML = "Đã thanh toán";-->
+<!--            element.disabled = true;-->
+<!--        })-->
+<!--    })-->
+<!--</script>-->
+<script src="{{url_for('static', filename='js/script.js')}}"></script>
 {%endblock%}

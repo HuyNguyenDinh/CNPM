@@ -7,33 +7,33 @@
         <table id="talbe1-chi-tiet-thanh-toan-hoa-don">
           <tr>
             <td style="font-weight: 600;">Mã hóa đơn</td>
+              {% if bill %}
+                <td>{{bill[0]}}</td>
+              {% endif %}
             <td style="border: 1px solid black; border-radius: 10px; text-align: center;">HĐ1</td>
           </tr>
           <tr>
             <td style="font-weight: 600;">Tên khách hàng:</td>
-            <td>Nguyễn Thị Bitch</td>
-            <td style="padding-left: 40px; font-weight: 600;">Ngày sinh:</td>
-            <td>01/01/2001</td>
+              {% if bill %}
+                <td>{{[bill[2], bill[3]]|join(' ')}}</td>
+              {% endif %}
+
+            <td style="padding-left: 40px; font-weight: 600;">Ngày sinh</td>
+            {% if bill %}
+                <td>{{bill[5]}}</td>
+              {% endif %}
           </tr>
           <tr>
             <td style="font-weight: 600;">SĐT:</td>
-            <td>0989915415</td>
+            {% if bill %}
+                <td>{{bill[4]}}</td>
+              {% endif %}
             <td style="padding-left: 40px; font-weight: 600;">Ngày khám:</td>
-            <td>15/12/2021</td>
+            {% if bill %}
+                <td>{{bill[6]}}</td>
+              {% endif %}
           </tr>
         </table>
-        <table id="talbe2-chi-tiet-thanh-toan-hoa-don">
-          <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
-        </table>
-        <div class="chi-tiet-thanh-toan-hoa-don-button"><button>Xác nhận thanh toán</button></div>
+        <div class="chi-tiet-thanh-toan-hoa-don-button"><button onclick="location.href='{{ url_for('pay_the_bill')}}'">Xác nhận thanh toán</button></div>
       </div>
 {%endblock%}

@@ -1,7 +1,7 @@
 from clinicapp.models import Medical_bill, Medicine, Medicine_unit, Medical_bill_detail, Bill, Unit_tag, User, UserRole,\
     Examination, Patient, Exam_patient, Sex
 from clinicapp import db
-from sqlalchemy import func, extract, desc, alias
+from sqlalchemy import func, extract, desc, alias, update
 import hashlib
 
 def get_medical_bill_value(mb_id=None):
@@ -14,7 +14,7 @@ def get_medical_bill_value(mb_id=None):
         return bills.first()
     return bills.all()
 
-def get_bill_with_create_date(cd=None):
+def get_bill_with_create_date(cd=None, id=None):
     bills = db.session.query(Medical_bill.create_date, func.sum(Bill.value))\
                     .join(Bill, Medical_bill.id == Bill.medical_bill_id, isouter=True)\
                     .group_by(Medical_bill.create_date)
@@ -185,6 +185,23 @@ def get_bill_from_medicall_bill_in_day(exam_date=None):
     else:
         return None
 
+def get_bill(id=None):
+    if id:
+        temp = db.session.query(Bill.id, Bill.value, Patient.last_name, Patient.first_name, Patient.phone_number,\
+                                Patient.date_of_birth, Medical_bill.create_date)\
+                                .join(Medical_bill, Medical_bill.id == Bill.medical_bill_id)\
+                                .join(Patient, Patient.id == Medical_bill.patient_id)
+        return temp.first()
+    else:
+        return None
+
+def pay_bill(id=None):
+    if id:
+        Bill.query.filter_by(id=int(id)).update(dict(pay=True))
+        db.session.commit()
+        return True
+    else:
+        return False
 
 def get_list_admin(user):
     dsqtv = []
