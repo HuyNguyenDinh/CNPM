@@ -11,9 +11,16 @@
     <img width="30px" style="margin-right: 10px" src="{{url_for('static', filename = 'images/logo.png')}}">
     <!-- Links -->
     <ul class="navbar-nav">
-        {%if current_user.is_authenticated and path_role == 'doctor_view'%}
+        {%if current_user.is_authenticated%}
         <li class="nav-item">
-            <a class="nav-link" href="{{ url_for(path_role)}}"><i class="fas fa-user"></i> Thông Tin Bác Sĩ </a>
+            <a class="nav-link" href="{{ url_for('homepage')}}">
+                {% if current_user.avatar %}
+                <img class="rounded-circle" src="{{current_user.avatar}}" width="30px">
+                {%else%}
+                <img class="rounded-circle" src="{{ url_for('static', filename = 'images/dfavt.jpg')}}" width="30px">
+                {%endif%}
+                Thông Tin Bác Sĩ
+            </a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="{{ url_for('make_a_medical_bill')}}"><i class="fas fa-file-signature"></i> Lập Phiếu Khám Bệnh </a>

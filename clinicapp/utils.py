@@ -186,10 +186,3 @@ def check_sex(user):
             return  "Nữ"
         return "Không muốn trả lời"
 
-def find_path(user):
-    if user.is_authenticated:
-        if user.user_role == UserRole.DOCTOR:
-            return "doctor_view"
-        elif user.user_role == UserRole.NURSE:
-            return "nurse_view"
-        return "return_admin_page"

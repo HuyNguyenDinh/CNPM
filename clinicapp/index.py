@@ -42,9 +42,7 @@ def get_user(user_id):
 
 @app.context_processor
 def common_response():
-    path = find_path(current_user)
     return {
-        "path_role": path,
         "sex": check_sex(current_user)
     }
 
