@@ -11,9 +11,9 @@
     <img width="30px" style="margin-right: 10px" src="{{url_for('static', filename = 'images/logo.png')}}">
     <!-- Links -->
     <ul class="navbar-nav">
-        {%if current_user.is_authenticated and path_role == 'nurse_view'%}
+        {%if current_user.is_authenticated%}
         <li class="nav-item">
-            <a class="nav-link" href="{{ url_for(path_role)}}">
+            <a class="nav-link" href="{{ url_for('homepage')}}">
                 {% if current_user.avatar %}
                 <img class="rounded-circle" src="{{current_user.avatar}}" width="30px">
                 {%else%}
