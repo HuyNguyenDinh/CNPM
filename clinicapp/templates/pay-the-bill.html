@@ -25,9 +25,9 @@
                 <td>{{b[4]}} VND</td>
                 <td>
                     {% if b[5] == True %}
-                    <button disabled style="background-color: green; color:white">Đã thanh toán</button>
+                    <button class="pay-the-bill_paid" >Đã thanh toán</button>
                     {% else %}
-                    <button style="background-color: green; color:white">Thanh toán</button>
+                    <button class="pay-the-bill_unpaid" onclick="location.href='{{ url_for('detail_pay_the_bill') }}'">Thanh toán</button>
                     {% endif %}
                 </td>
             </tr>
@@ -36,4 +36,32 @@
     </table>
 </div>
 <br>
+<style>
+    button.pay-the-bill_paid,
+    button.pay-the-bill_unpaid{
+        width: 200px;
+        height: 45px;
+    }
+
+    .pay-the-bill_paid{
+        background-color: grey;
+        color:white;
+        cursor: not-allowed;
+    }
+    .pay-the-bill_unpaid{
+        background-color: green;
+        color:white;
+    }
+</style>
+<script>
+    const elements = document.querySelectorAll('.pay-the-bill_unpaid');
+    elements.forEach(element => {
+        element.addEventListener('click',()=>{
+            element.classList.add("pay-the-bill_paid");
+            element.classList.remove("pay-the-bill_unpaid");
+            element.innerHTML = "Đã thanh toán";
+            element.disabled = true;
+        })
+    })
+</script>
 {%endblock%}
