@@ -32,7 +32,13 @@
             {% for ml in med_list %}
                 <tr>
                     <td>{{[ml[1], ml[2]]|join(' ')}}</td>
-                    <td>{{ml[3]}}</td>
+                    {% if ml[3].value == 1 %}
+                            <td>Nam</td>
+                    {%elif ml[3].value == 2 %}
+                            <td>Nữ</td>
+                    {%else%}
+                            <td>Không muốn trả lời</td>
+                    {%endif %}
                     <td>{{ml[4]}}</td>
                     <td>{{ml[5]}}</td>
                 </tr>
