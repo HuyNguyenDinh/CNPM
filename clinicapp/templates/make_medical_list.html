@@ -46,12 +46,17 @@
         {% endif %}
     </table>
     {% if status == False %}
+        {% if med_list %}
         <div class="lap-danh-sach-kham-button">
-            <button>Lập danh sách khám</button>
+            <button onclick="make_medical_list({{med_list[0][7]}})">Lập danh sách khám</button>
         </div>
+        {% else %}
+            <h4>Chưa có bệnh nhân đăng ký</h4>
+        {% endif %}
     {% endif %}
-    <div style="color: lightgreen; font-style: italic;">*hệ thống sẽ gửi thông báo lịch khám quá SMS đến khách hàng
+    <div style="color: red; font-style: italic;">*hệ thống sẽ gửi thông báo lịch khám quá SMS đến khách hàng
     </div>
 </div>
 <br>
+<script src="{{url_for('static', filename='js/script.js')}}"></script>
 {%endblock%}

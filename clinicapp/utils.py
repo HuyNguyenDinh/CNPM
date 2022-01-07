@@ -1,7 +1,7 @@
 from clinicapp.models import Medical_bill, Medicine, Medicine_unit, Medical_bill_detail, Bill, Unit_tag, User, UserRole,\
     Examination, Patient, Exam_patient, Sex
 from clinicapp import db
-from sqlalchemy import func, extract, desc, alias
+from sqlalchemy import func, extract, desc, alias, update
 import hashlib
 
 def get_medical_bill_value(mb_id=None):
@@ -14,7 +14,7 @@ def get_medical_bill_value(mb_id=None):
         return bills.first()
     return bills.all()
 
-def get_bill_with_create_date(cd=None):
+def get_bill_with_create_date(cd=None, id=None):
     bills = db.session.query(Medical_bill.create_date, func.sum(Bill.value))\
                     .join(Bill, Medical_bill.id == Bill.medical_bill_id, isouter=True)\
                     .group_by(Medical_bill.create_date)
@@ -100,9 +100,9 @@ def count_patient_in_exam(exam_date=None):
         return None
     return count.first()[0]
 
-def get_patient_in_exam(exam_date=None, sub=None):
+def get_patient_in_exam(exam_date=None, doctor=False, sub=None):
     pati = db.session.query(Examination.date, Patient.last_name, Patient.first_name, Patient.sex, Patient.date_of_birth,\
-                            Patient.phone_number, Patient.id)\
+                            Patient.phone_number, Patient.id, Examination.id, Examination.apply)\
                             .join(Exam_patient, Exam_patient.c.patient_id == Patient.id) \
                             .join(Examination, Examination.id == Exam_patient.c.exam_id)
     if exam_date:
@@ -113,6 +113,8 @@ def get_patient_in_exam(exam_date=None, sub=None):
         pati = pati.filter(extract('day', Examination.date) == day, \
                                         extract('month', Examination.date) == month, \
                                         extract('year', Examination.date) == year)
+        if doctor:
+            pati = pati.filter(Examination.apply.__eq__(True))
         if len(pati.all()) <= 0:
             return None
         if sub:
@@ -122,8 +124,12 @@ def get_patient_in_exam(exam_date=None, sub=None):
     else:
         return None
 
-def get_last_date_of_exam():
-    temp = db.session.query(Examination.date).order_by(Examination.date.desc()).first()
+def get_last_date_of_exam(doctor=False):
+    temp = db.session.query(Examination.date, Examination.apply).order_by(Examination.date.desc())
+    if doctor:
+        temp = temp.filter(Examination.apply.__eq__(True)).first()
+    else:
+        temp = temp.first()
     day = temp[0].strftime("%d")
     month = temp[0].strftime("%m")
     year = temp[0].strftime("%Y")
@@ -145,6 +151,14 @@ def get_status_of_exam(exam_date=None):
             return False
     else:
         return None
+
+def change_status_examination(exam_id=None):
+    if exam_id:
+        Examination.query.filter_by(id=int(exam_id)).update(dict(apply=True))
+        db.session.commit()
+        return True
+    else:
+        return False
 
 def get_medical_bill_of_patient_in_an_exam(pte_id=None, exam_date=None, sub=None):
     mb = db.session.query(Patient.last_name, Patient.first_name, Medical_bill.create_date, Medical_bill.id) \
@@ -185,6 +199,24 @@ def get_bill_from_medicall_bill_in_day(exam_date=None):
     else:
         return None
 
+def get_bill(id=None):
+    if id:
+        temp = db.session.query(Bill.id, Bill.value, Patient.last_name, Patient.first_name, Patient.phone_number,\
+                                Patient.date_of_birth, Medical_bill.create_date)\
+                                .join(Medical_bill, Medical_bill.id == Bill.medical_bill_id)\
+                                .join(Patient, Patient.id == Medical_bill.patient_id)\
+                                .filter(Bill.id.__eq__(int(id)))
+        return temp.first()
+    else:
+        return None
+
+def pay_bill(id=None):
+    if id:
+        Bill.query.filter_by(id=int(id)).update(dict(pay=True))
+        db.session.commit()
+        return True
+    else:
+        return False
 
 def get_list_admin(user):
     dsqtv = []
