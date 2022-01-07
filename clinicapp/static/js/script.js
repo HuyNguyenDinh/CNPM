@@ -11,6 +11,7 @@ function pay_the_bill(bill_id) {
         return res.json()
     }).then(function(data) {
         console.log(data.code)
+
         if (data.code == 200){
             console.log('success');
         }
@@ -19,6 +20,7 @@ function pay_the_bill(bill_id) {
     }).catch(err => console.error(err))
     popup = document.querySelector('.popup_detail-pay-the-bill');
     popup.classList.add("show_popup_detail");
+
 }
 
 function make_medical_list(exam_id) {
@@ -40,6 +42,7 @@ function make_medical_list(exam_id) {
             console.log('fail')
         location.reload()
     }).catch(err => console.error(err))
+
 }
 
 
@@ -63,4 +66,5 @@ function scrollFunction() {
 }
 function topFunction() {
   document.documentElement.scrollTop = 0;
+
 }
