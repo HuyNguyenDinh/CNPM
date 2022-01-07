@@ -1,5 +1,5 @@
 from clinicapp import app, login
-from flask import render_template, redirect, request
+from flask import render_template, redirect, request, jsonify
 from flask_login import login_user, login_required, logout_user
 from flask_admin import expose
 import hashlib
@@ -103,7 +103,28 @@ def pay_the_bill():
 @app.route('/nurse-view/pay-the-bill/<int:bill_id>')
 @login_required
 def detail_pay_the_bill(bill_id):
-    return render_template('detail-pay-the-bill.html', bill=utils.get_bill(int(bill_id)))
+    bill = utils.get_bill(bill_id)
+    return render_template('detail-pay-the-bill.html', bill=bill)
+
+@app.route('/api/pay-bill', methods=['post'])
+@login_required
+def pay():
+    data = request.json
+    id = data.get('id')
+    if id:
+        if pay_bill(id):
+            return jsonify({'code': 200})
+    return jsonify({'code': 400})
+
+@app.route('/api/create-exam', methods=['post'])
+@login_required
+def create():
+    data = request.json
+    id = data.get('id')
+    if id:
+        if change_status_examination(id):
+            return jsonify({'code': 200})
+    return jsonify({'code': 400})
 
 @app.route('/doctor-view/make-a-medical-bill')
 @login_required

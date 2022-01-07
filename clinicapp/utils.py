@@ -102,7 +102,7 @@ def count_patient_in_exam(exam_date=None):
 
 def get_patient_in_exam(exam_date=None, sub=None):
     pati = db.session.query(Examination.date, Patient.last_name, Patient.first_name, Patient.sex, Patient.date_of_birth,\
-                            Patient.phone_number, Patient.id)\
+                            Patient.phone_number, Patient.id, Examination.id)\
                             .join(Exam_patient, Exam_patient.c.patient_id == Patient.id) \
                             .join(Examination, Examination.id == Exam_patient.c.exam_id)
     if exam_date:
@@ -145,6 +145,14 @@ def get_status_of_exam(exam_date=None):
             return False
     else:
         return None
+
+def change_status_examination(exam_id=None):
+    if exam_id:
+        Examination.query.filter_by(id=int(exam_id)).update(dict(apply=True))
+        db.session.commit()
+        return True
+    else:
+        return False
 
 def get_medical_bill_of_patient_in_an_exam(pte_id=None, exam_date=None, sub=None):
     mb = db.session.query(Patient.last_name, Patient.first_name, Medical_bill.create_date, Medical_bill.id) \
@@ -190,7 +198,8 @@ def get_bill(id=None):
         temp = db.session.query(Bill.id, Bill.value, Patient.last_name, Patient.first_name, Patient.phone_number,\
                                 Patient.date_of_birth, Medical_bill.create_date)\
                                 .join(Medical_bill, Medical_bill.id == Bill.medical_bill_id)\
-                                .join(Patient, Patient.id == Medical_bill.patient_id)
+                                .join(Patient, Patient.id == Medical_bill.patient_id)\
+                                .filter(Bill.id.__eq__(int(id)))
         return temp.first()
     else:
         return None

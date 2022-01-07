@@ -34,6 +34,7 @@
               {% endif %}
           </tr>
         </table>
-        <div class="chi-tiet-thanh-toan-hoa-don-button"><button onclick="location.href='{{ url_for('pay_the_bill')}}'">Xác nhận thanh toán</button></div>
+        <div class="chi-tiet-thanh-toan-hoa-don-button"><button onclick="location.href='{{ url_for('pay_the_bill')}}'; pay_the_bill({{bill[0]}})">Xác nhận thanh toán</button></div>
       </div>
+<script src="{{url_for('static', filename='js/script.js')}}"></script>
 {%endblock%}
