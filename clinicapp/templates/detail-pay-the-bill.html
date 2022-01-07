@@ -34,7 +34,14 @@
               {% endif %}
           </tr>
         </table>
-        <div class="chi-tiet-thanh-toan-hoa-don-button"><button onclick="location.href='{{ url_for('pay_the_bill')}}'; pay_the_bill({{bill[0]}})">Xác nhận thanh toán</button></div>
-      </div>
+
+        <div class="chi-tiet-thanh-toan-hoa-don-button">
+            <button onclick="pay_the_bill({{bill[0]}})">Xác nhận thanh toán</button>
+        </div>
+        <div class="popup_detail-pay-the-bill">
+            <p class="title_popup_detail-pay-the-bill">Xác nhận?</p>
+            <button class="button_popup_detail-pay-the-bill-thanh_toan" onclick="location.href='{{ url_for('pay_the_bill')}}'">Thanh toán<br>(Trở về danh sách)</button>
+        </div>
+    </div>
 <script src="{{url_for('static', filename='js/script.js')}}"></script>
 {%endblock%}

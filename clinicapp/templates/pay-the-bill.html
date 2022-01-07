@@ -25,9 +25,11 @@
                 <td>{{b[4]}} VND</td>
                 <td>
                     {% if b[5] == True %}
-                    <button class="pay-the-bill_paid" >Đã thanh toán</button>
+                    <button class="pay-the-bill_paid" disabled >Đã thanh toán</button>
                     {% else %}
-                    <button onclick="location.href='{{ url_for('detail_pay_the_bill', bill_id=b[6])}}'">Thanh toán</button>
+
+                    <button class="pay-the-bill_unpaid" onclick="location.href='{{ url_for('detail_pay_the_bill', bill_id=b[6])}}'">Thanh toán</button>
+
                     {% endif %}
                 </td>
             </tr>
@@ -36,6 +38,8 @@
     </table>
 </div>
 <br>
+
+=======
 <style>
     button.pay-the-bill_paid,
     button.pay-the-bill_unpaid{

@@ -97,9 +97,9 @@ def make_medical_list():
 
 @app.route('/nurse-view/pay-the-bill')
 @login_required
-def pay_the_bill():
+def pay_the_bill(code):
     d = request.args.get('date')
-    return render_template('pay-the-bill.html', bill=utils.get_bill_from_medicall_bill_in_day(exam_date=d))
+    return render_template('pay-the-bill.html', bill=utils.get_bill_from_medicall_bill_in_day(exam_date=d),code=code)
 
 @app.route('/nurse-view/pay-the-bill/<int:bill_id>')
 @login_required
