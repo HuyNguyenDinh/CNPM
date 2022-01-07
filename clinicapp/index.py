@@ -1,5 +1,5 @@
 from clinicapp import app, login
-from flask import render_template, redirect, request
+from flask import render_template, redirect, request, jsonify
 from flask_login import login_user, login_required, logout_user
 from flask_admin import expose
 import hashlib
@@ -87,17 +87,56 @@ def medical_register():
 @app.route('/nurse-view/make-medical-list')
 @login_required
 def make_medical_list():
-    return render_template('make_medical_list.html')
+    d = request.args.get('date')
+    temp = d
+    if not d:
+        temp = utils.get_last_date_of_exam()
+        d = '-'.join([temp.get('year'), temp.get('month'), temp.get('day')])
+    return render_template('make_medical_list.html', last_date=temp,\
+                           med_list=utils.get_patient_in_exam(d), status=utils.get_status_of_exam(d))
 
 @app.route('/nurse-view/pay-the-bill')
 @login_required
 def pay_the_bill():
-    return render_template('pay-the-bill.html')
+    d = request.args.get('date')
+    return render_template('pay-the-bill.html', bill=utils.get_bill_from_medicall_bill_in_day(exam_date=d))
+
+@app.route('/nurse-view/pay-the-bill/<int:bill_id>')
+@login_required
+def detail_pay_the_bill(bill_id):
+    bill = utils.get_bill(bill_id)
+    return render_template('detail-pay-the-bill.html', bill=bill)
+
+@app.route('/api/pay-bill', methods=['post'])
+@login_required
+def pay():
+    data = request.json
+    id = data.get('id')
+    if id:
+        if pay_bill(id):
+            return jsonify({'code': 200})
+    return jsonify({'code': 400})
+
+@app.route('/api/create-exam', methods=['post'])
+@login_required
+def create():
+    data = request.json
+    id = data.get('id')
+    if id:
+        if change_status_examination(id):
+            return jsonify({'code': 200})
+    return jsonify({'code': 400})
 
 @app.route('/doctor-view/make-a-medical-bill')
 @login_required
 def make_a_medical_bill():
-    return render_template('make_a_medical_bill.html')
+    d = request.args.get('date')
+    temp = d
+    if not d:
+        temp = utils.get_last_date_of_exam(doctor=True)
+        d = '-'.join([temp.get('year'), temp.get('month'), temp.get('day')])
+    return render_template('make_a_medical_bill.html', last_date=temp,\
+                           pati=utils.get_patient_in_exam(exam_date=d, doctor=True))
 
 if __name__ == "__main__":
     from clinicapp.admin import *
