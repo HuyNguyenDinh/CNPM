@@ -132,6 +132,7 @@ ul.social li img{
 
 /* dang ky kham benh */
 .dang-ky-kham-benh {
+    padding-top: 100px;
     height: 80vh;
 }
 .dang-ky-kham-benh h1 {
@@ -371,4 +372,9 @@ button.pay-the-bill_unpaid{
   padding: 15px;
   border-radius: 10px;
   font-size: 18px;
+}
+.button-go-to-top:hover{
+  text-decoration: none;
+  background-color:#0c2c70;
+  color:white;
 }

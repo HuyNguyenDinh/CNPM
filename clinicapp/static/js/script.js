@@ -22,7 +22,6 @@ function pay_the_bill(bill_id) {
     popup.classList.add("show_popup_detail");
 
 }
-
 function make_medical_list(exam_id) {
     fetch('/api/create-exam', {
         method: 'post',
@@ -55,16 +54,14 @@ element.addEventListener('click',()=>{
 })
 
 //Go to top
-const mybutton = document.querySelector(".button-go-to-top");
 window.onscroll = function() {scrollFunction()};
 function scrollFunction() {
   if (document.body.scrollTop > 40 || document.documentElement.scrollTop > 40) {
-    mybutton.style.display = "block";
+    document.querySelector(".button-go-to-top").style.display = "block";
   } else {
-    mybutton.style.display = "none";
+    document.querySelector(".button-go-to-top").style.display = "none";
   }
 }
 function topFunction() {
   document.documentElement.scrollTop = 0;
-
 }

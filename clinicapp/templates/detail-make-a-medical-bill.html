@@ -1,4 +1,4 @@
-{% extends "nurse-view.html" %}
+{% extends "doctor-view.html" %}
 {% block details%}
 <br>
     <!--    Chi tiết thanh toán hóa đơn-->
@@ -34,7 +34,7 @@
             <td></td>
           </tr>
         </table>
-        <div class="chi-tiet-thanh-toan-hoa-don-button"><button>Lập phiếu khám</button></div>
+        <div class="chi-tiet-thanh-toan-hoa-don-button"><button onclick="pay_the_bill({{bill[0]}})">Lập phiếu khám</button></div>
       </div>
 <br>
 {%endblock%}

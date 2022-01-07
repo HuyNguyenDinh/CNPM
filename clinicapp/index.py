@@ -138,6 +138,11 @@ def make_a_medical_bill():
     return render_template('make_a_medical_bill.html', last_date=temp,\
                            pati=utils.get_patient_in_exam(exam_date=d, doctor=True))
 
+@app.route('/doctor-view/make-a-medical-bill/<int:bill_id>')
+@login_required
+def detail_make_a_medical_bill(bill_id):
+    bill = utils.get_bill(bill_id)
+    return render_template('detail-make-a-medical-bill.html', bill=bill)
 
 if __name__ == "__main__":
     from clinicapp.admin import *
