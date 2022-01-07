@@ -88,10 +88,11 @@ def medical_register():
 @login_required
 def make_medical_list():
     d = request.args.get('date')
+    temp = d
     if not d:
         temp = utils.get_last_date_of_exam()
         d = '-'.join([temp.get('year'), temp.get('month'), temp.get('day')])
-    return render_template('make_medical_list.html', last_date=utils.get_last_date_of_exam(),\
+    return render_template('make_medical_list.html', last_date=temp,\
                            med_list=utils.get_patient_in_exam(d), status=utils.get_status_of_exam(d))
 
 @app.route('/nurse-view/pay-the-bill')
@@ -130,7 +131,12 @@ def create():
 @login_required
 def make_a_medical_bill():
     d = request.args.get('date')
-    return render_template('make_a_medical_bill.html', pati=utils.get_patient_in_exam(exam_date=d))
+    temp = d
+    if not d:
+        temp = utils.get_last_date_of_exam(doctor=True)
+        d = '-'.join([temp.get('year'), temp.get('month'), temp.get('day')])
+    return render_template('make_a_medical_bill.html', last_date=temp,\
+                           pati=utils.get_patient_in_exam(exam_date=d, doctor=True))
 
 
 if __name__ == "__main__":

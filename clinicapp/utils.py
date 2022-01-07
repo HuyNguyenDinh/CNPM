@@ -100,9 +100,9 @@ def count_patient_in_exam(exam_date=None):
         return None
     return count.first()[0]
 
-def get_patient_in_exam(exam_date=None, sub=None):
+def get_patient_in_exam(exam_date=None, doctor=False, sub=None):
     pati = db.session.query(Examination.date, Patient.last_name, Patient.first_name, Patient.sex, Patient.date_of_birth,\
-                            Patient.phone_number, Patient.id, Examination.id)\
+                            Patient.phone_number, Patient.id, Examination.id, Examination.apply)\
                             .join(Exam_patient, Exam_patient.c.patient_id == Patient.id) \
                             .join(Examination, Examination.id == Exam_patient.c.exam_id)
     if exam_date:
@@ -113,6 +113,8 @@ def get_patient_in_exam(exam_date=None, sub=None):
         pati = pati.filter(extract('day', Examination.date) == day, \
                                         extract('month', Examination.date) == month, \
                                         extract('year', Examination.date) == year)
+        if doctor:
+            pati = pati.filter(Examination.apply.__eq__(True))
         if len(pati.all()) <= 0:
             return None
         if sub:
@@ -122,8 +124,12 @@ def get_patient_in_exam(exam_date=None, sub=None):
     else:
         return None
 
-def get_last_date_of_exam():
-    temp = db.session.query(Examination.date).order_by(Examination.date.desc()).first()
+def get_last_date_of_exam(doctor=False):
+    temp = db.session.query(Examination.date, Examination.apply).order_by(Examination.date.desc())
+    if doctor:
+        temp = temp.filter(Examination.apply.__eq__(True)).first()
+    else:
+        temp = temp.first()
     day = temp[0].strftime("%d")
     month = temp[0].strftime("%m")
     year = temp[0].strftime("%Y")
