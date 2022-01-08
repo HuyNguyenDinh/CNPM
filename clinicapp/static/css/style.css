@@ -50,6 +50,7 @@ footer{
 div.allfoot{
     display: flex;
     padding: 20px 10px;
+    height: 30vh;
 }
 textarea {
     width: 95%;
@@ -105,7 +106,7 @@ ul.social li img{
 .ve-chung-toi {
     text-align: center;
     min-height: 86vh;
-    margin-top: 80px;
+    padding-top: 100px;
 }
 
 .ve-chung-toi-picture {
@@ -133,7 +134,7 @@ ul.social li img{
 /* dang ky kham benh */
 .dang-ky-kham-benh {
     padding-top: 100px;
-    height: 80vh;
+    height: 100vh;
 }
 .dang-ky-kham-benh h1 {
     text-align: center;

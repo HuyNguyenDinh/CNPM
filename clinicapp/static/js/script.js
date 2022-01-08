@@ -52,16 +52,3 @@ element.addEventListener('click',()=>{
     element.classList.remove("pay-the-bill_unpaid");
     })
 })
-
-//Go to top
-window.onscroll = function() {scrollFunction()};
-function scrollFunction() {
-  if (document.body.scrollTop > 40 || document.documentElement.scrollTop > 40) {
-    document.querySelector(".button-go-to-top").style.display = "block";
-  } else {
-    document.querySelector(".button-go-to-top").style.display = "none";
-  }
-}
-function topFunction() {
-  document.documentElement.scrollTop = 0;
-}
