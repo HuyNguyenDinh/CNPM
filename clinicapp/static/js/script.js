@@ -52,3 +52,22 @@ element.addEventListener('click',()=>{
     element.classList.remove("pay-the-bill_unpaid");
     })
 })
+
+function notify_for_change_user_info() {
+    if (confirm('Bạn có chắc chắn muốn thay đổi thông tin cá nhân?') == true){
+         fetch('/change_info_user', {
+        method: 'post'
+    }).then(function(res) {
+        return res.json()
+    }).then(function(data) {
+        if (data.code == 200){
+            alert('success')
+        }
+        else if (data.code == 400){
+            alert('fail')
+        }
+        location.reload()
+    }).catch(err => console.error(err))
+    }
+}
+
