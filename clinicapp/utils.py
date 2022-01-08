@@ -245,3 +245,13 @@ def check_sex(user):
             return  "Nữ"
         return "Không muốn trả lời"
 
+
+def check_login_of_current_user(password, user):
+    if user.is_authenticated:
+        if str(hashlib.md5(password.encode("utf-8")).hexdigest()).__eq__(user.password.strip()):
+            return True
+    return False
+
+def check_info_for_change():
+    pass
+

@@ -3,6 +3,7 @@ from flask import render_template, redirect, request, jsonify
 from flask_login import login_user, login_required, logout_user
 from flask_admin import expose
 import hashlib
+import cloudinary.uploader
 
 @app.route("/")
 def homepage():
@@ -143,6 +144,44 @@ def make_a_medical_bill():
 def detail_make_a_medical_bill(bill_id):
     bill = utils.get_bill(bill_id)
     return render_template('detail-make-a-medical-bill.html', bill=bill)
+
+
+@app.route('/change-info-user', methods = ['post'])
+def change_info_user():
+    if request.method.__eq__('POST'):
+        avatar = request.files.get('avatar')
+        avatar_path = ""
+        name = request.form.get('name')
+        username = request.form.get('username')
+        email = request.form.get('email')
+        sex = request.form.get('email')
+        day_of_birth = request.form.get('email')
+        phone = request.form.get('email')
+        password = request.form.get('password')
+        new_password = request.form.get('password')
+        confirm = request.form.get('confirm')
+        try:
+            if check_login_of_current_user(password, current_user):
+                error_ms = 'Đúng mật khẩu'
+                return redirect('/')
+            else:
+                return jsonify({'code': 400})
+    #         #     if avatar:
+    #         #         res = cloudinary.uploader.upload(avatar)
+    #         #         avatar_path = res['secure_url']
+    #         #     user_exist = check_username(username)
+    #         #     if not user_exist:
+    #         #         register_user(name=name, username=username, password=password, email=email, avatar=avatar_path)
+    #         #         return redirect('/user-login')
+    #         #     else:
+    #         #         error = "Đã tồn tại username!!!"
+    #         # else:
+    #         #     error = "Mật khẩu không khớp!!!"
+        except Exception as ex:
+            error = str(ex)
+
+
+
 
 if __name__ == "__main__":
     from clinicapp.admin import *

@@ -53,15 +53,20 @@ element.addEventListener('click',()=>{
     })
 })
 
-//Go to top
-window.onscroll = function() {scrollFunction()};
-function scrollFunction() {
-  if (document.body.scrollTop > 40 || document.documentElement.scrollTop > 40) {
-    document.querySelector(".button-go-to-top").style.display = "block";
-  } else {
-    document.querySelector(".button-go-to-top").style.display = "none";
-  }
-}
-function topFunction() {
-  document.documentElement.scrollTop = 0;
+function notify_for_change_user_info() {
+    if (confirm('Bạn có chắc chắn muốn thay đổi thông tin cá nhân?') == true){
+         fetch('/change_info_user', {
+        method: 'post'
+    }).then(function(res) {
+        return res.json()
+    }).then(function(data) {
+        if (data.code == 200){
+            alert('success')
+        }
+        else if (data.code == 400){
+            alert('fail')
+        }
+        location.reload()
+    }).catch(err => console.error(err))
+    }
 }
