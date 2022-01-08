@@ -1,3 +1,5 @@
+import datetime
+
 from clinicapp.models import Medical_bill, Medicine, Medicine_unit, Medical_bill_detail, Bill, Unit_tag, User, UserRole,\
     Examination, Patient, Exam_patient, Sex
 from clinicapp import db
@@ -173,13 +175,32 @@ def get_medical_bill_of_patient_in_an_exam(pte_id=None, exam_date=None, sub=None
         mb = mb.filter(extract('day', Medical_bill.create_date) == day,\
                                 extract('month', Medical_bill.create_date) == month,\
                                 extract('year', Medical_bill.create_date) == year)
-    if len(mb.all()) <= 0:
+    if len(mb.all()) > 0:
         if sub:
             return mb
         else:
             return mb.all()
     else:
         return None
+
+def get_patient_and_medical_bill_in_exam(pati=None):
+    if not pati:
+        return None
+    total = []
+    for p in pati:
+        temp = []
+        day = p[0].strftime("%d")
+        month = p[0].strftime("%m")
+        year = p[0].strftime("%Y")
+        d = '-'.join([year, month, day])
+        temp = list(p)
+        check = get_medical_bill_of_patient_in_an_exam(pte_id=p[6], exam_date=d)
+        if check:
+            temp.append(True)
+        else:
+            temp.append(False)
+        total.append(tuple(temp))
+    return total
 
 def get_bill_from_medicall_bill_in_day(exam_date=None):
     bills = db.session.query(Medical_bill.create_date, Patient.last_name, Patient.first_name,\
@@ -199,6 +220,73 @@ def get_bill_from_medicall_bill_in_day(exam_date=None):
     else:
         return None
 
+def get_patient(pte_id=None):
+    patient = db.session.query(Patient.last_name, Patient.first_name, Patient.date_of_birth, Patient.sex,\
+                            Patient.phone_number)
+    if pte_id:
+        patient = patient.filter(Patient.id.__eq__(int(pte_id)))
+        return patient.first()
+    return patient.all()
+
+def get_medicine(medicine_id=None):
+    medicine = db.session.query(Medicine.id, Medicine.name, Medicine.effect)
+    if medicine_id:
+        medicine = medicine.filter(Medicine.id.__eq__(int(medicine_id)))
+        return medicine.first()
+    return medicine.all()
+
+def get_medicine_unit(medicine_id=None):
+    medicine_unit = db.session.query(Medicine_unit.id, Medicine_unit.medicine_id, Medicine_unit.price, Unit_tag.name)\
+                                    .join(Unit_tag, Unit_tag.id == Medicine_unit.unit_id)
+    if medicine_id:
+        medicine_unit = medicine_unit.filter(Medicine_unit.medicine_id.__eq__(int(medicine_id)))
+        return medicine_unit.first()
+    return medicine_unit.all()
+
+def create_patient(first_name, last_name, sex, date_of_birth, phone_number):
+    temp = date_of_birth.split('-')
+    year = int(temp[0])
+    month = int(temp[1])
+    day = int(temp[2])
+    if int(sex) == 1:
+        sex = Sex.MALE
+    elif int(sex) == 2:
+        sex = Sex.FEMALE
+    else:
+        sex = Sex.UNSPECIFIED
+    patient = Patient(first_name=first_name, last_name=last_name, sex=sex, \
+                      date_of_birth=datetime.datetime(year, month, day), phone_number=phone_number)
+    try:
+        db.session.add(patient)
+        db.session.commit()
+        return True
+    except:
+        return False
+
+def create_medical_bill(user_id, patient_id, exam_date, diagnosis, symptom):
+    temp = exam_date.split('-')
+    year = int(temp[0])
+    month = int(temp[1])
+    day = int(temp[2])
+    mb = Medical_bill(user_id=user_id, diagnosis=diagnosis, symptom=symptom,\
+                      create_date=datetime.datetime(year, month, day), patient_id=patient_id)
+    try:
+        db.session.add(mb)
+        db.session.commit()
+        return True
+    except:
+        return False
+
+def create_medical_bill_detail(medical_bill_id, medicine_unit_id, quantity):
+    mbd = Medical_bill_detail(medical_bill_id=int(medical_bill_id), medicine_unit_id=int(medicine_unit_id),\
+                              quantity=int(quantity))
+    try:
+        db.session.add(mbd)
+        db.session.commit()
+        return True
+    except:
+        return False
+
 def get_bill(id=None):
     if id:
         temp = db.session.query(Bill.id, Bill.value, Patient.last_name, Patient.first_name, Patient.phone_number,\
@@ -212,9 +300,12 @@ def get_bill(id=None):
 
 def pay_bill(id=None):
     if id:
-        Bill.query.filter_by(id=int(id)).update(dict(pay=True))
-        db.session.commit()
-        return True
+        try:
+            Bill.query.filter_by(id=int(id)).update(dict(pay=True))
+            db.session.commit()
+            return True
+        except:
+            return False
     else:
         return False
 

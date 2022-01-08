@@ -135,14 +135,16 @@ def make_a_medical_bill():
     if not d:
         temp = utils.get_last_date_of_exam(doctor=True)
         d = '-'.join([temp.get('year'), temp.get('month'), temp.get('day')])
-    return render_template('make_a_medical_bill.html', last_date=temp,\
-                           pati=utils.get_patient_in_exam(exam_date=d, doctor=True))
+    pa = utils.get_patient_in_exam(exam_date=d, doctor=True)
+    pati = utils.get_patient_and_medical_bill_in_exam(pa)
+    return render_template('make_a_medical_bill.html', last_date=temp, pati=pati)
 
-@app.route('/doctor-view/make-a-medical-bill/<int:bill_id>')
+@app.route('/doctor-view/make-a-medical-bill/<int:patient_id>;<string:date>')
 @login_required
-def detail_make_a_medical_bill(bill_id):
-    bill = utils.get_bill(bill_id)
-    return render_template('detail-make-a-medical-bill.html', bill=bill)
+def detail_make_a_medical_bill(patient_id, date):
+    patient = utils.get_patient(patient_id)
+    medicine = utils.get_medicine()
+    return render_template('detail-make-a-medical-bill.html', patient=patient, date=date, medicine=medicine)
 
 if __name__ == "__main__":
     from clinicapp.admin import *
