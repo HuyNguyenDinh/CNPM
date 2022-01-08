@@ -70,3 +70,4 @@ function notify_for_change_user_info() {
     }).catch(err => console.error(err))
     }
 }
+
