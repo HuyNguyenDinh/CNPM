@@ -4,6 +4,7 @@ from clinicapp.models import Medical_bill, Medicine, Medicine_unit, Medical_bill
     Examination, Patient, Exam_patient, Sex
 from clinicapp import db
 from sqlalchemy import func, extract, desc, alias, update
+from twilio.rest import Client
 import hashlib, datetime
 
 def get_medical_bill_value(mb_id=None):
@@ -155,7 +156,9 @@ def get_status_of_exam(exam_date=None):
         return None
 
 def change_status_examination(exam_id=None):
+
     if exam_id:
+        send_sms_to_patient(exam_id)
         Examination.query.filter_by(id=int(exam_id)).update(dict(apply=True))
         db.session.commit()
         return True
@@ -401,3 +404,18 @@ def check_unique_info(username,phone,email, user):
                 kq.append('email')
     return kq
 
+account_sid = 'AC0c21ea651869130bbf4d2d34aa836370'
+auth_token = '15daa5a4657c9522afaf3f5ac8501e26'
+def send_sms_to_patient(dayexam):
+    client = Client(account_sid, auth_token)
+    if dayexam:
+        getday = db.session.query(Examination).get(dayexam)
+    phone = get_patient_in_exam(str(getday.date))
+    for idx,value in enumerate(phone):
+        # print(value[5])
+        message = client.messages.create(
+            body='Lịch khám: '+str(getday.date),
+            from_='+19166940519',
+            to= '+84' + str(value[5])
+        )
+    return True
