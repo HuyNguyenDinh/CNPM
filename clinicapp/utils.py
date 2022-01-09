@@ -347,7 +347,7 @@ def check_login_of_current_user(password, user):
     return False
 
 
-def check_info_for_change(user,avatar = None, name = None, username = None,day_of_birth = None,sex = None, phone = None, new_password = None):
+def check_info_for_change(user,avatar = None, name = None, username = None,day_of_birth = None,sex = None, phone = None, new_password = None, email = None):
      if user.is_authenticated:
         user_current = User.query.filter(User.username == user.username).first()
         if user_current:
@@ -359,6 +359,9 @@ def check_info_for_change(user,avatar = None, name = None, username = None,day_o
                 db.session.commit()
             if avatar:
                 user_current.avatar = avatar
+                db.session.commit()
+            if email:
+                user_current.email = email
                 db.session.commit()
             if day_of_birth:
                 day_of_birth = str(day_of_birth)
