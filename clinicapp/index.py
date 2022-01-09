@@ -4,9 +4,6 @@ from flask_login import login_user, login_required, logout_user
 from flask_admin import expose
 import hashlib
 import cloudinary.uploader
-from flask import url_for, json, session
-
-
 
 @app.route("/")
 def homepage():
@@ -50,44 +47,33 @@ def common_response():
         "sex": check_sex(current_user)
     }
 
-
 @app.route('/employee-login', methods = ['post', 'get'])
 def employee_login():
     error_ms = ''
-    if current_user.is_authenticated:
-        if current_user.user_role == UserRole.NURSE:
-            return redirect('/nurse-view')
-        elif current_user.user_role == UserRole.DOCTOR:
+    if request.method.__eq__('POST'):
+        username = request.form.get('username')
+        password = request.form.get('password')
+        user = check_login(username=username, password=password)
+        if user:
+            login_user(user=user)
+            if user.user_role == UserRole.ADMIN:
+                return redirect('/admin')
+            elif user.user_role == UserRole.NURSE:
+                return redirect('/nurse-view')
             return redirect('/doctor-view')
         else:
-            return redirect('/admin')
-    else:
-        if request.method.__eq__('POST'):
-            username = request.form.get('username')
-            password = request.form.get('password')
-            user = check_login(username=username, password=password)
-            if user:
-                login_user(user=user)
-                if user.user_role == UserRole.ADMIN:
-                    return redirect('/admin')
-                elif user.user_role == UserRole.NURSE:
-                    return redirect('/nurse-view')
-                return redirect('/doctor-view')
-            else:
-                error_ms = "Sai tên đăng nhập hoặc mật khẩu!!!"
-        return render_template('login-user.html', error_ms=error_ms)
+            error_ms = "Sai tên đăng nhập hoặc mật khẩu!!!"
+    return render_template('login-user.html', error_ms=error_ms)
 
 @app.route('/doctor-view')
 @login_required
 def doctor_view():
-    error_ms = request.args.get('error_ms')
-    return render_template('doctor-view.html',error_ms = error_ms )
+    return render_template('doctor-view.html')
 
 @app.route('/nurse-view')
 @login_required
 def nurse_view():
-    error_ms = request.args.get('error_ms')
-    return render_template('nurse-view.html',error_ms = error_ms)
+    return render_template('nurse-view.html')
 
 @app.route("/user-logout")
 def user_logout():
@@ -162,53 +148,26 @@ def detail_make_a_medical_bill(patient_id, date):
     return render_template('detail-make-a-medical-bill.html', patient=patient, date=date, medicine=medicine)
 
 
-@app.route('/change-info-user', methods = ['post', 'get'])
+@app.route('/change-info-user', methods = ['post'])
 def change_info_user():
     if request.method.__eq__('POST'):
-        error_ms = ''
         avatar = request.files.get('avatar')
-        avatar_path = ''
+        avatar_path = ""
         name = request.form.get('name')
         username = request.form.get('username')
         email = request.form.get('email')
-        sex = request.form.get('sex_of_user')
-        day_of_birth = request.form.get('dob')
-        phone = request.form.get('phone')
+        sex = request.form.get('email')
+        day_of_birth = request.form.get('email')
+        phone = request.form.get('email')
         password = request.form.get('password')
-        new_password = request.form.get('new_password')
-        confirm = request.form.get('confirm_password')
+        new_password = request.form.get('password')
+        confirm = request.form.get('confirm')
         try:
             if check_login_of_current_user(password, current_user):
-                if (new_password != '' and confirm != '') or (new_password == '' and confirm == ''):
-                    if not new_password.strip().__eq__(confirm.strip()):
-                        error_ms = 'Xác nhận mật khẩu mới không khớp !!!'
-                    else:
-                        list = check_unique_info(username=username, phone=phone, email=email, user= current_user)
-                        if len(list) == 0:
-                            if avatar.filename.endswith('.png' or '.jpg' or '.jpeg') or not avatar:
-                                if avatar:
-                                    res = cloudinary.uploader.upload(avatar)
-                                    avatar_path = res['secure_url']
-                                try:
-                                    check_info_for_change(user=current_user,avatar = avatar_path,name = name, username = username,day_of_birth=day_of_birth, sex=sex, phone= phone, new_password= new_password)
-                                    error_ms = "Thay đổi thành công!!!"
-                                except Exception as ex:
-                                    error_ms = str(ex)
-                            else:
-                                error_ms = 'File avatar không hợp lệ (*.jpeg/*.png/*.jpg)!!!'
-                        else:
-                            error_ms = 'Những thông tin sau đã tồn tại: '
-                            for i in range(len(list)):
-                                if i != 0:
-                                    error_ms += ', ' + list[i]
-                                else:
-                                    error_ms += list[i]
-
-                else:
-                    error_ms = 'Xác nhận mật khẩu mới không khớp !!!'
-
+                error_ms = 'Đúng mật khẩu'
+                return redirect('/')
             else:
-                error_ms = 'Nhập sai mật khẩu hiện tại !!!'
+                return jsonify({'code': 400})
     #         #     if avatar:
     #         #         res = cloudinary.uploader.upload(avatar)
     #         #         avatar_path = res['secure_url']
@@ -221,8 +180,8 @@ def change_info_user():
     #         # else:
     #         #     error = "Mật khẩu không khớp!!!"
         except Exception as ex:
-            error_ms = str(ex)
-    return redirect(url_for(check_role_for_render(current_user), error_ms = error_ms))
+            error = str(ex)
+
 
 
 

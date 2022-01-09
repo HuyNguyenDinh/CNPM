@@ -129,7 +129,6 @@ ul.social li img{
     width: 250px;
     height: 250px;
     border-radius: 10px;
-    margin-bottom: 10px;
 }
 
 /* dang ky kham benh */
@@ -144,12 +143,10 @@ ul.social li img{
 #table-1 {
    border-spacing: 20px;
   border-collapse: separate;
-  width: 1000px;
 }
 
 #table-1 input {
     border-radius:3px;
-    padding: 0 50px;
 }
 
 #button {
@@ -208,7 +205,7 @@ ul.social li img{
   border-collapse: collapse;
 }
 
-#table-thanh-toan-hoa-don td, #table-thanh-toan-hoa-don th {
+#table-thanh-toan-hoa-don td {
   padding: 10px;
   border: 1px solid black;
 }
@@ -216,7 +213,6 @@ ul.social li img{
 #table-thanh-toan-hoa-don td button {
   border-radius: 10px;
   padding: 0 20px 0 20px;
-  background-color: #17a2b8;
 }
 
 /* Chi tiết thanh toán hóa đơn */
@@ -264,10 +260,6 @@ ul.social li img{
   border: 1px solid black;
   margin: 0 auto;
   border-collapse: collapse;
-}
-
-#table-lap-danh-sach-kham th {
-border: 1px solid black;
 }
 
 #table-lap-danh-sach-kham td {

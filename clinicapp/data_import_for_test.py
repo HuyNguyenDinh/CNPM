@@ -3,13 +3,13 @@ from datetime import datetime, date
 
 if __name__ == '__main__':
     u1 = models.User(name="Thu", username="thu123", user_role=models.UserRole.ADMIN,\
-                     sex=models.Sex.MALE, date_of_birth=datetime.now(), phone_number='131543512', email='ABC')
+                     sex=models.Sex.MALE, date_of_birth=datetime.now(), phone_number='0877158491', email='ABC')
     u2 = models.User(name="Hieu", username="hieu123", user_role=models.UserRole.ADMIN,\
-                     sex=models.Sex.MALE, date_of_birth=datetime.now(), phone_number='175665512', email='XYZ')
+                     sex=models.Sex.MALE, date_of_birth=datetime.now(), phone_number='0944540746', email='XYZ')
     u3 = models.User(name="Huy", username="huy123", user_role=models.UserRole.ADMIN,\
-                     sex=models.Sex.MALE, date_of_birth=datetime.now(), phone_number='131286712', email='423')
+                     sex=models.Sex.MALE, date_of_birth=datetime.now(), phone_number='0937461321', email='423')
     u4 = models.User(name="Huynh", username="huynh123", user_role=models.UserRole.ADMIN,\
-                     sex=models.Sex.MALE, date_of_birth=datetime.now(), phone_number='131265756', email='A756C')
+                     sex=models.Sex.MALE, date_of_birth=datetime.now(), phone_number='0989915415', email='A756C')
     u5 = models.User(name="USER1", username="user1", user_role=models.UserRole.NURSE, \
                      sex=models.Sex.MALE, date_of_birth=datetime.now(), phone_number='131268762', email='A41C')
     users = [u1, u2, u3, u4, u5]
