@@ -128,6 +128,7 @@ class Medical_bill_detail(db.Model):
     medical_bill_id = Column(Integer, ForeignKey(Medical_bill.id), nullable=False, primary_key=True)
     medicine_unit_id = Column(Integer, ForeignKey(Medicine_unit.id), nullable=False, primary_key=True)
     quantity = Column(Integer, default=0)
+    use = Column(Text)
 
     def __str__(self):
         return "id:" + str(self.medical_bill_id) + "-" + self.medicine_unit.medicine + "-" + self.medicine_unit.unit_tag

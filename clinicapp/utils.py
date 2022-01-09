@@ -1,7 +1,7 @@
 import datetime
 
 from clinicapp.models import Medical_bill, Medicine, Medicine_unit, Medical_bill_detail, Bill, Unit_tag, User, UserRole,\
-    Examination, Patient, Exam_patient, Sex
+    Examination, Patient, Exam_patient, Sex, Other
 from clinicapp import db
 from sqlalchemy import func, extract, desc, alias, update
 from twilio.rest import Client
@@ -328,9 +328,9 @@ def create_medical_bill(user_id, patient_id, exam_date, diagnosis, symptom):
     except:
         return None
 
-def create_medical_bill_detail(medical_bill_id, medicine_unit_id, quantity):
+def create_medical_bill_detail(medical_bill_id, medicine_unit_id, quantity, use):
     mbd = Medical_bill_detail(medical_bill_id=int(medical_bill_id), medicine_unit_id=int(medicine_unit_id),\
-                              quantity=int(quantity))
+                              quantity=int(quantity), use=use)
     try:
         db.session.add(mbd)
         db.session.commit()
@@ -369,6 +369,10 @@ def pay_bill(id=None):
             return False
     else:
         return False
+
+def get_cost():
+    total = db.session.query(Other.cost).limit(1)
+    return total.first()[0]
 
 def get_list_admin(user):
     dsqtv = []
@@ -466,7 +470,7 @@ def check_unique_info(username,phone,email, user):
     return kq
 
 account_sid = 'AC0c21ea651869130bbf4d2d34aa836370'
-auth_token = '15daa5a4657c9522afaf3f5ac8501e26'
+auth_token = '4418be197df5637d72503a11fc46ce42'
 def send_sms_to_patient(dayexam):
     client = Client(account_sid, auth_token)
     if dayexam:

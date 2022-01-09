@@ -115,14 +115,14 @@ if __name__ == '__main__':
         db.session.add(mbd)
     db.session.commit()
 
-    bills = utils.get_medical_bill_value()
-    for b in bills:
-        bill = models.Bill(medical_bill_id=b[0], value=b[1])
-        db.session.add(bill)
-    db.session.commit()
-
     other = models.Other()
     db.session.add(other)
+    db.session.commit()
+    temp = utils.get_cost()
+    bills = utils.get_medical_bill_value()
+    for b in bills:
+        bill = models.Bill(medical_bill_id=b[0], value=b[1] + temp)
+        db.session.add(bill)
     db.session.commit()
 
     db.create_all()

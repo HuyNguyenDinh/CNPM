@@ -1,3 +1,5 @@
+import pdb
+
 from clinicapp import app, login
 from flask import render_template, redirect, request, jsonify
 from flask_login import login_user, login_required, logout_user
@@ -142,6 +144,33 @@ def create():
             return jsonify({'code': 200})
     return jsonify({'code': 400})
 
+@app.route('/api/create-medical-bill', methods=['post'])
+@login_required
+def create_medical_bill_by_doctor():
+    data = request.json
+    user_id = data.get('user_id')
+    patient_id = data.get('patient_id')
+    exam_date = data.get('exam_date')
+    medicine = data.get('medicine')
+    diagnosis = data.get('diagnosis')
+    symptom = data.get('symptom')
+    if patient_id and user_id and exam_date:
+        med_bill = create_medical_bill(user_id, patient_id, exam_date, diagnosis, symptom)
+        if med_bill:
+            for unit in medicine:
+                temp = utils.create_medical_bill_detail(med_bill.id, unit, medicine[unit]["quantity"],\
+                                                        medicine[unit]["use"])
+            temp = utils.get_cost()
+            b = utils.get_medical_bill_value(med_bill.id)
+            bill = Bill(medical_bill_id=b[0], value=b[1] + temp)
+            try:
+                db.session.add(bill)
+                db.session.commit()
+                return jsonify({'code': 200})
+            except:
+                return jsonify({'code': 400})
+    return jsonify({'code': 400})
+
 @app.route('/doctor-view/make-a-medical-bill')
 @login_required
 def make_a_medical_bill():
@@ -154,7 +183,7 @@ def make_a_medical_bill():
     pati = utils.get_patient_and_medical_bill_in_exam(pa)
     return render_template('make_a_medical_bill.html', last_date=temp, pati=pati)
 
-@app.route('/doctor-view/make-a-medical-bill/<int:patient_id>;<string:date>')
+@app.route('/doctor-view/make-a-medical-bill/<int:patient_id>/<string:date>')
 @login_required
 def detail_make_a_medical_bill(patient_id, date):
     patient = utils.get_patient(patient_id)
