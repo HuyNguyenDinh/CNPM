@@ -18,6 +18,12 @@
             <td style="padding-left: 40px; font-weight: 600;">Ngày khám:</td>
             <td>{{date}}</td>
         </tr>
+        <tr>
+            <td style="font-weight: 600;">Chẩn đoán</td>
+            <td><textarea id="diagnosis"></textarea></td>
+            <td style="padding-left: 40px; font-weight: 600;">Triệu chứng</td>
+            <td><textarea id="symptom"></textarea></td>
+        </tr>
     </table>
     {% endif %}
     <table id="talbe2-chi-tiet-thanh-toan-hoa-don">
@@ -31,22 +37,27 @@
         <tr>
             <td>1</td>
             <td>
-                <select name="optone" id="med-1" size="1">
+                <select id="med-1" size="1">
                     <option value="" selected="selected">Select subject</option>
                 </select>
             </td>
             <td>
-                <select name="opttwo" id="med-unit-1" size="1">
+                <select class="medicine-unit-id" id="med-unit-1" size="1">
                     <option value="" selected="selected">Please select subject first</option>
                 </select>
             </td>
-            <td><input type="number" name="quantity" placeholder="Số lượng"></td>
-            <td></td>
+            <td><input type="number" min="0" class="quantity" placeholder="Số lượng"></td>
+            <td><input type="text" class="use"></td>
         </tr>
     </table>
     <button style="padding: 0 20px;" class="button" onclick="add_row_for_med_bill()">+</button>
     <br><br>
-    <input type="submit" value="Lập phiếu khám">
+    <button onclick="create_medical_bill({{current_user.id}},{{patient.id}}, '{{date}}')">Lập phiếu khám</button>
 </div>
+<script>
+    window.onload = function () {
+        get_med_list_json()
+    }
+</script>
 <br>
 {%endblock%}
