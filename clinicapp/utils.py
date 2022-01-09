@@ -224,27 +224,45 @@ def get_bill_from_medicall_bill_in_day(exam_date=None):
         return None
 
 def get_patient(pte_id=None):
-    patient = db.session.query(Patient.last_name, Patient.first_name, Patient.date_of_birth, Patient.sex,\
-                            Patient.phone_number)
+    patient = db.session.query(Patient)
     if pte_id:
-        patient = patient.filter(Patient.id.__eq__(int(pte_id)))
-        return patient.first()
-    return patient.all()
+        patient = patient.filter_by(id=int(pte_id))
+    return patient
+
+def get_exam_by_id(exam_id=None, exam_date=None):
+    exam = db.session.query(Patient)
+    if exam_id:
+        exam = exam.filter_by(id=int(exam_id))
+    if not exam_id and exam_date:
+        exam = exam.filter_by(date=exam_date)
+    return exam
 
 def get_medicine(medicine_id=None):
-    medicine = db.session.query(Medicine.id, Medicine.name, Medicine.effect)
+    medicine = db.session.query(Medicine)
     if medicine_id:
-        medicine = medicine.filter(Medicine.id.__eq__(int(medicine_id)))
-        return medicine.first()
-    return medicine.all()
+        medicine = medicine.filter_by(id=int(medicine_id))
+    return medicine
 
-def get_medicine_unit(medicine_id=None):
-    medicine_unit = db.session.query(Medicine_unit.id, Medicine_unit.medicine_id, Medicine_unit.price, Unit_tag.name)\
-                                    .join(Unit_tag, Unit_tag.id == Medicine_unit.unit_id)
-    if medicine_id:
-        medicine_unit = medicine_unit.filter(Medicine_unit.medicine_id.__eq__(int(medicine_id)))
-        return medicine_unit.first()
-    return medicine_unit.all()
+def get_medicine_unit(medicine_unit_id=None):
+    medicine_unit = db.session.query(Medicine_unit)
+    if medicine_unit_id:
+        medicine_unit = medicine_unit.filter_by(id=int(medicine_unit_id))
+    return medicine_unit
+
+def get_tag(unit_tag_id=None):
+    unit_tag = db.session.query(Unit_tag)
+    if unit_tag_id:
+        unit_tag = unit_tag.filter_by(id=int(unit_tag_id))
+    return unit_tag
+
+def get_medicine_json():
+    total = {}
+    medicine = get_medicine()
+    for med in medicine:
+        total[med.id] = {"name": med.name, "unit": {}}
+        for med_unit in med.medicine_units:
+            total[med.id]["unit"][med_unit.id] = {"tag": get_tag(med_unit.unit_id)[0].name, "price": med_unit.price}
+    return total
 
 def create_patient(first_name, last_name, sex, date_of_birth, phone_number):
     temp = date_of_birth.split('-')
@@ -262,6 +280,36 @@ def create_patient(first_name, last_name, sex, date_of_birth, phone_number):
     try:
         db.session.add(patient)
         db.session.commit()
+        return patient
+    except:
+        return None
+
+def create_exam(user_id, exam_date):
+    temp = exam_date.split('-')
+    year = int(temp[0])
+    month = int(temp[1])
+    day = int(temp[2])
+    exam = Examination(user_id=int(user_id), date=datetime.datetime(year, month, day))
+    try:
+        db.session.add(exam)
+        db.session.commit()
+        return exam
+    except:
+        return None
+
+def register_into_examination(patient_id, exam_date):
+    temp = exam_date.split('-')
+    year = temp[0]
+    month = temp[1]
+    day = temp[2]
+    exam = get_exam_by_id(exam_date=datetime.datetime(year, month, day))
+    patient = get_patient(patient_id)
+    if not exam:
+        exam = create_exam(user_id=1, exam_date=datetime.datetime(year, month, day))
+    exam.patients.append(patient)
+    try:
+        db.session.add(exam)
+        db.session.commit()
         return True
     except:
         return False
@@ -276,9 +324,9 @@ def create_medical_bill(user_id, patient_id, exam_date, diagnosis, symptom):
     try:
         db.session.add(mb)
         db.session.commit()
-        return True
+        return mb
     except:
-        return False
+        return None
 
 def create_medical_bill_detail(medical_bill_id, medicine_unit_id, quantity):
     mbd = Medical_bill_detail(medical_bill_id=int(medical_bill_id), medicine_unit_id=int(medicine_unit_id),\
@@ -286,9 +334,19 @@ def create_medical_bill_detail(medical_bill_id, medicine_unit_id, quantity):
     try:
         db.session.add(mbd)
         db.session.commit()
-        return True
+        return mbd
     except:
-        return False
+        return None
+
+def create_bill(medical_bill_id):
+    temp = get_medical_bill_value(medical_bill_id)
+    bill = Bill(medical_bill_id=temp[0], value=temp[1])
+    try:
+        db.session.add(bill)
+        db.session.commit()
+        return bill
+    except:
+        return None
 
 def get_bill(id=None):
     if id:

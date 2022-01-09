@@ -158,8 +158,14 @@ def make_a_medical_bill():
 @login_required
 def detail_make_a_medical_bill(patient_id, date):
     patient = utils.get_patient(patient_id)
+    temp = patient[0]
     medicine = utils.get_medicine()
-    return render_template('detail-make-a-medical-bill.html', patient=patient, date=date, medicine=medicine)
+    return render_template('detail-make-a-medical-bill.html', patient=temp, date=date, medicine=medicine)
+
+@app.route('/api/get_medicine', methods=['post'])
+@login_required
+def get_list_medicine_unit():
+    return jsonify(utils.get_medicine_json())
 
 
 @app.route('/change-info-user', methods = ['post', 'get'])

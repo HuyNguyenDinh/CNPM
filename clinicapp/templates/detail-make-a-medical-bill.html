@@ -8,13 +8,13 @@
     <table id="talbe1-chi-tiet-thanh-toan-hoa-don">
         <tr>
             <td style="font-weight: 600;">Tên khách hàng:</td>
-            <td>{{[patient[0], patient[1]]|join(' ')}}</td>
+            <td>{{[patient.last_name, patient.first_name]|join(' ')}}</td>
             <td style="padding-left: 40px; font-weight: 600;">Ngày sinh:</td>
-            <td>{{patient[2]}}</td>
+            <td>{{patient.date_of_birth}}</td>
         </tr>
         <tr>
             <td style="font-weight: 600;">SĐT:</td>
-            <td>{{patient[4]}}</td>
+            <td>{{patient.phone_number}}</td>
             <td style="padding-left: 40px; font-weight: 600;">Ngày khám:</td>
             <td>{{date}}</td>
         </tr>
@@ -31,24 +31,22 @@
         <tr>
             <td>1</td>
             <td>
-                <select class="medic">
-                    {% if medicine %}
-                        {% for m in medicine %}
-                            <option value="{{m[0]}}">{{m[1]}}</option>
-                        {% endfor %}
-                    {% endif %}
+                <select name="optone" id="med-1" size="1">
+                    <option value="" selected="selected">Select subject</option>
                 </select>
             </td>
             <td>
-                <select  class="medic_unit"></select>
+                <select name="opttwo" id="med-unit-1" size="1">
+                    <option value="" selected="selected">Please select subject first</option>
+                </select>
             </td>
             <td><input type="number" name="quantity" placeholder="Số lượng"></td>
             <td></td>
         </tr>
     </table>
-    <div class="chi-tiet-thanh-toan-hoa-don-button">
-        <button>Lập phiếu khám</button>
-    </div>
+    <button style="padding: 0 20px;" class="button" onclick="add_row_for_med_bill()">+</button>
+    <br><br>
+    <input type="submit" value="Lập phiếu khám">
 </div>
 <br>
 {%endblock%}
