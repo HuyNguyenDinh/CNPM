@@ -6,14 +6,13 @@
 </div>
 {% endblock %}
 {% block details%}
-    <br>
- <h2 class="text-center text-info" style="margin-bottom:  40px"> Đăng Nhập Cho Người Dùng</h2>
 {% if error_ms %}
-<div class="alert alert-danger">
+<div class="alert alert-danger" style="position: absolute; height: 50px ">
     {{ error_ms }}
 </div>
 {% endif %}
-
+<br><br>
+<h2 class="text-center text-info" style="margin-bottom:  40px"> Đăng Nhập Cho Người Dùng</h2>
 <form method="post" action="{{ url_for('employee_login') }}" style="width: 40%; margin: 0 auto;">
     <div class="form-group">
        <label for="username">Tên Đăng Nhập</label>
