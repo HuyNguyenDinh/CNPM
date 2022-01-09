@@ -190,7 +190,7 @@ def change_info_user():
                                     res = cloudinary.uploader.upload(avatar)
                                     avatar_path = res['secure_url']
                                 try:
-                                    check_info_for_change(user=current_user,avatar = avatar_path,name = name, username = username,day_of_birth=day_of_birth, sex=sex, phone= phone, new_password= new_password)
+                                    check_info_for_change(user=current_user,avatar = avatar_path,name = name, username = username,day_of_birth=day_of_birth,email = email, sex=sex, phone= phone, new_password= new_password)
                                     error_ms = "Thay đổi thành công!!!"
                                 except Exception as ex:
                                     error_ms = str(ex)
