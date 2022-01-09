@@ -45,9 +45,17 @@
 {% endblock %}
 {%block details%}
 {% if error_ms %}
-<div class="alert alert-danger">
+{% if error_ms == "Thay đổi thành công!!!" %}
+<div class="alert alert-success" style="position: absolute; height: 50px">
     <p>{{ error_ms }}</p>
+    <a style="margin-left: 40px;" href="{{url_for('homepage')}}"><button class="btn btn-success">OK</button></a>
 </div>
+{% else %}
+<div class="alert alert-danger" style="position: absolute; height: 50px">
+    <p>{{ error_ms }}</p>
+    <a style="margin-left: 40px;" href="{{url_for('homepage')}}"><button class="btn btn-danger">Thử lại</button></a>
+</div>
+{% endif %}
 {% endif %}
 <div class="thong-tin-y-ta">
     <br><br>

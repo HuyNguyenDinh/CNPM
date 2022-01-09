@@ -4,7 +4,7 @@ from clinicapp.models import Medical_bill, Medicine, Medicine_unit, Medical_bill
     Examination, Patient, Exam_patient, Sex
 from clinicapp import db
 from sqlalchemy import func, extract, desc, alias, update
-import hashlib
+import hashlib, datetime
 
 def get_medical_bill_value(mb_id=None):
     bills = db.session.query(Medical_bill_detail.medical_bill_id,
@@ -343,6 +343,61 @@ def check_login_of_current_user(password, user):
             return True
     return False
 
-def check_info_for_change():
-    pass
+
+def check_info_for_change(user,avatar = None, name = None, username = None,day_of_birth = None,sex = None, phone = None, new_password = None):
+     if user.is_authenticated:
+        user_current = User.query.filter(User.username == user.username).first()
+        if user_current:
+            if username:
+                user_current.username = username
+                db.session.commit()
+            if name:
+                user_current.name = name
+                db.session.commit()
+            if avatar:
+                user_current.avatar = avatar
+                db.session.commit()
+            if day_of_birth:
+                day_of_birth = str(day_of_birth)
+                user_current.date_of_birth = datetime.datetime.strptime(day_of_birth,'%Y-%m-%d')
+                db.session.commit()
+            if phone:
+                user_current.phone_number = str(phone)
+                db.session.commit()
+            if new_password:
+                new_password = str(hashlib.md5(new_password.strip().encode('utf-8')).hexdigest())
+                user_current.password = new_password
+                db.session.commit()
+            if sex:
+                sex_enum = Sex.UNSPECIFIED
+                if str(sex) == "1":
+                    sex_enum = Sex.MALE
+                if str(sex) == "2":
+                    sex_enum = Sex.FEMALE
+                user_current.sex = sex_enum
+                db.session.commit()
+
+
+def check_role_for_render(user):
+    if user.is_authenticated:
+        if user.user_role == UserRole.NURSE:
+            return 'nurse_view'
+        elif user.user_role == UserRole.DOCTOR:
+            return 'doctor_view'
+def check_unique_info(username,phone,email, user):
+    kq = []
+    if user.is_authenticated:
+        if username:
+            user_exist = User.query.filter(User.username == username.strip(), User.username != user.username).first()
+            if user_exist:
+                kq.append('username')
+        if phone:
+            user_exist = User.query.filter(User.phone_number == str(phone).strip(), User.phone_number != user.phone_number).first()
+            if user_exist:
+                kq.append('phone')
+        if email:
+            user_exist = User.query.filter(User.email == email.strip(), User.email != user.email).first()
+            if user_exist:
+                kq.append('email')
+    return kq
 
