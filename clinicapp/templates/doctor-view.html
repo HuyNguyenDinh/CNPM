@@ -54,9 +54,9 @@
     <h1 style="color:#17a2b8">Thông Tin Bác Sĩ</h1>
     <div>
         {% if current_user.avatar %}
-        <img class="anh-y-ta img-thumbnail" src="{{current_user.avatar}}">
+        <img style="border-radius: 50%; margin-right: 50px;" class="anh-y-ta img-thumbnail" src="{{current_user.avatar}}">
         {%else%}
-        <img class="anh-y-ta img-thumbnail" src="{{ url_for('static', filename = 'images/dfavt.jpg')}}">
+        <img style="border-radius: 50%; margin-right: 50px;" class="anh-y-ta img-thumbnail" src="{{ url_for('static', filename = 'images/dfavt.jpg')}}">
         {%endif%}
         <div class="chi-tiet-y-ta">
             <table id="table-y-ta">
@@ -80,8 +80,8 @@
         </div>
     </div>
     <div style="margin: 5px auto">
-        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#myModal">
-            Edit profile
+        <button style="margin-top: 40px;" type="button" class="btn btn-info" data-toggle="modal" data-target="#myModal">
+            Thay đổi thông tin
         </button>
     </div>
 </div>
