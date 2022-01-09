@@ -44,6 +44,18 @@ function make_medical_list(exam_id) {
 
 }
 
+var med_list
+
+function get_med_list_json() {
+    fetch('/api/get_medicine', {
+            method: 'post'
+        }).then(function(res) {
+            return res.json()
+        }).then(function(data) {
+            med_list = data
+            temp("med-1", "med-unit-1")
+        }).catch(err => console.error(err))
+}
 
 const elements = document.querySelectorAll('.pay-the-bill_unpaid');
 elements.forEach(element => {
@@ -54,7 +66,6 @@ element.addEventListener('click',()=>{
 })
 
 function notify_for_change_user_info() {
-    if (confirm('Bạn có chắc chắn muốn thay đổi thông tin cá nhân?') == true){
          fetch('/change_info_user', {
         method: 'post'
     }).then(function(res) {
@@ -68,38 +79,40 @@ function notify_for_change_user_info() {
         }
         location.reload()
     }).catch(err => console.error(err))
+}
+
+
+sessionStorage.setItem("serial", 2);
+
+function temp(med_id, med_unit_id) {
+    var typeSel = document.getElementById(med_id),
+        fieldSel = document.getElementById(med_unit_id);
+    if (med_list) {
+        for (const [key, value] of Object.entries(med_list)) {
+            typeSel.options[typeSel.options.length] = new Option(value["name"], key);
+        }
+    }
+    typeSel.onchange = function () {
+        fieldSel.length = 1; // remove all options bar first
+        if (this.selectedIndex < 1) return; // done
+        var ft = med_list[this.value]["unit"];
+        for (var field in med_list[this.value]["unit"]) {
+            fieldSel.options[fieldSel.options.length] = new Option(ft[field]["tag"] + "-" + ft[field]["price"], field);
+        }
     }
 }
 
 
+function add_row_for_med_bill() {
+    med_id = "med-" + sessionStorage.getItem("serial")
+    med_unit_id = "med-unit-" + sessionStorage.getItem("serial")
+    $("#talbe2-chi-tiet-thanh-toan-hoa-don").append(`<tr><td>${sessionStorage.getItem("serial")}</td><td><select id=${med_id} size="1"><option value="" selected="selected">Select subject</option></select></td><td><select id=${med_unit_id} size="1"><option value="" selected="selected">Please select subject first</option></select></td><td><input type="number" placeholder="Số lượng"></td><td></td></tr>`);
+    temp(med_id, med_unit_id);
+    sessionStorage['serial'] = sessionStorage['serial'] - 1 + 2
+}
 
-sessionStorage.setItem("serial", 1);
+window.onload = function () {
+    get_med_list_json()
+}
 
-var typeObject = {
-        StoredProcedures: ["Name", "Definition", "Owner"],
-        Tables: ["Name", "Definition", "Owner", "Schema"],
-        Views: ["Name", "Definition", "Owner"]
-    }
-    window.onload = function () {
-        var typeSel = document.getElementById("typeSel"),
-            fieldSel = document.getElementById("fieldSel")
-        for (var type in typeObject) {
-            typeSel.options[typeSel.options.length] = new Option(type, type);
-        }
-        typeSel.onchange = function () {
-            fieldSel.length = 1; // remove all options bar first
-            if (this.selectedIndex < 1) return; // done
-            var ft = typeObject[this.value];
-            for (var field in typeObject[this.value]) {
-                fieldSel.options[fieldSel.options.length] = new Option(ft[field], field);
-            }
-        }
-        typeSel.onchange();
-    }
-
-  $('document').ready(function() {
-  $('.add_another').click(function() {
-      $("#table-thanh-toan-hoa-don").append('<tr><td></td><td></td><td></td><td></td><td></td><tr>');
-   });
-})
 
