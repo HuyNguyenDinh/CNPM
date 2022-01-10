@@ -154,13 +154,21 @@ def create_medical_bill_by_doctor():
     medicine = data.get('medicine')
     diagnosis = data.get('diagnosis')
     symptom = data.get('symptom')
+    check = False
     if patient_id and user_id and exam_date:
         med_bill = create_medical_bill(user_id, patient_id, exam_date, diagnosis, symptom)
         if med_bill:
             for unit in medicine:
-                temp = utils.create_medical_bill_detail(med_bill.id, unit, medicine[unit]["quantity"],\
+                if unit and medicine[unit]["quantity"]:
+                    temp = utils.create_medical_bill_detail(med_bill.id, unit, medicine[unit]["quantity"],\
                                                         medicine[unit]["use"])
+                    if not temp:
+                        return jsonify({'code': 400})
+                    else:
+                        check = True
             temp = utils.get_cost()
+            if check == False:
+                return jsonify({'code': 400})
             b = utils.get_medical_bill_value(med_bill.id)
             bill = Bill(medical_bill_id=b[0], value=b[1] + temp)
             try:
@@ -178,7 +186,10 @@ def make_a_medical_bill():
     temp = d
     if not d:
         temp = utils.get_last_date_of_exam(doctor=True)
-        d = '-'.join([temp.get('year'), temp.get('month'), temp.get('day')])
+        if temp:
+            d = '-'.join([temp.get('year'), temp.get('month'), temp.get('day')])
+        else:
+            temp = {}
     pa = utils.get_patient_in_exam(exam_date=d, doctor=True)
     pati = utils.get_patient_and_medical_bill_in_exam(pa)
     return render_template('make_a_medical_bill.html', last_date=temp, pati=pati)

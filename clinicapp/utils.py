@@ -133,10 +133,13 @@ def get_last_date_of_exam(doctor=False):
         temp = temp.filter(Examination.apply.__eq__(True)).first()
     else:
         temp = temp.first()
-    day = temp[0].strftime("%d")
-    month = temp[0].strftime("%m")
-    year = temp[0].strftime("%Y")
-    return {'day': day, 'month': month, 'year': year}
+    if temp:
+        day = temp[0].strftime("%d")
+        month = temp[0].strftime("%m")
+        year = temp[0].strftime("%Y")
+        return {'day': day, 'month': month, 'year': year}
+    else:
+        return None
 
 def get_status_of_exam(exam_date=None):
     if exam_date:
@@ -230,7 +233,7 @@ def get_patient(pte_id=None):
     return patient
 
 def get_exam_by_id(exam_id=None, exam_date=None):
-    exam = db.session.query(Patient)
+    exam = db.session.query(Examination)
     if exam_id:
         exam = exam.filter_by(id=int(exam_id))
     if not exam_id and exam_date:
@@ -299,11 +302,11 @@ def create_exam(user_id, exam_date):
 
 def register_into_examination(patient_id, exam_date):
     temp = exam_date.split('-')
-    year = temp[0]
-    month = temp[1]
-    day = temp[2]
-    exam = get_exam_by_id(exam_date=datetime.datetime(year, month, day))
-    patient = get_patient(patient_id)
+    year = int(temp[0])
+    month = int(temp[1])
+    day = int(temp[2])
+    exam = get_exam_by_id(exam_date=datetime.datetime(year, month, day)).first()
+    patient = get_patient(patient_id).first()
     if not exam:
         exam = create_exam(user_id=1, exam_date=datetime.datetime(year, month, day))
     exam.patients.append(patient)
@@ -372,6 +375,10 @@ def pay_bill(id=None):
 
 def get_cost():
     total = db.session.query(Other.cost).limit(1)
+    return total.first()[0]
+
+def get_limit_slot():
+    total = db.session.query(Other.slot).limit(1)
     return total.first()[0]
 
 def get_list_admin(user):
