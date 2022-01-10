@@ -18,13 +18,13 @@ if __name__ == '__main__':
     db.session.commit()
 
     p1 = models.Patient(first_name="Thu", last_name="Nguyen Van", sex=models.Sex.MALE,\
-                        date_of_birth=datetime.now(), phone_number='123549539')
+                        date_of_birth=datetime.now(), phone_number='0877158491')
     p2 = models.Patient(first_name="Hieu", last_name="Nguyen Ngoc", sex=models.Sex.MALE,\
-                        date_of_birth=datetime.now(), phone_number='134665472')
+                        date_of_birth=datetime.now(), phone_number='0944540746')
     p3 = models.Patient(first_name="Huy", last_name="Nguyen Dinh", sex=models.Sex.MALE,\
-                        date_of_birth=datetime.now(), phone_number='134422472')
+                        date_of_birth=datetime.now(), phone_number='0937461321')
     p4 = models.Patient(first_name="Huynh", last_name="Tran Le", sex=models.Sex.MALE,\
-                        date_of_birth=datetime.now(), phone_number='131265512')
+                        date_of_birth=datetime.now(), phone_number='0989915415')
     pa = [p1, p2, p3, p4]
     for p in pa:
         db.session.add(p)
