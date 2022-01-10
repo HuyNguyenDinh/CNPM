@@ -220,7 +220,7 @@ def change_info_user():
                     else:
                         list = check_unique_info(username=username, phone=phone, email=email, user= current_user)
                         if len(list) == 0:
-                            if avatar.filename.endswith('.png' or '.jpg' or '.jpeg') or not avatar:
+                            if avatar.filename.endswith('.png') or avatar.filename.endswith('.jpg') or avatar.filename.endswith('.jpeg') or not avatar:
                                 if avatar:
                                     res = cloudinary.uploader.upload(avatar)
                                     avatar_path = res['secure_url']
