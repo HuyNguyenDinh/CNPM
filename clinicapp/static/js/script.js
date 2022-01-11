@@ -139,5 +139,104 @@ function create_medical_bill(user_id, patient_id, exam_date) {
             }
         }).catch(err => console.error(err))
 }
+function get_phone_number(obj){
+    document.getElementById("last_name").disabled = true;
+    document.getElementById("first_name").disabled = true;
+    document.getElementById("sex").disabled = true;
+    document.getElementById("date_of_birth").disabled = true;
+    document.getElementById("date_of_exam").disabled = true;
+    document.getElementById("button_submit").disabled = true;
+    event.preventDefault()
+    fetch('/api/check-phone-number', {
+        method: 'post',
+        body: JSON.stringify({
+            'phone_number': obj.value
+        }),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }).then(function(res){
+        console.log(res)
+        return res.json()
+    }).then(function(data){
+        console.log(data)
+        if (data.code == 200){
+            if(confirm('Thông tin của bạn đã được lưu trên hệ thống!!!' +'\n' + 'Bạn có phải là '+ data.last_name +' '+ data.first_name + ' không?') == true){
+                    document.getElementById("last_name").value = data.last_name;
+                    document.getElementById("first_name").value = data.first_name;
+                    document.getElementById("sex").value = data.sex;
+                    document.getElementById("date_of_birth").value = data.date_of_birth;
+                    document.getElementById("date_of_exam").disabled = false;
+                    document.getElementById("button_submit").disabled = false;
+            }
+            else{
+                    document.getElementById("phone_number").value = null;
+                    document.getElementById("last_name").value = null;
+                    document.getElementById("first_name").value = null;
+                    document.getElementById("sex").value = 3;
+                    document.getElementById("date_of_birth").value = null;
+            }
+        }
+        else if(data.code == 300 && data.phone_number != ''){
+            alert('Số điện thoại ' + data.phone_number + ' của bạn được ghi nhận đăng ký lần đầu trên hệ thống!!!')
+            document.getElementById("last_name").disabled = false;
+            document.getElementById("first_name").disabled = false;
+            document.getElementById("sex").disabled = false;
+            document.getElementById("date_of_birth").disabled = false;
+            document.getElementById("date_of_exam").disabled = false;
+            document.getElementById("button_submit").disabled = false;
+        }
+        else if(data.code == 400 && data.phone_number != ''){
+            alert(data.error_ms)
+        }
+    }).catch(function(err){
+        console.error(err)
+    })
+}
+function fix_loop(){
+    document.getElementById("last_name").disabled = true;
+    document.getElementById("first_name").disabled = true;
+    document.getElementById("sex").disabled = true;
+    document.getElementById("date_of_birth").disabled = true;
+    document.getElementById("date_of_exam").disabled = true;
+    document.getElementById("button_submit").disabled = true;
+}
+function api_medical_register(){
+    event.preventDefault()
+    var phone_number = document.getElementById("phone_number").value;
+    var last_name = document.getElementById("last_name").value;
+    var first_name = document.getElementById("first_name").value;
+    var sex = document.getElementById("sex").value;
+    var date_of_birth = document.getElementById("date_of_birth").value;
+    var date_of_exam = document.getElementById("date_of_exam").value;
+    console.log(last_name)
+    fetch('/api/medical-register', {
+        method: 'post',
+        body: JSON.stringify({
+            'phone_number': phone_number,
+            'last_name': last_name,
+            'first_name': first_name,
+            'sex': sex,
+            'date_of_birth': date_of_birth,
+            'date_of_exam': date_of_exam
+        }),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }).then(function(res){
+        console.info(res)
+        return res.json()
+    }).then(function(data){
+        console.info(data)
+        if (data.code == 400){
+             alert(data.error_ms)
+        }
+        else{
+            alert("noooo")
+        }
 
+    }).catch(function(err){
+        console.error(err)
+    })
+}
 
