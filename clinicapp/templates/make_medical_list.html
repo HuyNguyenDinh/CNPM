@@ -3,7 +3,7 @@
 <!--    Lập danh sách khám-->
 <br>
 <div class="lap-danh-sach-kham">
-    <h1 style="margin-bottom: 20px;color:#17a2b8">Lập Danh Sách Khám</h1>
+    <h1 style="margin-bottom: 20px;color: #2b6edd;font-weight: bold;">Lập Danh Sách Khám</h1>
     <div style="display: flex; justify-content: center; align-items: center; margin-bottom: 40px;">
         <form method="get">
             <input type="date" name="date" value="{{ request.args.get('date') if request.args.get('date')
@@ -60,3 +60,6 @@
 <br>
 <script src="{{url_for('static', filename='js/script.js')}}"></script>
 {%endblock%}
+{% block TitlePage %}
+<title>Lập danh sách khám</title>
+{% endblock %}

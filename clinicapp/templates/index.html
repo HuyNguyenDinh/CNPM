@@ -78,52 +78,7 @@
         </div>
     </div>
 </div>
-<!-- Dang ky kham benh -->
-<form id="dkkb" class="dang-ky-kham-benh">
-    <h1 style="color:#2b6edd; font-weight:bold">Đăng ký lịch khám</h1>
-    <br>
-    <table id="table-1" style="margin: auto;">
-        <tr>
-            <td>Họ:</td>
-            <td>
-                <input type="text" name="">
-            </td>
-            <td>Tên:</td>
-            <td>
-                <input type="text" name="">
-            </td>
-        </tr>
-        <tr>
-            <td>Giới tính</td>
-            <td>
-                <select style="border: solid 2px; border-radius: 3px">
-                    <option>Nam</option>
-                    <option>Nữ</option>
-                    <option>Không muốn trả lời</option>
-                </select>
-            </td>
-        </tr>
-        <tr>
-            <td>Ngày sinh:</td>
-            <td>
-                <input type="date" name="">
-            </td>
-        </tr>
-        <tr>
-            <td>SĐT:</td>
-            <td>
-                <input type="text" name="">
-            </td>
-            <td>Ngày khám:</td>
-            <td>
-                <input type="date" id="" name="">
-            </td>
-        </tr>
-    </table>
-    <div id="button">
-        <button class="btn btn-info">Đăng ký</button>
-    </div>
-</form>
+
 <a class="button-go-to-top" onclick="topFunction()">
     <i class="fas fa-angle-double-up"></i>
 </a>
@@ -140,4 +95,8 @@
       document.documentElement.scrollTop = 0;
     }
 </script>
+{%endblock%}
+<!-- Dang ky kham benh -->
+{% block medical_register%}
+  {% include "base/medical_register_base.html"%}
 {%endblock%}
