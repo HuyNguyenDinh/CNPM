@@ -12,14 +12,20 @@ function pay_the_bill(bill_id) {
     }).then(function(data) {
         console.log(data.code)
         popup = document.querySelector('.popup_detail-pay-the-bill');
-        popup.classList.add("show_popup_detail");
+        title_popup = document.querySelector('.title_popup_detail-pay-the-bill');
         if (data.code == 200){
             console.log('success');
+            title_popup.innerHTML = "Lập phiếu khám thành công!";
+            popup.style.border = '5px solid green';
+            popup.classList.add("show_popup_detail");
         }
-        else if (data.code == 400)
+        else if (data.code == 400){
             console.log('fail');
+            title_popup.innerHTML = "Lập phiếu khám thất bại!";
+            popup.style.border = '5px solid red';
+            popup.classList.add("show_popup_detail");
+        }
     }).catch(err => console.error(err))
-
 }
 function make_medical_list(exam_id) {
     fetch('/api/create-exam', {
@@ -130,12 +136,18 @@ function create_medical_bill(user_id, patient_id, exam_date) {
             return res.json()
         }).then(function(data) {
             popup = document.querySelector('.popup_detail-pay-the-bill');
-            popup.classList.add("show_popup_detail");
+            title_popup = document.querySelector('.title_popup_detail-pay-the-bill');
             if (data.code == 200) {
-                console.log('success')
+                console.log('success');
+                title_popup.innerHTML = "Lập phiếu khám thành công!";
+                popup.style.border = '5px solid green';
+                popup.classList.add("show_popup_detail");
             }
             else if (data.code == 400){
-                console.log('fail')
+                title_popup.innerHTML = "Lập phiếu khám thất bại!";
+                popup.style.border = '5px solid red';
+                popup.classList.add("show_popup_detail");
+                console.log('fail');
             }
         }).catch(err => console.error(err))
 }

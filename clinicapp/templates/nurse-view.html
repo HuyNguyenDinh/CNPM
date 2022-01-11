@@ -6,9 +6,9 @@
 </div>
 {% endblock %}
 {% block nav%}
-<nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top">
+<nav class="navbar navbar-expand-sm fixed-top">
     <!-- Brand -->
-    <img width="30px" style="margin-right: 10px" src="{{url_for('static', filename = 'images/logo1.png')}}">
+    <img width="40px" style="margin: 0px 20px" src="{{url_for('static', filename = 'images/logo1.png')}}">
     <!-- Links -->
     <ul class="navbar-nav">
         {%if current_user.is_authenticated%}
@@ -92,7 +92,7 @@
         </div>
     </div>
     <div style="margin: 5px auto">
-        <button style="margin-top: 40px;" type="button" class="btn btn-info" data-toggle="modal" data-target="#myModal">
+        <button style="margin-top: 40px;padding:7px 14px" type="button" class="button_hover" data-toggle="modal" data-target="#myModal">
             Thay đổi thông tin
         </button>
     </div>
@@ -106,3 +106,4 @@
 {% block TitlePage %}
 <title>Nghiệp vụ y tá</title>
 {% endblock %}
+

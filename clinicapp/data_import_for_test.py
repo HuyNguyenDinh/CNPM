@@ -12,7 +12,9 @@ if __name__ == '__main__':
                      sex=models.Sex.MALE, date_of_birth=datetime.now(), phone_number='0989915415', email='A756C')
     u5 = models.User(name="USER1", username="user1", user_role=models.UserRole.NURSE, \
                      sex=models.Sex.MALE, date_of_birth=datetime.now(), phone_number='131268762', email='A41C')
-    users = [u1, u2, u3, u4, u5]
+    u6 = models.User(name="USER2", username="user2", user_role=models.UserRole.DOCTOR, \
+                     sex=models.Sex.MALE, date_of_birth=datetime.now(), phone_number='129668762', email='A41sC')
+    users = [u1, u2, u3, u4, u5, u6]
     for u in users:
         db.session.add(u)
     db.session.commit()

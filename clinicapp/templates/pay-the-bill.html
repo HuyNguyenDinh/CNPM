@@ -5,7 +5,7 @@
     <h1 style="margin-bottom: 20px;color: #2b6edd;font-weight: bold;">Thanh Toán Hóa Đơn</h1>
     <form method="get">
         <input type="date" name="date" value="{{ request.args.get('date') if request.args.get('date')}}">
-        <input type="submit" style="margin-right: 10px; border-radius: 5px; padding: 0 5px;">
+        <input class="button_hover" type="submit" style="margin-right: 10px; border-radius: 5px; padding: 4px 10px">
     </form>
     <br><br>
     <table id="table-thanh-toan-hoa-don">
