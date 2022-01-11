@@ -1,7 +1,7 @@
 {% extends "base/base.html" %}
 {%block header%}
 <div class="jumbotron text-center" style="margin-bottom: 0">
-    <h1>Phòng Khám Đa Khoa OU-Clinic</h1>
+    <h1 class="ten-phong-kham">Phòng Khám Đa Khoa OU-Clinic</h1>
     <p>Tận Tâm - Uy Tín - Trách Nhiệm</p>
 </div>
 {% endblock %}
@@ -114,16 +114,12 @@
             <td>
                 <input type="text" name="">
             </td>
+            <td>Ngày khám:</td>
+            <td>
+                <input type="date" id="" name="">
+            </td>
         </tr>
     </table>
-    <div style="display: flex; justify-content: center; align-item: center;margin-bottom: 20px;">
-        <div style="margin-right: 15px;">Ngày khám</div>
-        <input type="date" id="" name="">
-    </div>
-    <div style="display: flex; justify-content: center; align-item: center;">
-        <div>Trạng thái:</div>
-        <div></div>
-    </div>
     <div id="button">
         <button class="btn btn-info">Đăng ký</button>
     </div>

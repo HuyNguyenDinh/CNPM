@@ -1,9 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;700&display=swap');
+
 .avatar-user{
     margin-right: 10px;
     margin-left: auto;
 }
 *{
  box-sizing: border-box;
+ font-family: 'Be Vietnam Pro', sans-serif;
 }
 html {
   scroll-behavior: smooth;
@@ -11,13 +14,16 @@ html {
 .jumbotron{
     background-color:#17a2b8 !important;
     color: white !important;
-    height: 175px !important;
+    height: 200px !important;
+}
+.ten-phong-kham{
+    padding-top: 20px
 }
 .dropdown-menu{
-       background-color:#343a40 !important;
+   background-color:#343a40 !important;
 }
 .dropdown-item{
-           color: rgba(255,255,255,.5) !important;
+   color: rgba(255,255,255,.5) !important;
 }
 .dropdown-item:hover{
     background-color: lightgray !important;
