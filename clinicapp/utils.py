@@ -215,7 +215,8 @@ def get_bill_from_medicall_bill_in_day(exam_date=None):
     bills = db.session.query(Medical_bill.create_date, Patient.last_name, Patient.first_name,\
                              Patient.date_of_birth, Bill.value, Bill.pay,Bill.id)\
                             .join(Bill, Bill.medical_bill_id == Medical_bill.id)\
-                            .join(Patient, Medical_bill.patient_id == Patient.id)
+                            .join(Patient, Medical_bill.patient_id == Patient.id)\
+                            .order_by(Medical_bill.create_date.desc())
     if exam_date:
         temp = exam_date.split('-')
         year = temp[0]
@@ -357,7 +358,7 @@ def create_bill(medical_bill_id):
 def get_bill(id=None):
     if id:
         temp = db.session.query(Bill.id, Bill.value, Patient.last_name, Patient.first_name, Patient.phone_number,\
-                                Patient.date_of_birth, Medical_bill.create_date)\
+                                Patient.date_of_birth, Medical_bill.create_date, Bill.pay)\
                                 .join(Medical_bill, Medical_bill.id == Bill.medical_bill_id)\
                                 .join(Patient, Patient.id == Medical_bill.patient_id)\
                                 .filter(Bill.id.__eq__(int(id)))
@@ -376,17 +377,15 @@ def pay_bill(id=None):
     else:
         return False
 
-def pay_bill_with_momo(bill_id, amount):
-    #url server when public to Internet
-    sv_url_api_pay_momo = request.url
+def pay_bill_with_momo(bill_id, amount, re_url):
 
     # parameters send to MoMo get get payUrl
     endpoint = "https://test-payment.momo.vn/v2/gateway/api/create"
     partnerCode = "MOMO"
     accessKey = "F8BBA842ECF85"
     secretKey = "K951B6PE1waDMi640xX08PD3vg6EkVlz"
-    orderInfo = "pay with MoMo"
-    redirectUrl = "http://momo.vn"
+    orderInfo = "Pay with MoMo"
+    redirectUrl = re_url
     ipnUrl = "http://momo.vn"
     amount = str(amount)
     orderId = str(bill_id)
