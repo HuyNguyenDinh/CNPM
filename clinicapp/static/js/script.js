@@ -11,15 +11,14 @@ function pay_the_bill(bill_id) {
         return res.json()
     }).then(function(data) {
         console.log(data.code)
-
+        popup = document.querySelector('.popup_detail-pay-the-bill');
+        popup.classList.add("show_popup_detail");
         if (data.code == 200){
             console.log('success');
         }
         else if (data.code == 400)
             console.log('fail');
     }).catch(err => console.error(err))
-    popup = document.querySelector('.popup_detail-pay-the-bill');
-    popup.classList.add("show_popup_detail");
 
 }
 function make_medical_list(exam_id) {
@@ -130,6 +129,8 @@ function create_medical_bill(user_id, patient_id, exam_date) {
         }).then(function(res) {
             return res.json()
         }).then(function(data) {
+            popup = document.querySelector('.popup_detail-pay-the-bill');
+            popup.classList.add("show_popup_detail");
             if (data.code == 200) {
                 console.log('success')
             }

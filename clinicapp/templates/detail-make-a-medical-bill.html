@@ -1,8 +1,8 @@
 {% extends "doctor-view.html" %}
 {% block details%}
 <br>
-<!--    Chi tiết thanh toán hóa đơn-->
-<div class="chi-tiet-thanh-toan-hoa-don">
+<!--    Chi tiết phiếu khám-->
+<div class="chi-tiet-thanh-toan-hoa-don" id="chi-tiet-phieu-kham">
     <h1 style="text-align: center;">Lập phiếu khám</h1>
     {% if patient %}
     <table id="talbe1-chi-tiet-thanh-toan-hoa-don">
@@ -50,9 +50,13 @@
             <td><input type="text" class="use"></td>
         </tr>
     </table>
-    <button style="padding: 0 20px;" class="button" onclick="add_row_for_med_bill()">+</button>
+    <button style="padding: 0 20px;" class="button button_add_row_detail" onclick="add_row_for_med_bill()">+</button>
     <br><br>
-    <button onclick="create_medical_bill({{current_user.id}},{{patient.id}}, '{{date}}')">Lập phiếu khám</button>
+    <button class="button_popup_detail_make_a_medical_bill" onclick="create_medical_bill({{current_user.id}},{{patient.id}}, '{{date}}')">Lập phiếu khám</button>
+    <div class="popup_detail-pay-the-bill">
+            <p class="title_popup_detail-pay-the-bill">Lập phiếu khám thành công</p>
+            <button class="button_popup_detail-pay-the-bill-thanh_toan" onclick="location.href='{{ url_for('make_a_medical_bill')}}'">Trở về danh sách</button>
+    </div>
 </div>
 <script>
     window.onload = function () {

@@ -213,12 +213,23 @@ ul.social li img{
   border: 1px solid black;
 }
 
-#table-thanh-toan-hoa-don td button {
-  border-radius: 10px;
-  padding: 0 20px 0 20px;
-  background-color: #17a2b8;
+#table-thanh-toan-hoa-don td button.pay-the-bill_paid {
+    border-radius: 10px;
+    padding: 0 20px 0 20px;
+    background-color: #8ba4a7;
+    color:white;
+    cursor: not-allowed;
+    width: 200px;
+    height: 45px;
 }
-
+#table-thanh-toan-hoa-don td button.pay-the-bill_unpaid {
+    border-radius: 10px;
+    padding: 0 20px 0 20px;
+    background-color: #17a2b8;
+    color:white;
+    width: 200px;
+    height: 45px;
+}
 /* Chi tiết thanh toán hóa đơn */
 #talbe1-chi-tiet-thanh-toan-hoa-don {
   margin: 0 auto;
@@ -357,14 +368,14 @@ button.pay-the-bill_unpaid{
     transform: translate(-50%, -50%) translateY(0px);
 }
 .title_popup_detail-pay-the-bill{
-    font-size:55px;
+    font-size:35px;
     padding: 30px 0px;
 }
 
 .button_popup_detail-pay-the-bill-thanh_toan{
     width:260px;
     height:100px;
-    font-size: 20px;
+    font-size: 18px;
 }
 /* GO TO TOP*/
 .button-go-to-top{
@@ -375,15 +386,39 @@ button.pay-the-bill_unpaid{
   z-index:1;
   border: none;
   outline: none;
-  background-color: red;
+  background-color: #17a2b8;
   color: white;
   cursor: pointer;
-  padding: 15px;
+  padding: 10px 20px;
   border-radius: 10px;
-  font-size: 18px;
+  font-size: 25px;
 }
 .button-go-to-top:hover{
   text-decoration: none;
-  background-color:#0c2c70;
+  background-color:#42cbe0;
   color:white;
+}
+
+
+/* Detail make a medical bill */
+#chi-tiet-phieu-kham{
+    position:relative;
+}
+.button_add_row_detail{
+    position:absolute;
+    margin:25px auto;
+    left:50%;
+    transform: translate(-50%,-50%);
+    border-radius:5px;
+}
+.button_popup_detail_make_a_medical_bill{
+    position:absolute;
+    margin:40px auto;
+    left:50%;
+    transform: translate(-50%,-50%);
+    border-radius:5px;
+    background-color:#17a2b8;
+    border:none;
+    padding:10px 20px;
+    color:white;
 }
