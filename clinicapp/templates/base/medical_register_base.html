@@ -1,0 +1,45 @@
+<br><br>
+<form method="post" class="dang-ky-kham-benh-y-ta">
+    <h1 style="color: #2b6edd;font-weight: bold;">Đăng Ký Khám Bệnh</h1>
+    <table id="table-1" style="margin: auto;">
+        <tr>
+            <td>Họ</td>
+            <td>
+                <input type="text" name="last_name">
+            </td>
+            <td>Tên</td>
+            <td>
+                <input type="text" name="first_name">
+            </td>
+        </tr>
+        <tr>
+            <td>Giới tính</td>
+            <td>
+                <select name="sex" style="border: solid 2px; border-radius: 3px">
+                    <option value="1">Nam</option>
+                    <option value="2">Nữ</option>
+                    <option value="3">Không muốn trả lời</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>Ngày sinh</td>
+            <td>
+                <input type="date" name="date_of_birth">
+            </td>
+        </tr>
+        <tr>
+            <td>SĐT:</td>
+            <td>
+                <input type="text" name="phone_number">
+            </td>
+        </tr>
+    </table>
+    <div style="display: flex; justify-content: center; align-item: center;margin-bottom: 20px;">
+        <div style="margin-right: 15px;">Ngày khám</div>
+        <input type="date" name="exam_date">
+    </div>
+    <div style="display: flex; justify-content: center; align-item: center;">
+    </div>
+    <div id="button"><input style="padding: 5px 20px; background-color: #17a2b8; border-radius: 5px; color: white;" type="submit" value="Đăng ký"></div>
+</form>

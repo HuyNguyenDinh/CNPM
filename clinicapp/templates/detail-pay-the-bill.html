@@ -3,7 +3,7 @@
 <br>
     <!--    Chi tiết thanh toán hóa đơn-->
     <div class="chi-tiet-thanh-toan-hoa-don">
-        <h1 style="text-align: center;">Chi tiết thanh toán hóa đơn</h1>
+        <h1 style="text-align: center;color: #2b6edd;font-weight: bold;">Chi tiết thanh toán hóa đơn</h1>
         <table id="talbe1-chi-tiet-thanh-toan-hoa-don">
           <tr>
             <td style="font-weight: 600;">Mã hóa đơn</td>
@@ -45,3 +45,6 @@
     </div>
 <script src="{{url_for('static', filename='js/script.js')}}"></script>
 {%endblock%}
+{% block TitlePage %}
+<title>Chi tiết thanh toán</title>
+{% endblock %}
