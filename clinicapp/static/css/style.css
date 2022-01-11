@@ -133,16 +133,16 @@ ul.social li img{
     height: 300px;
     border-radius: 10px;
     text-align: center;
-    margin-top: 20px;
     background-color: white;
-    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 20px 0px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 13px 0px;
 }
 
 .ve-chung-toi-picture div img {
     width: 250px;
     height: 250px;
     border-radius: 10px;
-    margin-bottom: 10px;
+    margin-bottom: 4px;
+    margin-top: 12px
 }
 
 /* dang ky kham benh */
@@ -434,4 +434,39 @@ button.pay-the-bill_unpaid{
     border:none;
     padding:10px 20px;
     color:white;
+}
+
+
+.about-us-1:hover .about-us-2{
+       opacity: 1;
+       border-radius: 10px;
+}
+
+.about-us-1 {
+    position: relative;
+}
+.about-us-2 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    font-size: 15px;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transform: opacity 0.25s;
+}
+
+.about-us-2 > * {
+    transform: translateY(30px);
+    transition: transform 0.25s;
+}
+
+.about-us-1:hover .about-us-2 > *{
+    transform: translateY(0);
 }
