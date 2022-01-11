@@ -1,11 +1,14 @@
-import datetime
-
 from clinicapp.models import Medical_bill, Medicine, Medicine_unit, Medical_bill_detail, Bill, Unit_tag, User, UserRole,\
     Examination, Patient, Exam_patient, Sex, Other
 from clinicapp import db
 from sqlalchemy import func, extract, desc, alias, update
 from twilio.rest import Client
 import hashlib, datetime
+import json
+import urllib.request
+import uuid
+import hmac
+from flask import request
 
 def get_medical_bill_value(mb_id=None):
     bills = db.session.query(Medical_bill_detail.medical_bill_id,
@@ -372,6 +375,56 @@ def pay_bill(id=None):
             return False
     else:
         return False
+
+def pay_bill_with_momo(bill_id, amount):
+    #url server when public to Internet
+    sv_url_api_pay_momo = request.url
+
+    # parameters send to MoMo get get payUrl
+    endpoint = "https://test-payment.momo.vn/v2/gateway/api/create"
+    partnerCode = "MOMO"
+    accessKey = "F8BBA842ECF85"
+    secretKey = "K951B6PE1waDMi640xX08PD3vg6EkVlz"
+    orderInfo = "pay with MoMo"
+    redirectUrl = "http://momo.vn"
+    ipnUrl = "http://momo.vn"
+    amount = str(amount)
+    orderId = str(bill_id)
+    requestId = str(uuid.uuid4())
+    requestType = "captureWallet"
+    extraData = ""  # pass empty value or Encode base64 JsonString
+
+    # before sign HMAC SHA256 with format: accessKey=$accessKey&amount=$amount&extraData=$extraData&ipnUrl=$ipnUrl&orderId=$orderId&orderInfo=$orderInfo&partnerCode=$partnerCode&redirectUrl=$redirectUrl&requestId=$requestId&requestType=$requestType
+    rawSignature = "accessKey=" + accessKey + "&amount=" + amount + "&extraData=" + extraData + "&ipnUrl=" + ipnUrl + "&orderId=" + orderId + "&orderInfo=" + orderInfo + "&partnerCode=" + partnerCode + "&redirectUrl=" + redirectUrl + "&requestId=" + requestId + "&requestType=" + requestType
+
+    # signature
+    h = hmac.new(bytes(secretKey, 'UTF-8'), rawSignature.encode(), hashlib.sha256)
+    signature = h.hexdigest()
+    data = {
+        'partnerCode': partnerCode,
+        'partnerName': "Test",
+        'storeId': "MomoTestStore",
+        'requestId': requestId,
+        'amount': amount,
+        'orderId': orderId,
+        'orderInfo': orderInfo,
+        'redirectUrl': redirectUrl,
+        'ipnUrl': ipnUrl,
+        'lang': "vi",
+        'extraData': extraData,
+        'requestType': requestType,
+        'signature': signature
+    }
+    data = json.dumps(data)
+    data = bytes(data, encoding='utf-8')
+    clen = len(data)
+    req = urllib.request.Request(endpoint, data=data,\
+                                 headers={'Content-Type': 'application/json',\
+                                          'Content-Length': clen,'User-Agent': 'Mozilla/5.0'}, method='POST')
+    f = urllib.request.urlopen(req)
+    response = f.read()
+    f.close()
+    return json.loads(response)['payUrl']
 
 def get_cost():
     total = db.session.query(Other.cost).limit(1)

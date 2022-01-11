@@ -152,4 +152,29 @@ function create_medical_bill(user_id, patient_id, exam_date) {
         }).catch(err => console.error(err))
 }
 
+function get_pay_url_momo(bill_id, amount) {
+    fetch('/api/pay_with_momo', {
+        method: 'post',
+        body: JSON.stringify ({
+            'id': bill_id,
+            'amount': amount
+        }),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }).then(function(res) {
+        return res.json()
+    }).then(function(data) {
+        console.log(data.code)
+        if (data.code == 200) {
+            console.log('success');
+            window.open(data.pay_url, '_blank').focus();
+        }
+        else if (data.code == 400)
+            console.log('fail');
+        popup = document.querySelector('.popup_detail-pay-the-bill');
+        popup.classList.add("show_popup_detail");
+    }).catch(err => console.error(err))
+}
+
 
