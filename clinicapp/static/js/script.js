@@ -15,6 +15,10 @@ function pay_the_bill(bill_id) {
         title_popup = document.querySelector('.title_popup_detail-pay-the-bill');
         if (data.code == 200){
             console.log('success');
+            dis = document.getElementsByClassName("btn-thanh-toan")
+            for (d of dis) {
+                d.style.display = "none";
+            }
             title_popup.innerHTML = "Lập phiếu khám thành công!";
             popup.style.border = '5px solid green';
             popup.classList.add("show_popup_detail");
@@ -152,12 +156,13 @@ function create_medical_bill(user_id, patient_id, exam_date) {
         }).catch(err => console.error(err))
 }
 
-function get_pay_url_momo(bill_id, amount) {
+function get_pay_url_momo(bill_id, amount, current_url) {
     fetch('/api/pay_with_momo', {
         method: 'post',
         body: JSON.stringify ({
             'id': bill_id,
-            'amount': amount
+            'amount': amount,
+            'current_url': current_url
         }),
         headers: {
             'Content-Type': 'application/json'
@@ -168,12 +173,10 @@ function get_pay_url_momo(bill_id, amount) {
         console.log(data.code)
         if (data.code == 200) {
             console.log('success');
-            window.open(data.pay_url, '_blank').focus();
+            window.location.replace(data.pay_url)
         }
         else if (data.code == 400)
             console.log('fail');
-        popup = document.querySelector('.popup_detail-pay-the-bill');
-        popup.classList.add("show_popup_detail");
     }).catch(err => console.error(err))
 }
 

@@ -143,9 +143,10 @@ def pay_momo():
     data = request.json
     id = data.get('id')
     amount = data.get('amount')
-    if id and amount:
+    re_url = data.get('current_url')
+    if id and amount and re_url:
         id = "bill-" + str(id)
-        pay_url = pay_bill_with_momo(id, amount)
+        pay_url = pay_bill_with_momo(id, amount, re_url)
         if pay_url:
             return jsonify({'code': 200, 'pay_url': pay_url})
     return jsonify({'code': 400})
