@@ -1,14 +1,12 @@
+import datetime
+
 from clinicapp.models import Medical_bill, Medicine, Medicine_unit, Medical_bill_detail, Bill, Unit_tag, User, UserRole,\
     Examination, Patient, Exam_patient, Sex, Other
 from clinicapp import db
 from sqlalchemy import func, extract, desc, alias, update
 from twilio.rest import Client
 import hashlib, datetime
-import json
-import urllib.request
-import uuid
-import hmac
-from flask import request
+import cloudinary.uploader
 
 def get_medical_bill_value(mb_id=None):
     bills = db.session.query(Medical_bill_detail.medical_bill_id,
@@ -543,3 +541,50 @@ def send_sms_to_patient(dayexam):
             to= '+84' + str(value[5])
         )
     return True
+
+def check_phone_number_of_patient(phone_number):
+    if phone_number:
+        pt = Patient.query.filter(Patient.phone_number.__eq__(phone_number.strip())).first()
+        return pt
+
+def check_info_for_error_ms(current_user= None,avatar = None, name = None, username = None,day_of_birth = None,sex = None, phone = None, new_password = None, email = None, password = None, confirm = None):
+    avatar_path = ''
+    error_ms = ''
+    try:
+        if check_login_of_current_user(password, current_user):
+            if (new_password != '' and confirm != '') or (new_password == '' and confirm == ''):
+                if not new_password.strip().__eq__(confirm.strip()):
+                    error_ms = 'Xác nhận mật khẩu mới không khớp !!!'
+                else:
+                    list = check_unique_info(username=username, phone=phone, email=email, user=current_user)
+                    if len(list) == 0:
+                        if avatar.filename.endswith('.png') or avatar.filename.endswith(
+                                '.jpg') or avatar.filename.endswith('.jpeg') or not avatar:
+                            if avatar:
+                                res = cloudinary.uploader.upload(avatar)
+                                avatar_path = res['secure_url']
+                            try:
+                                check_info_for_change(user=current_user, avatar=avatar_path, name=name,
+                                                      username=username, day_of_birth=day_of_birth, email=email,
+                                                      sex=sex, phone=phone, new_password=new_password)
+                                error_ms = "Thay đổi thành công!!!"
+                            except Exception as ex:
+                                error_ms = str(ex)
+                        else:
+                            error_ms = 'File avatar không hợp lệ (*.jpeg/*.png/*.jpg)!!!'
+                    else:
+                        error_ms = 'Những thông tin sau đã tồn tại: '
+                        for i in range(len(list)):
+                            if i != 0:
+                                error_ms += ', ' + list[i]
+                            else:
+                                error_ms += list[i]
+
+            else:
+                error_ms = 'Xác nhận mật khẩu mới không khớp !!!'
+
+        else:
+            error_ms = 'Nhập sai mật khẩu hiện tại !!!'
+    except Exception as ex:
+        error_ms = str(ex)
+    return error_ms
