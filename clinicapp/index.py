@@ -136,6 +136,26 @@ def pay():
             return jsonify({'code': 200})
     return jsonify({'code': 400})
 
+
+@app.route('/api/momo_pay_status')
+def get_momo_pay_status():
+    data = request.json
+
+@app.route('/api/pay_with_momo', methods=['post'])
+@login_required
+def pay_momo():
+    data = request.json
+    id = data.get('id')
+    amount = data.get('amount')
+    re_url = data.get('current_url')
+    if id and amount and re_url:
+        id = "bill-" + str(id)
+        pay_url = pay_bill_with_momo(id, amount, re_url)
+        if pay_url:
+            return jsonify({'code': 200, 'pay_url': pay_url})
+    return jsonify({'code': 400})
+
+
 @app.route('/api/create-exam', methods=['post'])
 @login_required
 def create():
@@ -273,9 +293,12 @@ def api_medical_register():
     patient = check_phone_number_of_patient(phone_number=phone_number)
     try:
         slot = get_limit_slot()
+        slot_exist = 0
         list_patient = get_patient_in_exam(exam_date=date_of_exam)
+        if list_patient:
+            slot_exist = len(list_patient)
         if not patient:
-            if len(list_patient) <= slot:
+            if slot_exist <= slot:
                 term_patient = create_patient(last_name=last_name, first_name=first_name, sex=sex, phone_number=phone_number,\
                                date_of_birth=date_of_birth)
                 register_into_examination(patient_id=term_patient.id, exam_date=date_of_exam)
@@ -283,7 +306,7 @@ def api_medical_register():
                 return jsonify({'code': 400,
                                 'error_ms': 'Đã hết suất khám, vui lòng chọn ngày khác!!!'})
         else:
-            if len(list_patient) <= slot:
+            if slot_exist <= slot:
                 register_into_examination(patient_id=patient.id, exam_date=date_of_exam)
             else:
                 return jsonify({'code': 400,

@@ -213,7 +213,8 @@ def get_bill_from_medicall_bill_in_day(exam_date=None):
     bills = db.session.query(Medical_bill.create_date, Patient.last_name, Patient.first_name,\
                              Patient.date_of_birth, Bill.value, Bill.pay,Bill.id)\
                             .join(Bill, Bill.medical_bill_id == Medical_bill.id)\
-                            .join(Patient, Medical_bill.patient_id == Patient.id)
+                            .join(Patient, Medical_bill.patient_id == Patient.id)\
+                            .order_by(Medical_bill.create_date.desc())
     if exam_date:
         temp = exam_date.split('-')
         year = temp[0]
@@ -309,7 +310,7 @@ def register_into_examination(patient_id, exam_date):
     exam = get_exam_by_id(exam_date=datetime.datetime(year, month, day)).first()
     patient = get_patient(patient_id).first()
     if not exam:
-        exam = create_exam(user_id=1, exam_date=datetime.datetime(year, month, day))
+        exam = create_exam(user_id=1, exam_date=exam_date)
     exam.patients.append(patient)
     try:
         db.session.add(exam)
@@ -355,7 +356,7 @@ def create_bill(medical_bill_id):
 def get_bill(id=None):
     if id:
         temp = db.session.query(Bill.id, Bill.value, Patient.last_name, Patient.first_name, Patient.phone_number,\
-                                Patient.date_of_birth, Medical_bill.create_date)\
+                                Patient.date_of_birth, Medical_bill.create_date, Bill.pay)\
                                 .join(Medical_bill, Medical_bill.id == Bill.medical_bill_id)\
                                 .join(Patient, Patient.id == Medical_bill.patient_id)\
                                 .filter(Bill.id.__eq__(int(id)))
@@ -373,6 +374,54 @@ def pay_bill(id=None):
             return False
     else:
         return False
+
+def pay_bill_with_momo(bill_id, amount, re_url):
+
+    # parameters send to MoMo get get payUrl
+    endpoint = "https://test-payment.momo.vn/v2/gateway/api/create"
+    partnerCode = "MOMO"
+    accessKey = "F8BBA842ECF85"
+    secretKey = "K951B6PE1waDMi640xX08PD3vg6EkVlz"
+    orderInfo = "Pay with MoMo"
+    redirectUrl = re_url
+    ipnUrl = "http://momo.vn"
+    amount = str(amount)
+    orderId = str(bill_id)
+    requestId = str(uuid.uuid4())
+    requestType = "captureWallet"
+    extraData = ""  # pass empty value or Encode base64 JsonString
+
+    # before sign HMAC SHA256 with format: accessKey=$accessKey&amount=$amount&extraData=$extraData&ipnUrl=$ipnUrl&orderId=$orderId&orderInfo=$orderInfo&partnerCode=$partnerCode&redirectUrl=$redirectUrl&requestId=$requestId&requestType=$requestType
+    rawSignature = "accessKey=" + accessKey + "&amount=" + amount + "&extraData=" + extraData + "&ipnUrl=" + ipnUrl + "&orderId=" + orderId + "&orderInfo=" + orderInfo + "&partnerCode=" + partnerCode + "&redirectUrl=" + redirectUrl + "&requestId=" + requestId + "&requestType=" + requestType
+
+    # signature
+    h = hmac.new(bytes(secretKey, 'UTF-8'), rawSignature.encode(), hashlib.sha256)
+    signature = h.hexdigest()
+    data = {
+        'partnerCode': partnerCode,
+        'partnerName': "Test",
+        'storeId': "MomoTestStore",
+        'requestId': requestId,
+        'amount': amount,
+        'orderId': orderId,
+        'orderInfo': orderInfo,
+        'redirectUrl': redirectUrl,
+        'ipnUrl': ipnUrl,
+        'lang': "vi",
+        'extraData': extraData,
+        'requestType': requestType,
+        'signature': signature
+    }
+    data = json.dumps(data)
+    data = bytes(data, encoding='utf-8')
+    clen = len(data)
+    req = urllib.request.Request(endpoint, data=data,\
+                                 headers={'Content-Type': 'application/json',\
+                                          'Content-Length': clen,'User-Agent': 'Mozilla/5.0'}, method='POST')
+    f = urllib.request.urlopen(req)
+    response = f.read()
+    f.close()
+    return json.loads(response)['payUrl']
 
 def get_cost():
     total = db.session.query(Other.cost).limit(1)

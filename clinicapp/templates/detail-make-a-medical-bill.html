@@ -54,8 +54,9 @@
     <br><br>
     <button class="button_popup_detail_make_a_medical_bill" onclick="create_medical_bill({{current_user.id}},{{patient.id}}, '{{date}}')">Lập phiếu khám</button>
     <div class="popup_detail-pay-the-bill">
-            <p class="title_popup_detail-pay-the-bill">Lập phiếu khám thành công</p>
-            <button class="button_popup_detail-pay-the-bill-thanh_toan" onclick="location.href='{{ url_for('make_a_medical_bill')}}'">Trở về danh sách</button>
+            <p class="title_popup_detail-pay-the-bill"></p>
+            <button class="button_popup_detail-pay-the-bill-thanh_toan" onclick="location.href='{{ url_for('make_a_medical_bill', date=date)}}'">Trở về danh sách</button>
+
     </div>
 </div>
 <script>
