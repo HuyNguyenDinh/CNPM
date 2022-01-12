@@ -15,6 +15,15 @@ function pay_the_bill(bill_id) {
         popup.classList.add("show_popup_detail");
         if (data.code == 200){
             console.log('success');
+
+            dis = document.getElementsByClassName("btn-thanh-toan")
+            for (d of dis) {
+                d.style.display = "none";
+            }
+            title_popup.innerHTML = "Lập phiếu khám thành công!";
+            popup.style.border = '5px solid green';
+            popup.classList.add("show_popup_detail");
+
         }
         else if (data.code == 400)
             console.log('fail');
@@ -158,6 +167,7 @@ function get_phone_number(obj){
     }).then(function(res){
         console.log(res)
         return res.json()
+
     }).then(function(data){
         console.log(data)
         if (data.code == 200){
@@ -192,6 +202,24 @@ function get_phone_number(obj){
     }).catch(function(err){
         console.error(err)
     })
+
+function get_pay_url_momo(bill_id, amount, current_url) {
+    fetch('/api/pay_with_momo', {
+        method: 'post',
+        body: JSON.stringify ({
+            'id': bill_id,
+            'amount': amount,
+            'current_url': current_url
+    }).then(function(data) {
+        console.log(data.code)
+        if (data.code == 200) {
+            console.log('success');
+            window.location.replace(data.pay_url)
+        }
+        else if (data.code == 400)
+            console.log('fail');
+    }).catch(err => console.error(err))
+
 }
 function fix_loop(){
     document.getElementById("last_name").disabled = true;

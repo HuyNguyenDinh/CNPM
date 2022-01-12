@@ -136,6 +136,26 @@ def pay():
             return jsonify({'code': 200})
     return jsonify({'code': 400})
 
+
+@app.route('/api/momo_pay_status')
+def get_momo_pay_status():
+    data = request.json
+
+@app.route('/api/pay_with_momo', methods=['post'])
+@login_required
+def pay_momo():
+    data = request.json
+    id = data.get('id')
+    amount = data.get('amount')
+    re_url = data.get('current_url')
+    if id and amount and re_url:
+        id = "bill-" + str(id)
+        pay_url = pay_bill_with_momo(id, amount, re_url)
+        if pay_url:
+            return jsonify({'code': 200, 'pay_url': pay_url})
+    return jsonify({'code': 400})
+
+
 @app.route('/api/create-exam', methods=['post'])
 @login_required
 def create():
