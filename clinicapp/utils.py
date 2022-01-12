@@ -1,14 +1,12 @@
+import datetime
+
 from clinicapp.models import Medical_bill, Medicine, Medicine_unit, Medical_bill_detail, Bill, Unit_tag, User, UserRole,\
     Examination, Patient, Exam_patient, Sex, Other
 from clinicapp import db
 from sqlalchemy import func, extract, desc, alias, update
 from twilio.rest import Client
 import hashlib, datetime
-import json
-import urllib.request
-import uuid
-import hmac
-from flask import request
+import cloudinary.uploader
 
 def get_medical_bill_value(mb_id=None):
     bills = db.session.query(Medical_bill_detail.medical_bill_id,
@@ -215,7 +213,8 @@ def get_bill_from_medicall_bill_in_day(exam_date=None):
     bills = db.session.query(Medical_bill.create_date, Patient.last_name, Patient.first_name,\
                              Patient.date_of_birth, Bill.value, Bill.pay,Bill.id)\
                             .join(Bill, Bill.medical_bill_id == Medical_bill.id)\
-                            .join(Patient, Medical_bill.patient_id == Patient.id)
+                            .join(Patient, Medical_bill.patient_id == Patient.id)\
+                            .order_by(Medical_bill.create_date.desc())
     if exam_date:
         temp = exam_date.split('-')
         year = temp[0]
@@ -311,7 +310,7 @@ def register_into_examination(patient_id, exam_date):
     exam = get_exam_by_id(exam_date=datetime.datetime(year, month, day)).first()
     patient = get_patient(patient_id).first()
     if not exam:
-        exam = create_exam(user_id=1, exam_date=datetime.datetime(year, month, day))
+        exam = create_exam(user_id=1, exam_date=exam_date)
     exam.patients.append(patient)
     try:
         db.session.add(exam)
@@ -357,7 +356,7 @@ def create_bill(medical_bill_id):
 def get_bill(id=None):
     if id:
         temp = db.session.query(Bill.id, Bill.value, Patient.last_name, Patient.first_name, Patient.phone_number,\
-                                Patient.date_of_birth, Medical_bill.create_date)\
+                                Patient.date_of_birth, Medical_bill.create_date, Bill.pay)\
                                 .join(Medical_bill, Medical_bill.id == Bill.medical_bill_id)\
                                 .join(Patient, Patient.id == Medical_bill.patient_id)\
                                 .filter(Bill.id.__eq__(int(id)))
@@ -376,17 +375,15 @@ def pay_bill(id=None):
     else:
         return False
 
-def pay_bill_with_momo(bill_id, amount):
-    #url server when public to Internet
-    sv_url_api_pay_momo = request.url
+def pay_bill_with_momo(bill_id, amount, re_url):
 
     # parameters send to MoMo get get payUrl
     endpoint = "https://test-payment.momo.vn/v2/gateway/api/create"
     partnerCode = "MOMO"
     accessKey = "F8BBA842ECF85"
     secretKey = "K951B6PE1waDMi640xX08PD3vg6EkVlz"
-    orderInfo = "pay with MoMo"
-    redirectUrl = "http://momo.vn"
+    orderInfo = "Pay with MoMo"
+    redirectUrl = re_url
     ipnUrl = "http://momo.vn"
     amount = str(amount)
     orderId = str(bill_id)
@@ -544,3 +541,50 @@ def send_sms_to_patient(dayexam):
             to= '+84' + str(value[5])
         )
     return True
+
+def check_phone_number_of_patient(phone_number):
+    if phone_number:
+        pt = Patient.query.filter(Patient.phone_number.__eq__(phone_number.strip())).first()
+        return pt
+
+def check_info_for_error_ms(current_user= None,avatar = None, name = None, username = None,day_of_birth = None,sex = None, phone = None, new_password = None, email = None, password = None, confirm = None):
+    avatar_path = ''
+    error_ms = ''
+    try:
+        if check_login_of_current_user(password, current_user):
+            if (new_password != '' and confirm != '') or (new_password == '' and confirm == ''):
+                if not new_password.strip().__eq__(confirm.strip()):
+                    error_ms = 'Xác nhận mật khẩu mới không khớp !!!'
+                else:
+                    list = check_unique_info(username=username, phone=phone, email=email, user=current_user)
+                    if len(list) == 0:
+                        if avatar.filename.endswith('.png') or avatar.filename.endswith(
+                                '.jpg') or avatar.filename.endswith('.jpeg') or not avatar:
+                            if avatar:
+                                res = cloudinary.uploader.upload(avatar)
+                                avatar_path = res['secure_url']
+                            try:
+                                check_info_for_change(user=current_user, avatar=avatar_path, name=name,
+                                                      username=username, day_of_birth=day_of_birth, email=email,
+                                                      sex=sex, phone=phone, new_password=new_password)
+                                error_ms = "Thay đổi thành công!!!"
+                            except Exception as ex:
+                                error_ms = str(ex)
+                        else:
+                            error_ms = 'File avatar không hợp lệ (*.jpeg/*.png/*.jpg)!!!'
+                    else:
+                        error_ms = 'Những thông tin sau đã tồn tại: '
+                        for i in range(len(list)):
+                            if i != 0:
+                                error_ms += ', ' + list[i]
+                            else:
+                                error_ms += list[i]
+
+            else:
+                error_ms = 'Xác nhận mật khẩu mới không khớp !!!'
+
+        else:
+            error_ms = 'Nhập sai mật khẩu hiện tại !!!'
+    except Exception as ex:
+        error_ms = str(ex)
+    return error_ms

@@ -1,182 +1,182 @@
-@import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;700&display=swap");
 
-.avatar-user{
-    margin-right: 10px;
-    margin-left: auto;
+.avatar-user {
+  margin-right: 10px;
+  margin-left: auto;
 }
-*{
- box-sizing: border-box;
- font-family: 'Be Vietnam Pro', sans-serif;
+* {
+  box-sizing: border-box;
+  font-family: "Be Vietnam Pro", sans-serif;
 }
 html {
   scroll-behavior: smooth;
 }
-.jumbotron{
-    background-color:#2b6edd !important;
-    color: white !important;
-    height: 200px !important;
+.jumbotron {
+  background-color: #2b6edd !important;
+  color: white !important;
+  height: 200px !important;
 }
-.ten-phong-kham{
-    margin-top:20px;
-    font-weight:bold;
+.ten-phong-kham {
+  margin-top: 20px;
+  font-weight: bold;
 }
 /*CSS cho footer*/
-footer{
-    position: relative;
-    right: 0;
-    left: 0;
-    bottom: 0;
-    color: white;
-    background-color: #313131;
-    font-size: 1rem;
-    font-weight: 400;
-    line-height: 1.5;
+footer {
+  position: relative;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  color: white;
+  background-color: #313131;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
 }
-.col30{
-    width: 30%;
-    padding: 10px 20px;
+.col30 {
+  width: 30%;
+  padding: 10px 20px;
 }
-.col50{
-    width: 50%;
-    padding: 10px 20px;
+.col50 {
+  width: 50%;
+  padding: 10px 20px;
 }
-.col50 p{
-   font-size: 15px;
-   text-align: center;
+.col50 p {
+  font-size: 15px;
+  text-align: center;
 }
-div.allfoot{
-    display: flex;
-    padding: 20px 10px;
-    height: 280px;
+div.allfoot {
+  display: flex;
+  padding: 20px 10px;
+  height: 30vh;
 }
 textarea {
-    width: 95%;
-    height: 60px;
-    border-radius: 5px;
+  width: 95%;
+  height: 60px;
+  border-radius: 5px;
 }
-.col30 input[type = submit]{
-    background-color: #138496;
-    width: 20%;
-    margin-left: 75%;
-    height: 30px;
-     border-radius: 5px;
-     color: white;
+.col30 input[type="submit"] {
+  background-color: #138496;
+  width: 20%;
+  margin-left: 75%;
+  height: 30px;
+  border-radius: 5px;
+  color: white;
 }
-ul.contact{
-    list-style-type: none;
+ul.contact {
+  list-style-type: none;
 }
-ul.social{
-    display: flex;
-    list-style-type: none;
+ul.social {
+  display: flex;
+  list-style-type: none;
 }
 
-ul.social li{
-    width: 10%;
-    padding: 0 5px;
+ul.social li {
+  width: 10%;
+  padding: 0 5px;
 }
-ul.social li img{
-    width: 100%;
+ul.social li img {
+  width: 80%;
 }
 
 /* CSS navbar */
-.navbar{
-    background-color: #313131;
+.navbar {
+  background-color: #313131;
 }
-.navbar-nav > .nav-item{
-    padding-left:30px;
+.navbar-nav > .nav-item {
+  padding-left: 30px;
 }
-.navbar-nav > .nav-item > .nav-link{
-    color:white;
+.navbar-nav > .nav-item > .nav-link {
+  color: white;
 }
-.navbar-nav > .nav-item > .nav-link:hover{
-    color:#2b6edd;
+.navbar-nav > .nav-item > .nav-link:hover {
+  color: #2b6edd;
 }
 
 /* CAROUSEL CSS*/
 
 /*Keyframes*/
-@keyframes  faded {
-    0% {
-      opacity: 1;
-    }
-    20% {
-      opacity: 1;
-    }
-    40% {
-      opacity: 0;
-    }
-    60% {
-      opacity: 0;
-    }
-    80% {
-      opacity: 0;
-    }
-    100% {
-      opacity: 1;
-    }
+@keyframes faded {
+  0% {
+    opacity: 1;
   }
+  20% {
+    opacity: 1;
+  }
+  40% {
+    opacity: 0;
+  }
+  60% {
+    opacity: 0;
+  }
+  80% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
 /* ve chung toi */
 .ve-chung-toi {
-    text-align: center;
-    min-height: 86vh;
-    padding-top: 100px;
+  text-align: center;
+  min-height: 86vh;
+  padding-top: 100px;
 }
 
 .ve-chung-toi-picture {
-    display: flex;
-    align-item: center;
-    justify-content: space-evenly;
+  display: flex;
+  align-item: center;
+  justify-content: space-evenly;
 }
 
 .ve-chung-toi-picture div {
-    width: 300px;
-    height: 300px;
-    border-radius: 10px;
-    text-align: center;
-    background-color: white;
-    box-shadow: rgba(43,110,221, 0.3) 0px 7px 13px 0px;
+  width: 300px;
+  height: 300px;
+  border-radius: 10px;
+  text-align: center;
+  background-color: white;
+  box-shadow: rgba(43, 110, 221, 0.3) 0px 7px 13px 0px;
 }
 
 .ve-chung-toi-picture div img {
-    width: 250px;
-    height: 250px;
-    border-radius: 10px;
-    margin-bottom: 4px;
-    margin-top: 12px
+  width: 250px;
+  height: 250px;
+  border-radius: 10px;
+  margin-bottom: 4px;
+  margin-top: 12px;
 }
 
 /* dang ky kham benh */
 .dang-ky-kham-benh {
-    padding-top: 100px;
-    height: 100vh;
+  padding-top: 100px;
+  height: 100vh;
 }
 .dang-ky-kham-benh h1 {
-    text-align: center;
+  text-align: center;
 }
 
 #table-1 {
-   border-spacing: 20px;
+  border-spacing: 20px;
   border-collapse: separate;
   width: 1000px;
 }
 
 #table-1 input {
-    border-radius:3px;
-    padding: 0 50px;
+  border-radius: 3px;
+  padding: 0 50px;
 }
 
 #button {
-    display: flex;
-    justify-content: center;
-    align-item: center;
-    padding: 10px;
-    margin-top: 20px;
-    margin-bottom: 100px;
+  display: flex;
+  justify-content: center;
+  align-item: center;
+  padding: 10px;
+  margin-top: 20px;
+  margin-bottom: 100px;
 }
 
 #button button {
-    background-color: #2b6edd;
-    border-radius: 5px;
+  background-color: #2b6edd;
+  border-radius: 5px;
 }
 
 /* Thong tin y ta */
@@ -221,31 +221,29 @@ ul.social li img{
   border-collapse: collapse;
 }
 
-#table-thanh-toan-hoa-don td, #table-thanh-toan-hoa-don th {
+#table-thanh-toan-hoa-don td,
+#table-thanh-toan-hoa-don th {
   padding: 10px;
   border: 1px solid black;
 }
 
 #table-thanh-toan-hoa-don td button.pay-the-bill_paid {
-    border-radius: 10px;
-    padding: 0 20px 0 20px;
-    background-color: #313131;
-    color:white;
-    cursor: not-allowed;
-    width: 200px;
-    height: 45px;
-    border:none;
+  border-radius: 10px;
+  padding: 0 20px 0 20px;
+  background-color: #8ba4a7;
+  color: white;
+  cursor: not-allowed;
+  width: 200px;
+  height: 45px;
 }
 #table-thanh-toan-hoa-don td button.pay-the-bill_unpaid {
-    border-radius: 10px;
-    padding: 0 20px 0 20px;
-    background-color: #2b6edd;
-    color:white;
-    width: 200px;
-    height: 45px;
-    border:none;
+  border-radius: 10px;
+  padding: 0 20px 0 20px;
+  background-color: #17a2b8;
+  color: white;
+  width: 200px;
+  height: 45px;
 }
-
 /* Chi tiết thanh toán hóa đơn */
 #talbe1-chi-tiet-thanh-toan-hoa-don {
   margin: 0 auto;
@@ -274,17 +272,11 @@ ul.social li img{
 
 .chi-tiet-thanh-toan-hoa-don-button button {
   border-radius: 10px;
-  background-color: #2b6edd;
+  background-color: lightgreen;
   padding: 10px 15px 10px 15px;
-  color:white;
-  border:none;
 }
-.chi-tiet-thanh-toan-hoa-don-button button:hover{
-    background-color: #313131;
-}
-
-.chi-tiet-thanh-toan-hoa-don{
-  margin-bottom:50px;
+.chi-tiet-thanh-toan-hoa-don {
+  margin-bottom: 50px;
 }
 /* Lập danh sách khám*/
 .lap-danh-sach-kham {
@@ -300,7 +292,7 @@ ul.social li img{
 }
 
 #table-lap-danh-sach-kham th {
-border: 1px solid black;
+  border: 1px solid black;
 }
 
 #table-lap-danh-sach-kham td {
@@ -355,40 +347,57 @@ border: 1px solid black;
   border-radius: 5px;
 }
 
-.popup_detail-pay-the-bill{
-    position:fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) translateY(1000px);
-    width:40%;
-    height:300px;
-    background-color:white;
-    text-align: center;
-    z-index:1;
-    border-radius:10px;
-    transition: transform ease 0.5s;
+button.pay-the-bill_paid,
+button.pay-the-bill_unpaid {
+  width: 200px;
+  height: 45px;
+}
+.pay-the-bill_paid {
+  background-color: grey;
+  color: white;
+  cursor: not-allowed;
+  disabled: true;
+}
+.pay-the-bill_unpaid {
+  background-color: green;
+  color: white;
 }
 
-.show_popup_detail{
-    transform: translate(-50%, -50%) translateY(0px);
-}
-.title_popup_detail-pay-the-bill{
-    font-size:35px;
-    padding: 30px 0px;
+.popup_detail-pay-the-bill {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) translateY(1000px);
+  width: 40%;
+  height: 300px;
+  background-color: white;
+  text-align: center;
+  border: 5px solid green;
+  z-index: 1;
+  border-radius: 10px;
+  transition: transform ease 0.5s;
 }
 
-.button_popup_detail-pay-the-bill-thanh_toan{
-    width:260px;
-    height:100px;
-    font-size: 18px;
+.show_popup_detail {
+  transform: translate(-50%, -50%) translateY(0px);
+}
+.title_popup_detail-pay-the-bill {
+  font-size: 35px;
+  padding: 30px 0px;
+}
+
+.button_popup_detail-pay-the-bill-thanh_toan {
+  width: 260px;
+  height: 100px;
+  font-size: 18px;
 }
 /* GO TO TOP*/
-.button-go-to-top{
+.button-go-to-top {
   display: none;
   position: fixed;
   bottom: 20px;
   right: 30px;
-  z-index:1;
+  z-index: 1;
   border: none;
   outline: none;
   background-color: #2b6edd;
@@ -398,98 +407,96 @@ border: 1px solid black;
   border-radius: 10px;
   font-size: 25px;
 }
-.button-go-to-top:hover{
+.button-go-to-top:hover {
   text-decoration: none;
-  background-color:#313131;
-  color:white;
+  background-color: #313131;
+  color: white;
 }
-
 
 /* Detail make a medical bill */
-#chi-tiet-phieu-kham{
-    position:relative;
+#chi-tiet-phieu-kham {
+  position: relative;
 }
-.button_add_row_detail{
-    position:absolute;
-    margin:25px auto;
-    left:50%;
-    transform: translate(-50%,-50%);
-    border-radius:5px;
+.button_add_row_detail {
+  position: absolute;
+  margin: 25px auto;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 5px;
 }
-.button_popup_detail_make_a_medical_bill{
-    position:absolute;
-    margin:40px auto;
-    left:50%;
-    transform: translate(-50%,-50%);
-    border-radius:5px;
-    background-color:#17a2b8;
-    border:none;
-    padding:10px 20px;
-    color:white;
+.button_popup_detail_make_a_medical_bill {
+  position: absolute;
+  margin: 40px auto;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 5px;
+  background-color: #17a2b8;
+  border: none;
+  padding: 10px 20px;
+  color: white;
 }
 
-
-.about-us-1:hover .about-us-2{
-       opacity: 1;
-       border-radius: 10px;
+.about-us-1:hover .about-us-2 {
+  opacity: 1;
+  border-radius: 10px;
 }
 
 .about-us-1 {
-    position: relative;
+  position: relative;
 }
 .about-us-2 {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    font-size: 15px;
-    color: white;
-    background-color: rgba(0, 0, 0, 0.6);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    opacity: 0;
-    transform: opacity 0.25s;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  font-size: 15px;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transform: opacity 0.25s;
 }
 
 .about-us-2 > * {
-    transform: translateY(30px);
-    transition: transform 0.25s;
+  transform: translateY(30px);
+  transition: transform 0.25s;
 }
 
-.about-us-1:hover .about-us-2 > *{
-    transform: translateY(0);
+.about-us-1:hover .about-us-2 > * {
+  transform: translateY(0);
 }
-.button_hover{
-    background-color:#2b6edd;
-    border:none;
-    border-radius:8px;
-    color:white;
+.button_hover {
+  background-color: #2b6edd;
+  border: none;
+  border-radius: 8px;
+  color: white;
 }
-.button_hover:hover{
-    background-color:#313131;
+.button_hover:hover {
+  background-color: #313131;
 }
 
 /* CSS SWIPER JS */
 .swiper {
-    width: 100%;
-    height: 220px;
+  width: 100%;
+  height: 220px;
 }
 
 .swiper-slide {
-    text-align: center;
-    font-size: 18px;
-    background: #fff;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  text-align: center;
+  font-size: 18px;
+  background: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .swiper-slide img {
-    display: block;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
