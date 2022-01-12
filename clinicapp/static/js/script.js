@@ -270,7 +270,7 @@ function api_medical_register(){
             alert(data.error_ms)
         }
 
-    )}.catch(function(err){
+    }).catch(function(err){
         console.error(err)
     })
 }
