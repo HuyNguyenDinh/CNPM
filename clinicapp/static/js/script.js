@@ -177,4 +177,3 @@ function get_pay_url_momo(bill_id, amount) {
     }).catch(err => console.error(err))
 }
 
-

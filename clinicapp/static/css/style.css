@@ -134,7 +134,7 @@ ul.social li img{
     border-radius: 10px;
     text-align: center;
     background-color: white;
-    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 13px 0px;
+    box-shadow: rgba(43,110,221, 0.3) 0px 7px 13px 0px;
 }
 
 .ve-chung-toi-picture div img {
@@ -470,4 +470,26 @@ border: 1px solid black;
 }
 .button_hover:hover{
     background-color:#313131;
+}
+
+/* CSS SWIPER JS */
+.swiper {
+    width: 100%;
+    height: 220px;
+}
+
+.swiper-slide {
+    text-align: center;
+    font-size: 18px;
+    background: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.swiper-slide img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }

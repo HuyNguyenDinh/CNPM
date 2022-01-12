@@ -39,7 +39,7 @@
 
         <!-- Left and right controls -->
         <a class="carousel-control-prev" href="#demo" data-slide="prev">
-            <span class="carousel-control-prev-icon"</span>
+            <span class="carousel-control-prev-icon"></span>
         </a>
         <a class="carousel-control-next" href="#demo" data-slide="next">
             <span class="carousel-control-next-icon"></span>
@@ -105,4 +105,7 @@
 {% block medical_register%}
 <dev id="nav-dang-ki" style="padding-top:90px"></dev>
   {% include "base/medical_register_base.html"%}
+{%endblock%}
+{% block comment%}
+    {% include "comment.html"%}
 {%endblock%}
