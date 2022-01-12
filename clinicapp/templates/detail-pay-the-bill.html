@@ -10,10 +10,7 @@
               {% if bill %}
                 <td>{{bill[0]}}</td>
               {% endif %}
-              <td style="padding-left: 40px; font-weight: 600;">Tổng tiền</td>
-              {% if bill %}
-                <td style="border: 1px solid black; border-radius: 10px; text-align: center;">{{bill[1]}}</td>
-              {% endif %}
+            <td style="border: 1px solid black; border-radius: 10px; text-align: center;">HĐ1</td>
           </tr>
           <tr>
             <td style="font-weight: 600;">Tên khách hàng:</td>
@@ -39,12 +36,11 @@
         </table>
 
         <div class="chi-tiet-thanh-toan-hoa-don-button">
-            <button onclick="pay_the_bill({{bill[0]}})">Thanh toán tại quầy</button>
-            <button onclick="get_pay_url_momo({{bill[0]}}, {{bill[1]}})">Thanh toán qua MoMo</button>
+            <button onclick="pay_the_bill({{bill[0]}})">Xác nhận thanh toán</button>
         </div>
         <div class="popup_detail-pay-the-bill">
             <p class="title_popup_detail-pay-the-bill">Xác nhận?</p>
-            <button class="button_popup_detail-pay-the-bill-thanh_toan" onclick="location.href='{{ url_for('pay_the_bill')}}'">Trở về danh sách hóa đơn</button>
+            <button class="button_popup_detail-pay-the-bill-thanh_toan" onclick="location.href='{{ url_for('pay_the_bill')}}'">Thanh toán<br>(Trở về danh sách)</button>
         </div>
     </div>
 <script src="{{url_for('static', filename='js/script.js')}}"></script>

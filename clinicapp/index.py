@@ -7,6 +7,8 @@ from flask_admin import expose
 import hashlib
 import cloudinary.uploader
 from flask import url_for, json, session
+import datetime
+
 
 
 @app.route("/")
@@ -48,7 +50,8 @@ def get_user(user_id):
 @app.context_processor
 def common_response():
     return {
-        "sex": check_sex(current_user)
+        "sex": check_sex(current_user),
+        "date_now": datetime.datetime.now().strftime('%Y-%m-%d')
     }
 
 
@@ -133,23 +136,6 @@ def pay():
             return jsonify({'code': 200})
     return jsonify({'code': 400})
 
-@app.route('/api/momo_pay_status')
-def get_momo_pay_status():
-    data = request.json
-
-@app.route('/api/pay_with_momo', methods=['post'])
-@login_required
-def pay_momo():
-    data = request.json
-    id = data.get('id')
-    amount = data.get('amount')
-    if id and amount:
-        id = "bill-" + str(id)
-        pay_url = pay_bill_with_momo(id, amount)
-        if pay_url:
-            return jsonify({'code': 200, 'pay_url': pay_url})
-    return jsonify({'code': 400})
-
 @app.route('/api/create-exam', methods=['post'])
 @login_required
 def create():
@@ -170,29 +156,29 @@ def create_medical_bill_by_doctor():
     medicine = data.get('medicine')
     diagnosis = data.get('diagnosis')
     symptom = data.get('symptom')
-    check = 0
+    check = False
     if patient_id and user_id and exam_date:
-        for unit in medicine:
-            if unit and medicine[unit]["quantity"]:
-                check = check + 1
-                if check == 1:
-                    med_bill = create_medical_bill(user_id, patient_id, exam_date, diagnosis, symptom)
-                if check >= 1:
+        med_bill = create_medical_bill(user_id, patient_id, exam_date, diagnosis, symptom)
+        if med_bill:
+            for unit in medicine:
+                if unit and medicine[unit]["quantity"]:
                     temp = utils.create_medical_bill_detail(med_bill.id, unit, medicine[unit]["quantity"],\
                                                         medicine[unit]["use"])
                     if not temp:
                         return jsonify({'code': 400})
-        temp = utils.get_cost()
-        if check == 0:
-            return jsonify({'code': 400})
-        b = utils.get_medical_bill_value(med_bill.id)
-        bill = Bill(medical_bill_id=b[0], value=b[1] + temp)
-        try:
-            db.session.add(bill)
-            db.session.commit()
-            return jsonify({'code': 200})
-        except:
-            return jsonify({'code': 400})
+                    else:
+                        check = True
+            temp = utils.get_cost()
+            if check == False:
+                return jsonify({'code': 400})
+            b = utils.get_medical_bill_value(med_bill.id)
+            bill = Bill(medical_bill_id=b[0], value=b[1] + temp)
+            try:
+                db.session.add(bill)
+                db.session.commit()
+                return jsonify({'code': 200})
+            except:
+                return jsonify({'code': 400})
     return jsonify({'code': 400})
 
 @app.route('/doctor-view/make-a-medical-bill')
@@ -227,9 +213,7 @@ def get_list_medicine_unit():
 @app.route('/change-info-user', methods = ['post', 'get'])
 def change_info_user():
     if request.method.__eq__('POST'):
-        error_ms = ''
         avatar = request.files.get('avatar')
-        avatar_path = ''
         name = request.form.get('name')
         username = request.form.get('username')
         email = request.form.get('email')
@@ -239,54 +223,76 @@ def change_info_user():
         password = request.form.get('password')
         new_password = request.form.get('new_password')
         confirm = request.form.get('confirm_password')
-        try:
-            if check_login_of_current_user(password, current_user):
-                if (new_password != '' and confirm != '') or (new_password == '' and confirm == ''):
-                    if not new_password.strip().__eq__(confirm.strip()):
-                        error_ms = 'Xác nhận mật khẩu mới không khớp !!!'
-                    else:
-                        list = check_unique_info(username=username, phone=phone, email=email, user= current_user)
-                        if len(list) == 0:
-                            if avatar.filename.endswith('.png') or avatar.filename.endswith('.jpg') or avatar.filename.endswith('.jpeg') or not avatar:
-                                if avatar:
-                                    res = cloudinary.uploader.upload(avatar)
-                                    avatar_path = res['secure_url']
-                                try:
-                                    check_info_for_change(user=current_user,avatar = avatar_path,name = name, username = username,day_of_birth=day_of_birth,email = email, sex=sex, phone= phone, new_password= new_password)
-                                    error_ms = "Thay đổi thành công!!!"
-                                except Exception as ex:
-                                    error_ms = str(ex)
-                            else:
-                                error_ms = 'File avatar không hợp lệ (*.jpeg/*.png/*.jpg)!!!'
-                        else:
-                            error_ms = 'Những thông tin sau đã tồn tại: '
-                            for i in range(len(list)):
-                                if i != 0:
-                                    error_ms += ', ' + list[i]
-                                else:
-                                    error_ms += list[i]
-
-                else:
-                    error_ms = 'Xác nhận mật khẩu mới không khớp !!!'
-
-            else:
-                error_ms = 'Nhập sai mật khẩu hiện tại !!!'
-    #         #     if avatar:
-    #         #         res = cloudinary.uploader.upload(avatar)
-    #         #         avatar_path = res['secure_url']
-    #         #     user_exist = check_username(username)
-    #         #     if not user_exist:
-    #         #         register_user(name=name, username=username, password=password, email=email, avatar=avatar_path)
-    #         #         return redirect('/user-login')
-    #         #     else:
-    #         #         error = "Đã tồn tại username!!!"
-    #         # else:
-    #         #     error = "Mật khẩu không khớp!!!"
-        except Exception as ex:
-            error_ms = str(ex)
+        error_ms = check_info_for_error_ms(current_user = current_user,avatar = avatar, name= name,\
+                                       username=username,email = email, sex = sex,day_of_birth= day_of_birth,\
+                                       phone=phone,password = password,new_password = new_password,confirm = confirm)
     return redirect(url_for(check_role_for_render(current_user), error_ms = error_ms))
 
 
+@app.route('/api/check-phone-number', methods = ['post'])
+def api_check_phone_number():
+    data = request.json
+    phone_number = data.get('phone_number')
+    if not phone_number.isdigit():
+        return jsonify({'code': 400,
+                        'phone_number': phone_number,
+                        'error_ms': 'Nhập sai định dạng số điện thoại!!!'})
+
+    patient = check_phone_number_of_patient(phone_number=phone_number)
+    if patient:
+        return jsonify({'code': 200,
+                        'first_name': patient.first_name,
+                        'last_name': patient.last_name,
+                        'sex': patient.sex.value,
+                        'date_of_birth': patient.date_of_birth.strftime('%Y-%m-%d')})
+    return jsonify({'code': 300,
+                        'phone_number': phone_number})
+
+
+@app.route('/api/medical-register', methods = ['post'])
+def api_medical_register():
+    data = request.json
+    phone_number = data.get('phone_number')
+    first_name = data.get('first_name')
+    last_name = data.get('last_name')
+    sex = data.get('sex')
+    date_of_birth = data.get('date_of_birth')
+    date_of_exam = data.get('date_of_exam')
+    if not last_name.strip():
+        return jsonify({'code': 400,
+                        'error_ms': 'Bạn không được để trống họ!!!'})
+    if not first_name.strip():
+        return jsonify({'code': 400,
+                        'error_ms': 'Bạn không được để trống tên!!!'})
+    if not date_of_birth:
+        return jsonify({'code': 400,
+                        'error_ms': 'Bạn không được để trống ngày sinh!!!'})
+    if not date_of_exam:
+        return jsonify({'code': 400,
+                        'error_ms': 'Bạn không được để trống ngày đăng ký khám bệnh!!!'})
+    patient = check_phone_number_of_patient(phone_number=phone_number)
+    try:
+        slot = get_limit_slot()
+        list_patient = get_patient_in_exam(exam_date=date_of_exam)
+        if not patient:
+            if len(list_patient) <= slot:
+                term_patient = create_patient(last_name=last_name, first_name=first_name, sex=sex, phone_number=phone_number,\
+                               date_of_birth=date_of_birth)
+                register_into_examination(patient_id=term_patient.id, exam_date=date_of_exam)
+            else:
+                return jsonify({'code': 400,
+                                'error_ms': 'Đã hết suất khám, vui lòng chọn ngày khác!!!'})
+        else:
+            if len(list_patient) <= slot:
+                register_into_examination(patient_id=patient.id, exam_date=date_of_exam)
+            else:
+                return jsonify({'code': 400,
+                                'error_ms': 'Đã hết suất khám, vui lòng chọn ngày khác!!!'})
+    except Exception as ex:
+        return jsonify({'code': 400,
+                        'error_ms': str(ex)})
+    return  jsonify({'code': 200,
+                     'error_ms': 'Đăng ký thành công!!!'})
 
 if __name__ == "__main__":
     from clinicapp.admin import *

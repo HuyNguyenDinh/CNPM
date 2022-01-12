@@ -47,7 +47,7 @@ footer{
 div.allfoot{
     display: flex;
     padding: 20px 10px;
-    height: 280px;
+    height: 30vh;
 }
 textarea {
     width: 95%;
@@ -75,7 +75,7 @@ ul.social li{
     padding: 0 5px;
 }
 ul.social li img{
-    width: 100%;
+    width: 80%;
 }
 
 /* CSS navbar */
@@ -229,23 +229,20 @@ ul.social li img{
 #table-thanh-toan-hoa-don td button.pay-the-bill_paid {
     border-radius: 10px;
     padding: 0 20px 0 20px;
-    background-color: #313131;
+    background-color: #8ba4a7;
     color:white;
     cursor: not-allowed;
     width: 200px;
     height: 45px;
-    border:none;
 }
 #table-thanh-toan-hoa-don td button.pay-the-bill_unpaid {
     border-radius: 10px;
     padding: 0 20px 0 20px;
-    background-color: #2b6edd;
+    background-color: #17a2b8;
     color:white;
     width: 200px;
     height: 45px;
-    border:none;
 }
-
 /* Chi tiết thanh toán hóa đơn */
 #talbe1-chi-tiet-thanh-toan-hoa-don {
   margin: 0 auto;
@@ -274,15 +271,9 @@ ul.social li img{
 
 .chi-tiet-thanh-toan-hoa-don-button button {
   border-radius: 10px;
-  background-color: #2b6edd;
+  background-color: lightgreen;
   padding: 10px 15px 10px 15px;
-  color:white;
-  border:none;
 }
-.chi-tiet-thanh-toan-hoa-don-button button:hover{
-    background-color: #313131;
-}
-
 .chi-tiet-thanh-toan-hoa-don{
   margin-bottom:50px;
 }
@@ -355,6 +346,22 @@ border: 1px solid black;
   border-radius: 5px;
 }
 
+button.pay-the-bill_paid,
+button.pay-the-bill_unpaid{
+    width: 200px;
+    height: 45px;
+}
+.pay-the-bill_paid{
+    background-color: grey;
+    color:white;
+    cursor: not-allowed;
+    disabled:true;
+}
+.pay-the-bill_unpaid{
+    background-color: green;
+    color:white;
+}
+
 .popup_detail-pay-the-bill{
     position:fixed;
     top: 50%;
@@ -364,6 +371,7 @@ border: 1px solid black;
     height:300px;
     background-color:white;
     text-align: center;
+    border: 5px solid green;
     z-index:1;
     border-radius:10px;
     transition: transform ease 0.5s;
@@ -461,13 +469,4 @@ border: 1px solid black;
 
 .about-us-1:hover .about-us-2 > *{
     transform: translateY(0);
-}
-.button_hover{
-    background-color:#2b6edd;
-    border:none;
-    border-radius:8px;
-    color:white;
-}
-.button_hover:hover{
-    background-color:#313131;
 }
