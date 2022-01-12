@@ -1,7 +1,7 @@
 <br><br>
 <form method="post" class="dang-ky-kham-benh-y-ta">
     <h1 style="color: #2b6edd;font-weight: bold;">Đăng Ký Khám Bệnh</h1>
-    <table id="table-1" style="margin: auto;">
+    <table id="table-1" style="margin: auto;width:70%">
         <tr>
             <td>Số điện thoại (Phone number):</td>
             <td>
@@ -33,12 +33,12 @@
             <td>
                 <input required disabled type="date" id="date_of_birth">
             </td>
+            <td>Ngày khám (Date of examination):</td>
+            <td>
+                <input required disabled type="date" value="{{date_now}}" id="date_of_exam">
+            </td>
         </tr>
     </table>
-    <div style="display: flex; justify-content: center; align-item: center;margin-bottom: 20px;">
-        <div style="margin-right: 15px;">Ngày khám (Date of examination):</div>
-        <input required disabled type="date" value="{{date_now}}" id="date_of_exam">
-    </div>
     <div style="display: flex; justify-content: center; align-item: center;">
     </div>
     <div id="button"><input type="submit" id="button_submit" disabled style="padding: 5px 20px; background-color: #17a2b8; border-radius: 5px; color: white;" onclick="api_medical_register()" value="Đăng ký"></input></div>

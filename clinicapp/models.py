@@ -133,5 +133,15 @@ class Medical_bill_detail(db.Model):
     def __str__(self):
         return "id:" + str(self.medical_bill_id) + "-" + self.medicine_unit.medicine + "-" + self.medicine_unit.unit_tag
 
+class Comment(BaseModel):
+    __tablename__ = 'comment'
+    __table_args__ = {'extend_existing': True}
+    patient_comment = Column(String(50))
+    content_comment = Column(String(180))
+    star_comment = Column(Integer)
+
+    def __str__(self):
+        return self.name;
+
 if __name__ == '__main__':
     db.create_all()

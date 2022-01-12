@@ -1,7 +1,7 @@
 import datetime
 
 from clinicapp.models import Medical_bill, Medicine, Medicine_unit, Medical_bill_detail, Bill, Unit_tag, User, UserRole,\
-    Examination, Patient, Exam_patient, Sex, Other
+    Examination, Patient, Exam_patient, Sex, Other,Comment
 from clinicapp import db
 from sqlalchemy import func, extract, desc, alias, update
 from twilio.rest import Client
@@ -11,6 +11,7 @@ import urllib.request
 import uuid
 import hmac
 import json
+
 
 def get_medical_bill_value(mb_id=None):
     bills = db.session.query(Medical_bill_detail.medical_bill_id,
@@ -595,3 +596,15 @@ def check_info_for_error_ms(current_user= None,avatar = None, name = None, usern
     except Exception as ex:
         error_ms = str(ex)
     return error_ms
+
+def add_comment(patient_comment, content_comment, star_comment):
+    c = Comment(patient_comment = patient_comment, content_comment=content_comment,star_comment=star_comment)
+
+    db.session.add(c)
+    db.session.commit()
+
+    return c
+
+def get_comment():
+
+    return db.session.query(Comment.patient_comment,Comment.content_comment,Comment.star_comment).order_by(Comment.id.desc()).all()
