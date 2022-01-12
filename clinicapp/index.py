@@ -295,7 +295,7 @@ def api_medical_register():
         slot = get_limit_slot()
         list_patient = get_patient_in_exam(exam_date=date_of_exam)
         if not patient:
-            if len(list_patient) <= slot:
+            if not list_patient or len(list_patient) <= slot:
                 term_patient = create_patient(last_name=last_name, first_name=first_name, sex=sex, phone_number=phone_number,\
                                date_of_birth=date_of_birth)
                 register_into_examination(patient_id=term_patient.id, exam_date=date_of_exam)
@@ -303,7 +303,7 @@ def api_medical_register():
                 return jsonify({'code': 400,
                                 'error_ms': 'Đã hết suất khám, vui lòng chọn ngày khác!!!'})
         else:
-            if len(list_patient) <= slot:
+            if not list_patient or len(list_patient) <= slot:
                 register_into_examination(patient_id=patient.id, exam_date=date_of_exam)
             else:
                 return jsonify({'code': 400,
