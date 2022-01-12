@@ -202,6 +202,7 @@ function get_phone_number(obj){
     }).catch(function(err){
         console.error(err)
     })
+}
 
 function get_pay_url_momo(bill_id, amount, current_url) {
     fetch('/api/pay_with_momo', {
@@ -209,18 +210,24 @@ function get_pay_url_momo(bill_id, amount, current_url) {
         body: JSON.stringify ({
             'id': bill_id,
             'amount': amount,
-            'current_url': current_url
-    }).then(function(data) {
-        console.log(data.code)
+            'current_url': current_url})
+    }).then(function(res){
+        console.log(res);
+        return res.json();
+    }).then.then(function(data) {
+        console.log(data.code);
         if (data.code == 200) {
             console.log('success');
-            window.location.replace(data.pay_url)
+            window.location.replace(data.pay_url);
         }
-        else if (data.code == 400)
-            console.log('fail');
-    }).catch(err => console.error(err))
-
+        else if (data.code == 400) {
+         console.log('fail');
+        }
+    }).catch(function(err) {
+        console.error(err);
+    });
 }
+
 function fix_loop(){
     document.getElementById("last_name").disabled = true;
     document.getElementById("first_name").disabled = true;
@@ -263,8 +270,7 @@ function api_medical_register(){
             alert(data.error_ms)
         }
 
-    }).catch(function(err){
+    )}.catch(function(err){
         console.error(err)
     })
 }
-
