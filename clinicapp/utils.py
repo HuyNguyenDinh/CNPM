@@ -310,7 +310,7 @@ def register_into_examination(patient_id, exam_date):
     exam = get_exam_by_id(exam_date=datetime.datetime(year, month, day)).first()
     patient = get_patient(patient_id).first()
     if not exam:
-        exam = create_exam(user_id=1, exam_date=datetime.datetime(year, month, day))
+        exam = create_exam(user_id=1, exam_date=exam_date)
     exam.patients.append(patient)
     try:
         db.session.add(exam)
