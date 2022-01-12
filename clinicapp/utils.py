@@ -7,6 +7,10 @@ from sqlalchemy import func, extract, desc, alias, update
 from twilio.rest import Client
 import hashlib, datetime
 import cloudinary.uploader
+import urllib.request
+import uuid
+import hmac
+import json
 
 def get_medical_bill_value(mb_id=None):
     bills = db.session.query(Medical_bill_detail.medical_bill_id,
@@ -418,10 +422,13 @@ def pay_bill_with_momo(bill_id, amount, re_url):
     req = urllib.request.Request(endpoint, data=data,\
                                  headers={'Content-Type': 'application/json',\
                                           'Content-Length': clen,'User-Agent': 'Mozilla/5.0'}, method='POST')
-    f = urllib.request.urlopen(req)
-    response = f.read()
-    f.close()
-    return json.loads(response)['payUrl']
+    try:
+        f = urllib.request.urlopen(req)
+        response = f.read()
+        f.close()
+        return json.loads(response)['payUrl']
+    except:
+        return None
 
 def get_cost():
     total = db.session.query(Other.cost).limit(1)

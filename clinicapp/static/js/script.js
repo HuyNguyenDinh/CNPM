@@ -207,21 +207,26 @@ function get_phone_number(obj){
 function get_pay_url_momo(bill_id, amount, current_url) {
     fetch('/api/pay_with_momo', {
         method: 'post',
-        body: JSON.stringify ({
+        body: JSON.stringify({
             'id': bill_id,
             'amount': amount,
-            'current_url': current_url})
+            'current_url': current_url
+        }),
+        headers: {
+            'Content-Type': 'application/json'
+        }
     }).then(function(res){
         console.log(res);
         return res.json();
-    }).then.then(function(data) {
+    }).then(function(data) {
         console.log(data.code);
         if (data.code == 200) {
             console.log('success');
             window.location.replace(data.pay_url);
         }
         else if (data.code == 400) {
-         console.log('fail');
+            console.log('fail');
+            document.getElementById("btn-thanh-toan-momo").disabled = "true"
         }
     }).catch(function(err) {
         console.error(err);

@@ -10,7 +10,10 @@
               {% if bill %}
                 <td>{{bill[0]}}</td>
               {% endif %}
-            <td style="border: 1px solid black; border-radius: 10px; text-align: center;">HĐ1</td>
+              <td style="padding-left: 40px; font-weight: 600;">Tổng hóa đơn:</td>
+                {% if bill %}
+                    <td style="border: 1px solid black; border-radius: 10px; text-align: center;">{{bill[1]}} VNĐ</td>
+              {% endif %}
           </tr>
           <tr>
             <td style="font-weight: 600;">Tên khách hàng:</td>
@@ -39,7 +42,7 @@
 
             {% if bill and bill[7] == False %}
                 <button class="btn-thanh-toan" onclick="pay_the_bill({{bill[0]}})">Thanh toán tại quầy</button>
-                <button class="btn-thanh-toan" onclick="get_pay_url_momo({{bill[0]}}, {{bill[1]}}, window.location.href)">Thanh toán qua MoMo</button>
+                <button class="btn-thanh-toan" id="btn-thanh-toan-momo" onclick="get_pay_url_momo({{bill[0]}}, {{bill[1]}}, window.location.href)">Thanh toán qua MoMo</button>
             {% endif %}
         </div>
         <div class="popup_detail-pay-the-bill">
