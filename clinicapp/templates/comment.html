@@ -1,22 +1,61 @@
-<div class="swiper mySwiper">
-  <div class="swiper-wrapper">
-    <div class="swiper-slide">Slide 1</div>
-    <div class="swiper-slide">Slide 2</div>
-    <div class="swiper-slide">Slide 3</div>
-    <div class="swiper-slide">Slide 4</div>
-    <div class="swiper-slide">Slide 5</div>
-    <div class="swiper-slide">Slide 6</div>
-    <div class="swiper-slide">Slide 7</div>
-    <div class="swiper-slide">Slide 8</div>
-    <div class="swiper-slide">Slide 9</div>
+{% block TitlePage %}
+<title>Những phản hồi từ khách hàng</title>
+{% endblock %}
+  <div class="swiper mySwiper">
+      <div class="swiper-wrapper" id="commentArea">
+        {% for c in comments %}
+        <div class="swiper-slide">
+          <div class="name-patient-comment">{{c.patient_comment}}</div>
+          <div class="content-comment">{{c.content_comment}}</div>
+          <div class="rate-comment"  load="load_rate_comment({{c.star_comment}})">
+            {% if c.star_comment == 1 %}
+              <i class="fas fa-star" style="color:blue"></i>
+              <i class="far fa-star" style="color:blue"></i>
+              <i class="far fa-star" style="color:blue"></i>
+              <i class="far fa-star" style="color:blue"></i>
+              <i class="far fa-star" style="color:blue"></i>
+            {% endif %}
+            {% if c.star_comment == 2 %}
+              <i class="fas fa-star" style="color:blue"></i>
+              <i class="fas fa-star" style="color:blue"></i>
+              <i class="far fa-star" style="color:blue"></i>
+              <i class="far fa-star" style="color:blue"></i>
+              <i class="far fa-star" style="color:blue"></i>
+            {% endif %}
+            {% if c.star_comment == 3 %}
+              <i class="fas fa-star" style="color:blue"></i>
+              <i class="fas fa-star" style="color:blue"></i>
+              <i class="fas fa-star" style="color:blue"></i>
+              <i class="far fa-star" style="color:blue"></i>
+              <i class="far fa-star" style="color:blue"></i>
+            {% endif %}
+              {% if c.star_comment == 4 %}
+              <i class="fas fa-star" style="color:blue"></i>
+              <i class="fas fa-star" style="color:blue"></i>
+              <i class="fas fa-star" style="color:blue"></i>
+              <i class="fas fa-star" style="color:blue"></i>
+              <i class="far fa-star" style="color:blue"></i>
+            {% endif %}
+              {% if c.star_comment == 5 %}
+              <i class="fas fa-star" style="color:blue"></i>
+              <i class="fas fa-star" style="color:blue"></i>
+              <i class="fas fa-star" style="color:blue"></i>
+              <i class="fas fa-star" style="color:blue"></i>
+              <i class="fas fa-star" style="color:blue"></i>
+            {% endif %}
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    <div class="swiper-button-next"></div>
+    <div class="swiper-button-prev"></div>
   </div>
-  <div class="swiper-button-next"></div>
-  <div class="swiper-button-prev"></div>
-</div>
+
+
 <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 <script>
       var swiper = new Swiper(".mySwiper", {
-        slidesPerView: 3,
+        slidesPerView: 4,
         spaceBetween: 30,
         navigation: {
           nextEl: ".swiper-button-next",

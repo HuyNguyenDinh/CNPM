@@ -274,3 +274,49 @@ function api_medical_register(){
         console.error(err)
     })
 }
+function addComment(){
+    let content_comment = document.getElementById('content-of-comment')
+    let patient_comment = document.getElementById('name-of-patient-comment')
+    let star_comment = document.querySelector('input[name="rating"]:checked').value;
+
+    if(content_comment !== null){
+        fetch('/api/comment',{
+            method: 'post',
+            body:JSON.stringify({
+                'content_comment':content_comment.value,
+                'patient_comment':patient_comment.value,
+                'star_comment':star_comment
+            }),
+            headers:{
+                'Content-Type':'application/json'
+            }
+        }).then(res => res.json()).then(data=>{
+            if (data.status == 201){
+                let c = data.comment
+                let area = document.getElementById('commentArea')
+                console.log(c.patient_comment)
+                console.log(c.content_comment)
+                area.innerHTML =`
+                    <div class="swiper-slide" id="commentArea">
+                      <div class="name-patient-comment">${c.patient_comment}</div>
+                      <div class="content-comment">${c.content_comment}</div>
+                      <div class="rate-comment">
+                        for (let i = 0; i < Number(star_comment); i++){
+                            <i class="fas fa-star" style="color:blue"></i>
+                        }
+                        for (let i = 0; i < 5- Number(star_comment); i++){
+                            <i class="far fa-star" style="color:blue"></i>
+                        }
+                      </div>
+                    </div>
+                `+area.innerHTML
+                location.reload();
+            }else if (data.status == 404){
+                alert(data.error_ms)
+            }
+    })
+    .catch(function(err){
+        console.error(err)
+    })
+    }
+}

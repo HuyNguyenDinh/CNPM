@@ -20,7 +20,8 @@ def homepage():
             return redirect('/doctor-view')
         else:
             return redirect('/admin')
-    return render_template('index.html')
+    comments = utils.get_comment()
+    return render_template('index.html', comments=comments)
 
 @app.route("/return-admin")
 def return_admin_page():
@@ -313,6 +314,24 @@ def api_medical_register():
                         'error_ms': str(ex)})
     return  jsonify({'code': 200,
                      'error_ms': 'Đăng ký thành công!!!'})
+
+@app.route('/api/comment', methods=['post'])
+def add_comment():
+    data = request.json
+    content_comment = data.get('content_comment')
+    patient_comment = data.get('patient_comment')
+    star_comment = data.get('star_comment')
+
+    try:
+        c = utils.add_comment(patient_comment=patient_comment,content_comment=content_comment,star_comment=star_comment)
+    except:
+        return {'status': 404,'err_msg':'Chuong trinh bi loi'}
+
+    return jsonify({'status':201,'comment':{
+        'patient_comment': c.patient_comment,
+        'content_comment': c.content_comment,
+        'star_comment': c.star_comment
+    }})
 
 if __name__ == "__main__":
     from clinicapp.admin import *
