@@ -273,6 +273,11 @@ function api_medical_register(){
         }
         else if (data.code == 200){
             alert(data.error_ms)
+            document.getElementById("phone_number").value = null;
+            document.getElementById("last_name").value = null;
+            document.getElementById("first_name").value = null;
+            document.getElementById("sex").value = 3;
+            document.getElementById("date_of_birth").value = null;
         }
 
     }).catch(function(err){
