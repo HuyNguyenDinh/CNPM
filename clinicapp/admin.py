@@ -137,6 +137,14 @@ class MyAdminIndexView(AdminIndexView):
     def index(self):
         return self.render('admin/index.html', dsqtv = get_list_admin(current_user), role = check_role(current_user))
 
+class RegulationsView(ModelView):
+    can_export = True
+    can_create = False
+    can_delete = False
+    edit_modal = True
+    details_modal = True
+    can_view_details = True
+
 admin=Admin(app=app, name='Quản Trị Hệ Thống', template_mode='bootstrap4', index_view=MyAdminIndexView())
 admin.add_view(UserView(User, db.session,name="Tài Khoản"))
 admin.add_view(MedicalBillView(Medical_bill, db.session,name="Phiếu Khám"))
@@ -146,4 +154,5 @@ admin.add_view(Medicine_stats_view(name="Tần suất sử dụng thuốc", cate
 admin.add_view(MedicineUnitView(Medicine_unit, db.session,name="Đơn vị của từng loại thuốc", category="Quản lý thuốc"))
 admin.add_view(UnitTagView(Unit_tag, db.session, name="Đơn vị thuốc", category="Quản lý thuốc"))
 admin.add_view(BackHome(name="Trở Về"))
+admin.add_view(RegulationsView(Other, db.session, name="Quy định"))
 admin.add_view(LogoutView(name="Đăng Xuất"))
