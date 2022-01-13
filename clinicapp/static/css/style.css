@@ -136,7 +136,7 @@ ul.social li img {
   border-radius: 10px;
   text-align: center;
   background-color: white;
-  box-shadow: rgba(43, 110, 221, 0.3) 0px 7px 13px 0px;
+  box-shadow: rgba(43,110,221, 0.3) 0px 7px 13px 0px;
 }
 
 .ve-chung-toi-picture div img {
@@ -438,39 +438,60 @@ button.pay-the-bill_unpaid {
   color: white;
 }
 
-.about-us-1:hover .about-us-2 {
-  opacity: 1;
-  border-radius: 10px;
+.about-us-1:hover .about-us-2{
+       opacity: 1;
+       border-radius: 10px;
 }
 
 .about-us-1 {
-  position: relative;
+    position: relative;
+    transform: translateY(30px);
+    transition: 0.5s ease-in-out;
 }
+
+.about-us-1:hover {
+    transform: translateY(0);
+}
+
+.about-us-1:hover .doctor-name{
+    opacity: 0;
+}
+
 .about-us-2 {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
-  font-size: 15px;
-  color: white;
-  background-color: rgba(0, 0, 0, 0.6);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  opacity: 0;
-  transform: opacity 0.25s;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    line-height: 20px;
+    width: 100%;
+    font-size: 15px;
+    color: white;
+    background: linear-gradient(
+    to bottom,
+    rgba(228, 201, 252, 0.5),
+    rgba(5,100, 233, 0.5)
+  );
+    padding: 110px 35px 5px 15px;
+    text-align: left;
+    align-items: center;
+    opacity: 0;
+    transform: opacity 0.5s;
 }
 
+.about-us-2 h4 {
+    margin-bottom: 17px;
+}
 .about-us-2 > * {
-  transform: translateY(30px);
-  transition: transform 0.25s;
+    transform: translateY(30px);
+    transition: transform 0.5s;
 }
 
-.about-us-1:hover .about-us-2 > * {
-  transform: translateY(0);
+.about-us-1:hover .about-us-2 > *{
+    transform: translateY(0);
 }
+
+
+
 .button_hover {
   background-color: #2b6edd;
   border: none;
