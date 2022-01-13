@@ -167,7 +167,8 @@ def get_status_of_exam(exam_date=None):
 def change_status_examination(exam_id=None):
 
     if exam_id:
-        send_sms_to_patient(exam_id)
+        if send_sms_to_patient(exam_id) == False:
+            return False
         Examination.query.filter_by(id=int(exam_id)).update(dict(apply=True))
         db.session.commit()
         return True
@@ -246,6 +247,12 @@ def get_exam_by_id(exam_id=None, exam_date=None):
     if not exam_id and exam_date:
         exam = exam.filter_by(date=exam_date)
     return exam
+
+def check_patient_in_an_exam(patient, list_patient):
+    for p in list_patient:
+        if patient.id.__eq__(p[6]):
+            return True
+    return False
 
 def get_medicine(medicine_id=None):
     medicine = db.session.query(Medicine)
@@ -518,6 +525,7 @@ def check_role_for_render(user):
             return 'nurse_view'
         elif user.user_role == UserRole.DOCTOR:
             return 'doctor_view'
+
 def check_unique_info(username,phone,email, user):
     kq = []
     if user.is_authenticated:
@@ -536,20 +544,23 @@ def check_unique_info(username,phone,email, user):
     return kq
 
 account_sid = 'AC0c21ea651869130bbf4d2d34aa836370'
-auth_token = '4418be197df5637d72503a11fc46ce42'
+auth_token = '512220d388660154701314b3fab32fcc'
 def send_sms_to_patient(dayexam):
     client = Client(account_sid, auth_token)
     if dayexam:
         getday = db.session.query(Examination).get(dayexam)
     phone = get_patient_in_exam(str(getday.date))
-    for idx,value in enumerate(phone):
-        # print(value[5])
-        message = client.messages.create(
-            body='Lịch khám: '+str(getday.date),
-            from_='+19166940519',
-            to= '+84' + str(value[5])
-        )
-    return True
+    try:
+        for idx,value in enumerate(phone):
+            # print(value[5])
+            message = client.messages.create(
+                body='Lịch khám: '+str(getday.date),
+                from_='+19166940519',
+                to= '+84' + str(value[5])
+            )
+        return True
+    except:
+        return False
 
 def check_phone_number_of_patient(phone_number):
     if phone_number:

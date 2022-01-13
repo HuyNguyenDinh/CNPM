@@ -18,7 +18,7 @@ if __name__ == '__main__':
     db.session.commit()
 
     p1 = models.Patient(first_name="Thu", last_name="Nguyen Van", sex=models.Sex.MALE,\
-                        date_of_birth=datetime.now(), phone_number='0877158491')
+                        date_of_birth=datetime.now(), phone_number='0784301745')
     p2 = models.Patient(first_name="Hieu", last_name="Nguyen Ngoc", sex=models.Sex.MALE,\
                         date_of_birth=datetime.now(), phone_number='0944540746')
     p3 = models.Patient(first_name="Huy", last_name="Nguyen Dinh", sex=models.Sex.MALE,\
