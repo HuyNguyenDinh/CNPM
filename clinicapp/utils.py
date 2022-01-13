@@ -1,5 +1,5 @@
 import datetime
-
+from flask import jsonify
 from clinicapp.models import Medical_bill, Medicine, Medicine_unit, Medical_bill_detail, Bill, Unit_tag, User, UserRole,\
     Examination, Patient, Exam_patient, Sex, Other,Comment
 from clinicapp import db
@@ -620,3 +620,47 @@ def add_comment(patient_comment, content_comment, star_comment):
 def get_comment():
 
     return db.session.query(Comment.patient_comment,Comment.content_comment,Comment.star_comment).order_by(Comment.id.desc()).all()
+
+def medical_register(phone_number, first_name, last_name, sex, date_of_birth, date_of_exam):
+    if not last_name.strip():
+        return jsonify({'code': 400,
+                        'error_ms': 'Bạn không được để trống họ!!!'})
+    if not first_name.strip():
+        return jsonify({'code': 400,
+                        'error_ms': 'Bạn không được để trống tên!!!'})
+    if not date_of_birth:
+        return jsonify({'code': 400,
+                        'error_ms': 'Bạn không được để trống ngày sinh!!!'})
+    if not date_of_exam:
+        return jsonify({'code': 400,
+                        'error_ms': 'Bạn không được để trống ngày đăng ký khám bệnh!!!'})
+    patient = check_phone_number_of_patient(phone_number=phone_number)
+    try:
+        slot = get_limit_slot()
+        list_patient = get_patient_in_exam(exam_date=date_of_exam)
+        if list_patient and list_patient[0][8]:
+            return jsonify({'code': 400,
+                            'error_ms': 'Bạn không thể đăng ký khám bệnh ngày này!!!'})
+        if not patient:
+            if not list_patient or len(list_patient) < slot:
+                term_patient = create_patient(last_name=last_name, first_name=first_name, sex=sex, phone_number=phone_number,\
+                               date_of_birth=date_of_birth)
+                register_into_examination(patient_id=term_patient.id, exam_date=date_of_exam)
+            else:
+                return jsonify({'code': 400,
+                                'error_ms': 'Đã hết suất khám, vui lòng chọn ngày khác!!!'})
+        else:
+            if not list_patient or len(list_patient) < slot:
+                if list_patient:
+                    if check_patient_in_an_exam(patient, list_patient):
+                        return jsonify({'code': 400,
+                                    'error_ms': 'Bạn đã đăng ký lịch khám vào ngày này rồi!!!'})
+                register_into_examination(patient_id=patient.id, exam_date=date_of_exam)
+            else:
+                return jsonify({'code': 400,
+                                'error_ms': 'Đã hết suất khám, vui lòng chọn ngày khác!!!'})
+    except Exception as ex:
+        return jsonify({'code': 400,
+                        'error_ms': str(ex)})
+    return  jsonify({'code': 200,
+                     'error_ms': 'Đăng ký thành công!!!'})
