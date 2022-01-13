@@ -22,14 +22,16 @@
                         <th>Số lượng</th>
                         <th>Số lần dùng</th>
                     </tr>
-                    {% for s in stats %}
-                    <tr class="col-md-6 col-xs-12">
-                        <td>{{s[0]}}</td>
-                        <td>{{s[1]}}</td>
-                        <td>{{s[2]}}</td>
-                        <td>{{s[3]}}</td>
-                    </tr>
-                    {% endfor %}
+                    {% if stats %}
+                        {% for s in stats %}
+                        <tr class="col-md-6 col-xs-12">
+                            <td>{{s[0]}}</td>
+                            <td>{{s[1]}}</td>
+                            <td>{{s[2]}}</td>
+                            <td>{{s[3]}}</td>
+                        </tr>
+                        {% endfor %}
+                    {% endif %}
                 </table>
             </div>
             <div class="col-md-6 col-xs-12">

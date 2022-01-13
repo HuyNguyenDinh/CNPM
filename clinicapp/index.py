@@ -141,6 +141,7 @@ def pay():
 @app.route('/api/momo_pay_status')
 def get_momo_pay_status():
     data = request.json
+    pass
 
 @app.route('/api/pay_with_momo', methods=['post'])
 @login_required
@@ -150,7 +151,7 @@ def pay_momo():
     amount = data.get('amount')
     re_url = data.get('current_url')
     if id and amount and re_url:
-        id = "bill-" + str(id)
+        id = "bill-test-13-01-2022-" + str(id)
         pay_url = pay_bill_with_momo(id, amount, re_url)
         if pay_url:
             return jsonify({'code': 200, 'pay_url': pay_url})

@@ -428,7 +428,8 @@ def pay_bill_with_momo(bill_id, amount, re_url):
         response = f.read()
         f.close()
         return json.loads(response)['payUrl']
-    except:
+    except Exception as e:
+        print(e)
         return None
 
 def get_cost():

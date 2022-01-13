@@ -68,7 +68,7 @@ class Patient(BaseModel):
     last_name = Column(String(50), nullable=False)
     date_of_birth = Column(Date, nullable=False)
     sex = Column(Enum(Sex), nullable=False)
-    phone_number = Column(String(50), nullable=False, unique= True)
+    phone_number = Column(String(50), nullable=False, unique=True)
     medical_bills = relationship('Medical_bill', backref='patient', lazy=True)
 
 class Medical_bill(BaseModel):
