@@ -34,7 +34,7 @@ class MedicalBillView(ModelView):
         'diagnosis': "Chuẩn đoán",
         'symptom': "Triệu chứng"
     }
-    column_exclude_list = ['user']
+    column_exclude_list = ['user', 'patient']
     column_searchable_list = ['diagnosis','symptom']
     form_columns = ('create_date','user','diagnosis','symptom')
     can_view_details = True
@@ -144,6 +144,9 @@ class RegulationsView(ModelView):
     edit_modal = True
     details_modal = True
     can_view_details = True
+
+    def is_accessible(self):
+        return current_user.is_authenticated and current_user.user_role == UserRole.ADMIN
 
 admin=Admin(app=app, name='Quản Trị Hệ Thống', template_mode='bootstrap4', index_view=MyAdminIndexView())
 admin.add_view(UserView(User, db.session,name="Tài Khoản"))

@@ -8,7 +8,7 @@ import hashlib
 import cloudinary.uploader
 from flask import url_for, json, session
 import datetime
-
+import uuid
 
 
 @app.route("/")
@@ -151,7 +151,7 @@ def pay_momo():
     amount = data.get('amount')
     re_url = data.get('current_url')
     if id and amount and re_url:
-        id = "bill-test-13-01-2022-" + str(id)
+        id = "Clinic-bill-test-" + str(id) + "-" + str(datetime.date.today())
         pay_url = pay_bill_with_momo(id, amount, re_url)
         if pay_url:
             return jsonify({'code': 200, 'pay_url': pay_url})
