@@ -114,7 +114,7 @@ function temp(med_id, med_unit_id) {
 function add_row_for_med_bill() {
     med_id = "med-" + sessionStorage.getItem("serial")
     med_unit_id = "med-unit-" + sessionStorage.getItem("serial")
-    $("#talbe2-chi-tiet-thanh-toan-hoa-don").append(`<tr><td>${sessionStorage.getItem("serial")}</td><td><select id=${med_id} size="1"><option value="" selected="selected">Select subject</option></select></td><td><select class="medicine-unit-id" id=${med_unit_id} size="1"><option value="" selected="selected">Please select subject first</option></select></td><td><input type="number" min="0" class="quantity" placeholder="Số lượng"></td><td><input type="text" class="use"></td></tr>`);
+    $("#talbe2-chi-tiet-thanh-toan-hoa-don").append(`<tr><td>${sessionStorage.getItem("serial")}</td><td><select id=${med_id} size="1"><option value="" selected="selected">Select medicine</option></select></td><td><select class="medicine-unit-id" id=${med_unit_id} size="1"><option value="" selected="selected">Please select medicine first</option></select></td><td><input type="number" min="0" class="quantity" placeholder="Số lượng"></td><td><input type="text" class="use"></td></tr>`);
     temp(med_id, med_unit_id);
     sessionStorage['serial'] = sessionStorage['serial'] - 1 + 2
 }

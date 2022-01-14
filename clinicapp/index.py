@@ -178,29 +178,29 @@ def create_medical_bill_by_doctor():
     medicine = data.get('medicine')
     diagnosis = data.get('diagnosis')
     symptom = data.get('symptom')
-    check = False
+    check = 0
     if patient_id and user_id and exam_date:
-        med_bill = create_medical_bill(user_id, patient_id, exam_date, diagnosis, symptom)
-        if med_bill:
-            for unit in medicine:
-                if unit and medicine[unit]["quantity"]:
+        for unit in medicine:
+            if unit and medicine[unit]["quantity"]:
+                check = check + 1
+                if check == 1:
+                    med_bill = create_medical_bill(user_id, patient_id, exam_date, diagnosis, symptom)
+                if check >= 1:
                     temp = utils.create_medical_bill_detail(med_bill.id, unit, medicine[unit]["quantity"],\
                                                         medicine[unit]["use"])
                     if not temp:
                         return jsonify({'code': 400})
-                    else:
-                        check = True
-            temp = utils.get_cost()
-            if check == False:
-                return jsonify({'code': 400})
-            b = utils.get_medical_bill_value(med_bill.id)
-            bill = Bill(medical_bill_id=b[0], value=b[1] + temp)
-            try:
-                db.session.add(bill)
-                db.session.commit()
-                return jsonify({'code': 200})
-            except:
-                return jsonify({'code': 400})
+        temp = utils.get_cost()
+        if check == 0:
+            return jsonify({'code': 400})
+        b = utils.get_medical_bill_value(med_bill.id)
+        bill = Bill(medical_bill_id=b[0], value=b[1] + temp)
+        try:
+            db.session.add(bill)
+            db.session.commit()
+            return jsonify({'code': 200})
+        except:
+            return jsonify({'code': 400})
     return jsonify({'code': 400})
 
 @app.route('/doctor-view/make-a-medical-bill')
