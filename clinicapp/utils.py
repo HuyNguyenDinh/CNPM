@@ -550,17 +550,17 @@ def send_sms_to_patient(dayexam):
     if dayexam:
         getday = db.session.query(Examination).get(dayexam)
     phone = get_patient_in_exam(str(getday.date))
-    try:
-        for idx,value in enumerate(phone):
-            # print(value[5])
+    for idx,value in enumerate(phone):
+        # print(value[5])
+        try:
             message = client.messages.create(
                 body='Lịch khám: '+str(getday.date),
                 from_='+19166940519',
                 to= '+84' + str(value[5])
             )
-        return True
-    except:
-        return False
+        except:
+            continue
+    return True
 
 def check_phone_number_of_patient(phone_number):
     if phone_number:
