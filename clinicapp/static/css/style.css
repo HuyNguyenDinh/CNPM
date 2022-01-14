@@ -168,15 +168,6 @@ ul.social li img {
   padding: 0 50px;
 }
 
-#button {
-  display: flex;
-  justify-content: center;
-  align-item: center;
-  padding: 10px;
-  margin-top: 20px;
-  margin-bottom: 100px;
-}
-
 #button button {
   background-color: #2b6edd;
   border-radius: 5px;
@@ -233,7 +224,7 @@ ul.social li img {
 #table-thanh-toan-hoa-don td button.pay-the-bill_paid {
   border-radius: 10px;
   padding: 0 20px 0 20px;
-  background-color: #8ba4a7;
+  background-color: #313131;
   color: white;
   cursor: not-allowed;
   width: 200px;
@@ -241,11 +232,16 @@ ul.social li img {
 }
 #table-thanh-toan-hoa-don td button.pay-the-bill_unpaid {
   border-radius: 10px;
+  border: none;
   padding: 0 20px 0 20px;
-  background-color: #17a2b8;
+  background-color: #2b6edd;
   color: white;
   width: 200px;
   height: 45px;
+}
+
+#table-thanh-toan-hoa-don td button.pay-the-bill_unpaid:hover {
+    background-color: red;
 }
 /* Chi tiết thanh toán hóa đơn */
 #talbe1-chi-tiet-thanh-toan-hoa-don {
@@ -317,8 +313,10 @@ ul.social li img {
 
 .lap-danh-sach-kham-button button {
   border-radius: 10px;
-  background-color: lightgreen;
+  border: none;
+  background-color: #2b6edd;
   padding: 10px 15px 10px 15px;
+  color: white;
 }
 
 /*Đăng ký khám bệnh*/
@@ -337,17 +335,27 @@ ul.social li img {
 }
 
 #button {
-  display: flex;
-  justify-content: center;
-  align-item: center;
+  display:flex;
+  flex-direction: column;
+  justify-content:center;
   padding: 10px;
   margin-top: 20px;
   margin-bottom: 100px;
+  align-items: center;
 }
 
-#button button {
+#button input {
   background-color: #2b6edd;
   border-radius: 5px;
+  border: none;
+}
+
+#button input:hover {
+    background-color: #313131;
+}
+
+input[type=date] {
+
 }
 
 button.pay-the-bill_paid,
@@ -422,14 +430,14 @@ button.pay-the-bill_unpaid {
 }
 .button_add_row_detail {
   position: absolute;
-  margin: 25px auto;
+  margin: 25px auto !important;
   left: 50%;
   transform: translate(-50%, -50%);
   border-radius: 5px;
 }
 .button_popup_detail_make_a_medical_bill {
   position: absolute;
-  margin: 40px auto;
+  margin: 40px auto !important;
   left: 50%;
   transform: translate(-50%, -50%);
   border-radius: 5px;
@@ -491,7 +499,29 @@ button.pay-the-bill_unpaid {
     transform: translateY(0);
 }
 
+.btn-submit {
+    font-family: "Be Vietnam Pro", sans-serif;
+    font-size: large;
+    font-weight: bold;
+    border: none;
+    background-color: #2b6edd;
+    color: white;
+    min-height: 30px;
+    border-radius: 5px;
+    padding: 10px;
+    min-width: 80px;
+    margin: 10px;
+}
 
+.btn-submit:hover {
+    background-color: #313131;
+}
+
+.text-ke-don {
+    color: #2b6edd;
+    text-align: center;
+    font-weight: bold;
+}
 
 .button_hover {
   background-color: #2b6edd;
@@ -507,7 +537,7 @@ button.pay-the-bill_unpaid {
 td textarea {
     width: 100%;
     border: 1px dotted gray;
-    border-radius: 14px;
+    border-radius: 5px;
 }
 
 .top-left {

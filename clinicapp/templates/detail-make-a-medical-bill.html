@@ -25,6 +25,9 @@
             <td><textarea id="symptom"></textarea></td>
         </tr>
     </table>
+    <br>
+    <h3 class="text-ke-don">Bảng kê đơn thuốc</h3>
+    <br>
     {% endif %}
     <table id="talbe2-chi-tiet-thanh-toan-hoa-don">
         <tr>
@@ -37,7 +40,7 @@
         <tr>
             <td>1</td>
             <td>
-                <select id="med-1" size="1">
+                <select id="med-1" class="medicine" size="1">
                     <option value="" selected="selected">Select medicine</option>
                 </select>
             </td>
@@ -50,9 +53,9 @@
             <td><input type="text" class="use"></td>
         </tr>
     </table>
-    <button style="padding: 0 20px;" class="button button_add_row_detail" onclick="add_row_for_med_bill()">+</button>
+    <button style="padding: 0 20px;" class="button button_add_row_detail btn-submit" onclick="add_row_for_med_bill()">+</button>
     <br><br>
-    <button class="button_popup_detail_make_a_medical_bill" onclick="create_medical_bill({{current_user.id}},{{patient.id}}, '{{date}}')">Lập phiếu khám</button>
+    <button class="button_popup_detail_make_a_medical_bill btn-submit" onclick="create_medical_bill({{current_user.id}},{{patient.id}}, '{{date}}')">Lập phiếu khám</button>
     <div class="popup_detail-pay-the-bill">
             <p class="title_popup_detail-pay-the-bill"></p>
             <button class="button_popup_detail-pay-the-bill-thanh_toan" onclick="location.href='{{ url_for('make_a_medical_bill', date=date)}}'">Trở về danh sách</button>
