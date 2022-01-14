@@ -278,8 +278,17 @@ def get_medicine_json():
     for med in medicine:
         total[med.id] = {"name": med.name, "unit": {}}
         for med_unit in med.medicine_units:
-            total[med.id]["unit"][med_unit.id] = {"tag": get_tag(med_unit.unit_id)[0].name, "price": med_unit.price}
+            total[med.id]["unit"][med_unit.id] = {"tag": get_tag(med_unit.unit_id)[0].name, "price": med_unit.price,\
+                                                  "quantity": med_unit.quantity}
     return total
+
+def get_quantity_medicine_unit_json():
+    total = {}
+    medicine_unit = get_medicine_unit()
+    for med_unit in medicine_unit:
+        total[med_unit.id] = {"quantity": med_unit.quantity}
+    return total
+
 
 def create_patient(first_name, last_name, sex, date_of_birth, phone_number):
     temp = date_of_birth.split('-')

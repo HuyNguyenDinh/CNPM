@@ -61,7 +61,20 @@ function get_med_list_json() {
             return res.json()
         }).then(function(data) {
             med_list = data
-            temp("med-1", "med-unit-1")
+            get_quantity_medicine_unit()
+        }).catch(err => console.error(err))
+}
+
+var medicine_unit_quantity
+
+function get_quantity_medicine_unit() {
+    fetch('/api/get_medicine_unit_quantity', {
+            method: 'post'
+        }).then(function(res) {
+            return res.json()
+        }).then(function(data) {
+            medicine_unit_quantity = data
+            temp("med-1", "med-unit-1", "quantity-1")
         }).catch(err => console.error(err))
 }
 
@@ -89,12 +102,39 @@ function notify_for_change_user_info() {
     }).catch(err => console.error(err))
 }
 
-sessionStorage.setItem("medicine", {})
 sessionStorage.setItem("serial", 2);
+var medicine_list = []
 
-function temp(med_id, med_unit_id) {
+function add_med_unit_in_system(med_unit) {
+    medicine_list.push(med_unit);
+}
+
+function rm_all_med_unit() {
+    if (medicine_list.length == 0) {
+        return;
+    }
+    else {
+        medicine_list.pop();
+    }
+}
+
+function update_med_unit_exist() {
+    rm_all_med_unit();
+    var unit_id = document.getElementsByClassName("medicine-unit-id");
+    for (let i of unit_id) {
+        if (medicine_list.indexOf(i.value) > -1) {
+            continue;
+        }
+        else {
+            add_med_unit_in_system(i.value);
+        }
+    }
+}
+
+function temp(med_id, med_unit_id, med_unit_quantity) {
     var typeSel = document.getElementById(med_id),
-        fieldSel = document.getElementById(med_unit_id);
+        fieldSel = document.getElementById(med_unit_id),
+        quantitySel = document.getElementById(med_unit_quantity);
     if (med_list != null) {
         for (const [key, value] of Object.entries(med_list)) {
             typeSel.options[typeSel.options.length] = new Option(value["name"], key);
@@ -105,8 +145,21 @@ function temp(med_id, med_unit_id) {
         if (this.selectedIndex < 1) return; // done
         var ft = med_list[this.value]["unit"];
         for (var field in med_list[this.value]["unit"]) {
+            if (medicine_list.indexOf(field.toString()) > -1) continue;
             fieldSel.options[fieldSel.options.length] = new Option(ft[field]["tag"] + "-" + ft[field]["price"], field);
         }
+    }
+    fieldSel.onchange = function() {
+        if (this.selectedIndex < 1) return; // done
+        if (quantitySel) {
+           quantitySel.value = 0;
+           quantitySel.max = medicine_unit_quantity[this.value]["quantity"];
+           update_med_unit_exist();
+        }
+    }
+    quantitySel.onchange = function() {
+        if (this.value <= this.max) return;
+        else this.value = this.max;
     }
 }
 
@@ -114,9 +167,16 @@ function temp(med_id, med_unit_id) {
 function add_row_for_med_bill() {
     med_id = "med-" + sessionStorage.getItem("serial")
     med_unit_id = "med-unit-" + sessionStorage.getItem("serial")
-    $("#talbe2-chi-tiet-thanh-toan-hoa-don").append(`<tr><td>${sessionStorage.getItem("serial")}</td><td><select id=${med_id} size="1"><option value="" selected="selected">Select medicine</option></select></td><td><select class="medicine-unit-id" id=${med_unit_id} size="1"><option value="" selected="selected">Please select medicine first</option></select></td><td><input type="number" min="0" class="quantity" placeholder="Số lượng"></td><td><input type="text" class="use"></td></tr>`);
-    temp(med_id, med_unit_id);
+    quanti = "quantity-" + sessionStorage.getItem("serial")
+    $("#talbe2-chi-tiet-thanh-toan-hoa-don").append(`<tr><td>${sessionStorage.getItem("serial")}</td><td><select id=${med_id} class="medicine" size="1"><option value="" selected="selected">Select medicine</option></select></td><td><select class="medicine-unit-id" id=${med_unit_id} size="1"><option value="" selected="selected">Please select medicine first</option></select></td><td><input type="number" min="0" class="quantity" id=${quanti} min="0" max="0" value="0" placeholder="Số lượng"></td><td><input type="text" class="use"></td></tr>`);
+    temp(med_id, med_unit_id, quanti);
     sessionStorage['serial'] = sessionStorage['serial'] - 1 + 2
+    var med = document.getElementsByClassName("medicine");
+    var unit_id = document.getElementsByClassName("medicine-unit-id");
+    for (var i = 0; i < unit_id.length-1; i++) {
+        med[i].disabled = 'true';
+        unit_id[i].disabled = 'true';
+    }
 }
 
 function create_medical_bill(user_id, patient_id, exam_date) {
@@ -127,7 +187,12 @@ function create_medical_bill(user_id, patient_id, exam_date) {
     var use = document.getElementsByClassName("use");
     var total = {"user_id": user_id, "patient_id": patient_id, "exam_date": exam_date, "diagnosis" : diagnosis, "symptom" : symptom,"medicine": {}}
     for (var i = 0; i < unit_id.length; i++) {
-        total["medicine"][unit_id[i].value] = {"quantity" : quantity[i].value, "use" : use[i].value}
+        if (total["medicine"][unit_id[i].value] != null) {
+            total["medicine"][unit_id[i].value]["quantity"] += parseInt(quantity[i].value);
+        }
+        else {
+            total["medicine"][unit_id[i].value] = {"quantity" : parseInt(quantity[i].value), "use" : use[i].value}
+        }
     }
     fetch('/api/create-medical-bill', {
             method: 'post',
@@ -148,6 +213,7 @@ function create_medical_bill(user_id, patient_id, exam_date) {
             }
         }).catch(err => console.error(err))
 }
+
 function get_phone_number(obj){
     document.getElementById("last_name").disabled = true;
     document.getElementById("first_name").disabled = true;

@@ -79,14 +79,14 @@ if __name__ == '__main__':
         db.session.add(unt)
     db.session.commit()
 
-    mdu1 = models.Medicine_unit(unit_id=1, price=50000, medicine_id=1)
-    mdu2 = models.Medicine_unit(unit_id=2, price=30000, medicine_id=1)
-    mdu3 = models.Medicine_unit(unit_id=3, price=70000, medicine_id=2)
-    mdu4 = models.Medicine_unit(unit_id=3, price=200000, medicine_id=2)
-    mdu5 = models.Medicine_unit(unit_id=2, price=80000, medicine_id=3)
-    mdu6 = models.Medicine_unit(unit_id=1, price=30000, medicine_id=3)
-    mdu7 = models.Medicine_unit(unit_id=2, price=80000, medicine_id=4)
-    mdu8 = models.Medicine_unit(unit_id=1, price=30000, medicine_id=3)
+    mdu1 = models.Medicine_unit(unit_id=1, price=50000, quantity=50, medicine_id=1)
+    mdu2 = models.Medicine_unit(unit_id=2, price=30000, quantity=50, medicine_id=1)
+    mdu3 = models.Medicine_unit(unit_id=3, price=70000, quantity=50, medicine_id=2)
+    mdu4 = models.Medicine_unit(unit_id=3, price=200000, quantity=50, medicine_id=2)
+    mdu5 = models.Medicine_unit(unit_id=2, price=80000, quantity=50, medicine_id=3)
+    mdu6 = models.Medicine_unit(unit_id=1, price=30000, quantity=50, medicine_id=3)
+    mdu7 = models.Medicine_unit(unit_id=2, price=80000, quantity=50, medicine_id=4)
+    mdu8 = models.Medicine_unit(unit_id=1, price=30000, quantity=50, medicine_id=3)
     mdus = [mdu1, mdu2, mdu3, mdu4, mdu5, mdu6, mdu7, mdu8]
     for mdu in mdus:
         db.session.add(mdu)

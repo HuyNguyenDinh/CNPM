@@ -116,6 +116,7 @@ class Medicine_unit(BaseModel):
     __table_args__ = {'extend_existing': True}
     unit_id = Column(Integer, ForeignKey(Unit_tag.id), nullable=False)
     price = Column(Float, default=0)
+    quantity = Column(Integer, nullable=False, default=0)
     medicine_id = Column(Integer, ForeignKey(Medicine.id), nullable=False)
     medical_bill_details = relationship('Medical_bill_detail', backref='medicine_unit', lazy=True)
 
