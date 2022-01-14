@@ -231,6 +231,11 @@ def detail_make_a_medical_bill(patient_id, date):
 def get_list_medicine_unit():
     return jsonify(utils.get_medicine_json())
 
+@app.route('/api/get_medicine_unit_quantity', methods=['post'])
+@login_required
+def get_quantity_medicine_unit():
+    return jsonify(utils.get_quantity_medicine_unit_json())
+
 
 @app.route('/change-info-user', methods = ['post', 'get'])
 def change_info_user():
