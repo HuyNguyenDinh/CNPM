@@ -503,6 +503,29 @@ button.pay-the-bill_unpaid {
   background-color: #313131;
 }
 
+/* detail make medical bill */
+td textarea {
+    width: 100%;
+    border: 1px dotted gray;
+    border-radius: 14px;
+}
+
+.top-left {
+    text-align: left;
+    vertical-align: top;
+}
+
+#talbe2-chi-tiet-thanh-toan-hoa-don tr td input[type=number] {
+    text-align: center;
+}
+
+#talbe2-chi-tiet-thanh-toan-hoa-don tr th, #talbe2-chi-tiet-thanh-toan-hoa-don tr td {
+    text-align: center;
+    color: #2b6edd;
+    border: none;
+    border-bottom: 1px solid black;
+}
+
 /* CSS SWIPER JS */
 .swiper {
   width: 90%;
