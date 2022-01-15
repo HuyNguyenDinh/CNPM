@@ -106,15 +106,17 @@ sessionStorage.setItem("serial", 2);
 var medicine_list = []
 
 function add_med_unit_in_system(med_unit) {
-    medicine_list.push(med_unit);
+    if (med_unit)
+        medicine_list.push(med_unit);
 }
 
 function rm_all_med_unit() {
-    if (medicine_list.length == 0) {
+    if (medicine_list.length <= 0) {
         return;
     }
     else {
         medicine_list.pop();
+        rm_all_med_unit();
     }
 }
 
@@ -136,6 +138,8 @@ function temp(med_id, med_unit_id, med_unit_quantity) {
         fieldSel = document.getElementById(med_unit_id),
         quantitySel = document.getElementById(med_unit_quantity);
     if (med_list != null) {
+        typeSel.length = 1;
+        fieldSel.length = 1;
         for (const [key, value] of Object.entries(med_list)) {
             typeSel.options[typeSel.options.length] = new Option(value["name"], key);
         }
@@ -163,12 +167,15 @@ function temp(med_id, med_unit_id, med_unit_quantity) {
     }
 }
 
-
 function add_row_for_med_bill() {
     med_id = "med-" + sessionStorage.getItem("serial")
     med_unit_id = "med-unit-" + sessionStorage.getItem("serial")
     quanti = "quantity-" + sessionStorage.getItem("serial")
-    $("#talbe2-chi-tiet-thanh-toan-hoa-don").append(`<tr><td>${sessionStorage.getItem("serial")}</td><td><select id=${med_id} class="medicine" size="1"><option value="" selected="selected">Select medicine</option></select></td><td><select class="medicine-unit-id" id=${med_unit_id} size="1"><option value="" selected="selected">Please select medicine first</option></select></td><td><input type="number" min="0" class="quantity" id=${quanti} min="0" max="0" value="0" placeholder="Số lượng"></td><td><input type="text" class="use"></td></tr>`);
+    del = document.getElementsByClassName("deleteDep");
+    for (let i of del) {
+        i.disabled = false;
+    }
+    $("#talbe2-chi-tiet-thanh-toan-hoa-don").append(`<tr><td>${sessionStorage.getItem("serial")}</td><td><select id=${med_id} class="medicine" size="1"><option value="" selected="selected">Select medicine</option></select></td><td><select class="medicine-unit-id" id=${med_unit_id} size="1"><option value="" selected="selected">Please select medicine first</option></select></td><td><input type="number" min="0" class="quantity" id=${quanti} min="0" max="0" value="0" placeholder="Số lượng"></td><td><input type="text" class="use"></td><td><input type="button" class="deleteDep" disabled id="${sessionStorage.getItem("serial")}" value="Xóa"/></td></tr>`);
     temp(med_id, med_unit_id, quanti);
     sessionStorage['serial'] = sessionStorage['serial'] - 1 + 2
     var med = document.getElementsByClassName("medicine");

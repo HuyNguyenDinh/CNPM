@@ -36,6 +36,7 @@
             <th>Đơn vị</th>
             <th>Số lượng</th>
             <th>Cách dùng</th>
+            <th>Xóa</th>
         </tr>
         <tr>
             <td>1</td>
@@ -51,6 +52,7 @@
             </td>
             <td><input type="number" min="0" max="0" value="0" class="quantity" id="quantity-1" placeholder="Số lượng"></td>
             <td><input type="text" class="use"></td>
+            <td><input type="button" class="deleteDep" disabled id="1" value="Xóa"/></td>
         </tr>
     </table>
     <button style="padding: 0 20px;" class="button button_add_row_detail btn-submit" onclick="add_row_for_med_bill()">+</button>
@@ -71,7 +73,13 @@
 <script>
     $('body').on('click', 'input.deleteDep', function() {
        $(this).parents('tr').remove();
+       document.getElementById("med-"+ (sessionStorage.getItem("serial")-1)).value = "";
+       document.getElementById("med-unit-"+ (sessionStorage.getItem("serial")-1)).value = "";
+       document.getElementById("quantity-"+ (sessionStorage.getItem("serial")-1)).value = "0";
+       update_med_unit_exist();
+       temp("med-"+ (sessionStorage.getItem("serial")-1), "med-unit-" + (sessionStorage.getItem("serial")-1), "quantity-" + (sessionStorage.getItem("serial")-1))
     });
+
 </script>
 <br>
 {%endblock%}
