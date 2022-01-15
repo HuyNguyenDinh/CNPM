@@ -58,14 +58,14 @@
         </div>
     </footer>
     <script>
-        let temp_button_rating;
+        let temp_button_rating = 0;
         document.querySelector("#name-of-patient-comment").addEventListener("change", stateHandle)
         document.querySelector("#content-of-comment").addEventListener("change", stateHandle)
         document.querySelectorAll('input[name="rating"]').forEach(el =>{
             el.addEventListener("change", flag_temp_button)
         })
         function flag_temp_button(){
-            if(document.querySelector('input[name="rating"]:checked').value != '0'){
+            if(document.querySelector('input[name="rating"]:checked').value != 0){
                 temp_button_rating = 1;
             }
         }
