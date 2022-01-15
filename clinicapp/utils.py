@@ -360,6 +360,11 @@ def create_medical_bill_detail(medical_bill_id, medicine_unit_id, quantity, use)
     try:
         db.session.add(mbd)
         db.session.commit()
+        med_unit = get_medicine_unit(medicine_unit_id=int(medicine_unit_id))
+        if med_unit[0].quantity < int(quantity):
+            return None
+        else:
+            med_unit[0].quantity -= int(quantity)
         return mbd
     except:
         return None
