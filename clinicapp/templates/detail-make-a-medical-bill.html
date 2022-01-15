@@ -76,6 +76,8 @@
        document.getElementById("med-"+ (sessionStorage.getItem("serial")-1)).value = "";
        document.getElementById("med-unit-"+ (sessionStorage.getItem("serial")-1)).value = "";
        document.getElementById("quantity-"+ (sessionStorage.getItem("serial")-1)).value = "0";
+       document.getElementById("quantity-"+ (sessionStorage.getItem("serial")-1)).min = "0";
+       document.getElementById("quantity-"+ (sessionStorage.getItem("serial")-1)).max = "0";
        update_med_unit_exist();
        temp("med-"+ (sessionStorage.getItem("serial")-1), "med-unit-" + (sessionStorage.getItem("serial")-1), "quantity-" + (sessionStorage.getItem("serial")-1))
     });
