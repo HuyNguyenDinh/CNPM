@@ -163,6 +163,7 @@ function temp(med_id, med_unit_id, med_unit_quantity) {
     }
     quantitySel.onchange = function() {
         if (parseInt(this.value) <= parseInt(this.max)) return;
+        else if (parseInt(this.value) < parseInt(this.min)) this.value = this.min;
         else this.value = this.max;
     }
 }
