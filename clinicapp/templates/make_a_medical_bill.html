@@ -6,7 +6,7 @@
     <form method="get">
         <input type="date" name="date" value="{{ request.args.get('date') if request.args.get('date')
                 else [last_date.get('year'), last_date.get('month'), last_date.get('day')]|join('-')}}">
-        <input type="submit" class="btn-submit" style="margin-right: 10px; border-radius: 5px; padding: 0 5px;">
+        <input type="submit" class="btn-submit" style="margin-right: 10px; border-radius: 5px; padding: 0 5px;" value="Gửi">
     </form>
     <br><br>
     <table id="table-thanh-toan-hoa-don">

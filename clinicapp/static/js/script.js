@@ -12,10 +12,10 @@ function pay_the_bill(bill_id) {
     }).then(function(data) {
         console.log(data.code)
         popup = document.querySelector('.popup_detail-pay-the-bill');
+        title_popup = document.querySelector('.title_popup_detail-pay-the-bill')
         popup.classList.add("show_popup_detail");
         if (data.code == 200){
             console.log('success');
-
             dis = document.getElementsByClassName("btn-thanh-toan")
             for (d of dis) {
                 d.style.display = "none";
@@ -188,6 +188,8 @@ function add_row_for_med_bill() {
 }
 
 function create_medical_bill(user_id, patient_id, exam_date) {
+    let title_popup = document.querySelector('.title_popup_detail-pay-the-bill')
+    let popup = document.querySelector('.popup_detail-pay-the-bill');
     var unit_id = document.getElementsByClassName("medicine-unit-id");
     var quantity = document.getElementsByClassName("quantity");
     var diagnosis = $('textarea#diagnosis').val();
@@ -211,14 +213,17 @@ function create_medical_bill(user_id, patient_id, exam_date) {
         }).then(function(res) {
             return res.json()
         }).then(function(data) {
-            popup = document.querySelector('.popup_detail-pay-the-bill');
-            popup.classList.add("show_popup_detail");
             if (data.code == 200) {
+                title_popup.innerHTML = 'Lập phiếu thành công';
+                popup.style.border = '5px solid green';
                 console.log('success')
             }
             else if (data.code == 400){
+                title_popup.innerHTML = 'Lập phiếu thất bại';
+                popup.style.border = '5px solid red';
                 console.log('fail')
             }
+            popup.classList.add("show_popup_detail");
         }).catch(err => console.error(err))
 }
 

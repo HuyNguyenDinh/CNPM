@@ -52,12 +52,12 @@ div.allfoot {
 }
 textarea {
     width: 95%;
-    height: 140px;
+    height: 100px;
     border-radius: 5px;
     resize:none !important;
 }
 .col30 input[type="submit"] {
-  background-color: #138496;
+  background-color: #2b6edd;
   width: 30%;
   height: 35px;
   border-radius: 5px;
@@ -73,7 +73,7 @@ ul.social {
 }
 
 ul.social li {
-  width: 10%;
+  width: 15%;
   padding: 0 5px;
 }
 ul.social li img {
@@ -86,7 +86,7 @@ ul.social li img {
   background-color: #313131;
 }
 .navbar-nav > .nav-item {
-  padding-left: 30px;
+  padding-left: 10vh;
 }
 .navbar-nav > .nav-item > .nav-link {
   color: white;
@@ -241,7 +241,9 @@ ul.social li img {
 }
 
 #table-thanh-toan-hoa-don td button.pay-the-bill_unpaid:hover {
-    background-color: red;
+    background-color: white;
+    border: 2.5px solid #2b6edd;
+    color:#2b6edd;
 }
 /* Chi tiết thanh toán hóa đơn */
 #talbe1-chi-tiet-thanh-toan-hoa-don {
@@ -271,7 +273,7 @@ ul.social li img {
 
 .chi-tiet-thanh-toan-hoa-don-button button {
   border-radius: 10px;
-  background-color: lightgreen;
+  background-color:#2b6edd ;
   padding: 10px 15px 10px 15px;
 }
 .chi-tiet-thanh-toan-hoa-don {
@@ -379,11 +381,10 @@ button.pay-the-bill_unpaid {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%) translateY(1000px);
-  width: 40%;
+  width: 30%;
   height: 300px;
   background-color: white;
   text-align: center;
-  border: 5px solid green;
   z-index: 1;
   border-radius: 10px;
   transition: transform ease 0.5s;
@@ -398,9 +399,13 @@ button.pay-the-bill_unpaid {
 }
 
 .button_popup_detail-pay-the-bill-thanh_toan {
-  width: 260px;
-  height: 100px;
-  font-size: 18px;
+  width: 200px;
+  height: 80px;
+  font-size: 20px;
+  background-color: #2b6edd;
+  border:none;
+  border-radius:8px;
+  color:white;
 }
 /* GO TO TOP*/
 .button-go-to-top {
@@ -635,4 +640,14 @@ td textarea {
 #name-of-patient-comment{
     margin: 0 0 10px 0;
     width:80%;
+}
+
+.btn-thanh-toan{
+    margin:20px;
+    background-color:#2b6edd;
+    color:white;
+    border:none;
+}
+.btn-thanh-toan:hover{
+    background-color:#313131;
 }
