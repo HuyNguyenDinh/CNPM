@@ -1,3 +1,1 @@
 # CNPM
-
-hieu dep trai
