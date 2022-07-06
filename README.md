@@ -10,17 +10,26 @@
 ##### 3. Config Database connection
 - Go to the folder you have clone
 - Open the file **__init__.py** in the project
-- Go to this line **```app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://<user>:<password>@localhost/<schema>?charset=utf8mb4'```** change this part **```<user>:<password>@localhost/<schema>```** with **user** is your Database username, **password** is your Database user's password, **localhost** is the host where at your MySQL server stay (default is localhost and you may be not change this). **schema** is the name of empty schema which you create at Setup Database step.
+- Go to this line **```app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://user:password@localhost/schema?charset=utf8mb4'```** change this part **```user:password@localhost/schema```** with **user** is your Database username, **password** is your Database user's password, **localhost** is the host where at your MySQL server stay (default is localhost and you may be not change this). **schema** is the name of empty schema which you create at Setup Database step.
 ##### 4. Setup project
 - Your pc need to install python3 at first (if you didn't install it please go [here](https://www.python.org/downloads/)
-- You need install the python package for creating virtual environment for next step. For me, I choose **venv** so you need to open your terminal and run this script **```python -m pip install venv```**
+- You need install the python package for creating virtual environment for next step. For me, I choose **venv** so you need to open your terminal and run this script
+```python -m pip install venv```
 - When you got Python and Python package for creating virtual environment go to the folder you clone this project, and choose **Open with terminal** in the right click for next step
-- Run this script in your terminal **```python -m venv venv```** to create the virtual environment for this project
-- Then run this script to activate the Virtual environment **```.\venv\Script\activate```** (if you use git bash use this script instead **```. ./venv/Script/activate```)**
-- Now, the last step to setup Virtual environment. Run this script to get the Python packages for this project **`python -m pip install -r requirements.txt```**
-- Yolo, it's time for run this project. Run this script to create the models in Database **`python .\clinicapp\models.py```**
-- Next, run this script to create a bit data samples for app **`python .\clinicapp\data_import_for_test.py```**
-- Last, run this script to start app **`python .\clinicapp\index.py```**
+- Run this script in your terminal to create the virtual environment for this project 
+```python -m venv venv``` 
+- Then run this script to activate the Virtual environment 
+```.\venv\Script\activate``` 
+- If you use git bash use this script instead 
+```. ./venv/Script/activate```
+- Now, the last step to setup Virtual environment. Run this script to get the Python packages for this project 
+```python -m pip install -r requirements.txt```
+- Yolo, it's time for run this project. Run this script to create the models in Database 
+```python .\clinicapp\models.py```
+- Next, run this script to create a bit data samples for app 
+```python .\clinicapp\data_import_for_test.py```
+- Last, run this script to start app 
+```python .\clinicapp\index.py```
 
 ##### 5. Test App
 - Go to **http://127.0.0.1:5000/** to see the App
