@@ -1,4 +1,4 @@
-# CNPM
+# Clinic Managing Web Application
 ## This project was developed with Python([Flask Framework](https://flask.palletsprojects.com/en/2.1.x/)) + HTML/CSS/JS + Jinja2 Template 
 ### We used [MySQL](https://www.mysql.com/downloads/) for Database of this project
 
@@ -9,7 +9,7 @@
 - Create an empty schema for this project with charset/collation **utf8mp4/unicode_ci** and name is option
 ##### 3. Config Database connection
 - Go to the folder you have clone
-- Open the file __init__.py in the project
+- Open the file **__init__.py** in the project
 - Go to this line **```app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:hieu123@localhost/clinicapp?charset=utf8mb4'```** change this part **```root:hieu123@localhost/clinicapp```** with *root* is your Database username, *hieu123* is your Database user's password, *localhost* is the host where at your MySQL server stay (default is localhost and you may be not change this). *clinicapp* is the name of empty schema which you create at Setup Database step.
 ##### 4. Setup project
 - Your pc need to install python3 at first (if you didn't install it please go [here](https://www.python.org/downloads/)
@@ -24,5 +24,5 @@
 
 ##### 5. Test App
 - Go to **http://127.0.0.1:5000/** to see the App
-- To sign in with Administrator use this account (username: huy123 - password: 1)
-- To sign in with Nurse use this account (username: user1 - password: 1)
+- To sign in with *Administrator* use this account (username: huy123 - password: 1)
+- To sign in with *Nurse* use this account (username: user1 - password: 1)
