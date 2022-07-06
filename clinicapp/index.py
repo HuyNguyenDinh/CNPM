@@ -1,6 +1,5 @@
-import pdb
 
-from clinicapp import app, login
+from __init__ import app, login
 from flask import render_template, redirect, request, jsonify
 from flask_login import login_user, login_required, logout_user
 from flask_admin import expose
@@ -307,7 +306,7 @@ def add_comment():
     }})
 
 if __name__ == "__main__":
-    from clinicapp.admin import *
+    from admin import *
     app.run(debug=True)
 
 

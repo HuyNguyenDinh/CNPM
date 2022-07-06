@@ -5,3 +5,5 @@ clinicapp/__pycache__/admin.cpython-310.pyc
 clinicapp/__pycache__/models.cpython-310.pyc
 clinicapp/__pycache__/utils.cpython-310.pyc
 *.pyc
+.idea
+venv

@@ -1,4 +1,6 @@
-from clinicapp import db, utils, models
+from __init__ import db
+import utils 
+import models
 from datetime import datetime, date
 
 if __name__ == '__main__':
