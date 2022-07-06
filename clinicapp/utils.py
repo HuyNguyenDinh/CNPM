@@ -1,8 +1,8 @@
 import datetime
 from flask import jsonify
-from clinicapp.models import Medical_bill, Medicine, Medicine_unit, Medical_bill_detail, Bill, Unit_tag, User, UserRole,\
+from models import Medical_bill, Medicine, Medicine_unit, Medical_bill_detail, Bill, Unit_tag, User, UserRole,\
     Examination, Patient, Exam_patient, Sex, Other,Comment
-from clinicapp import db
+from __init__ import db
 from sqlalchemy import func, extract, desc, alias, update
 from twilio.rest import Client
 import hashlib, datetime
