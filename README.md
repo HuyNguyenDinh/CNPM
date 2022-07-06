@@ -10,7 +10,7 @@
 ##### 3. Config Database connection
 - Go to the folder you have clone
 - Open the file **__init__.py** in the project
-- Go to this line **```app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://<user>:<password>@localhost/<schema>?charset=utf8mb4'```** change this part **```<user>:<password>@localhost/<schema>```** with *<user>* is your Database username, *<password>* is your Database user's password, *localhost* is the host where at your MySQL server stay (default is localhost and you may be not change this). *<schema>* is the name of empty schema which you create at Setup Database step.
+- Go to this line **```app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://<user>:<password>@localhost/<schema>?charset=utf8mb4'```** change this part **```<user>:<password>@localhost/<schema>```** with **user** is your Database username, **password** is your Database user's password, **localhost** is the host where at your MySQL server stay (default is localhost and you may be not change this). **schema** is the name of empty schema which you create at Setup Database step.
 ##### 4. Setup project
 - Your pc need to install python3 at first (if you didn't install it please go [here](https://www.python.org/downloads/)
 - You need install the python package for creating virtual environment for next step. For me, I choose **venv** so you need to open your terminal and run this script **```python -m pip install venv```**
