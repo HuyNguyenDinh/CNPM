@@ -14,22 +14,38 @@
 ##### 4. Setup project
 - Your pc need to install python3 at first (if you didn't install it please go [here](https://www.python.org/downloads/)
 - You need install the python package for creating virtual environment for next step. For me, I choose **venv** so you need to open your terminal and run this script
-```python -m pip install venv```
+```
+python -m pip install venv
+```
 - When you got Python and Python package for creating virtual environment go to the folder you clone this project, and choose **Open with terminal** in the right click for next step
 - Run this script in your terminal to create the virtual environment for this project 
-```python -m venv venv``` 
+```
+python -m venv venv
+``` 
 - Then run this script to activate the Virtual environment 
-```.\venv\Script\activate``` 
+```
+.\venv\Script\activate
+``` 
 - If you use git bash use this script instead 
-```. ./venv/Script/activate```
+```
+. ./venv/Script/activate
+```
 - Now, the last step to setup Virtual environment. Run this script to get the Python packages for this project 
-```python -m pip install -r requirements.txt```
+```
+python -m pip install -r requirements.txt
+```
 - Yolo, it's time for run this project. Run this script to create the models in Database 
-```python .\clinicapp\models.py```
+```
+python .\clinicapp\models.py
+```
 - Next, run this script to create a bit data samples for app 
-```python .\clinicapp\data_import_for_test.py```
+```
+python .\clinicapp\data_import_for_test.py
+```
 - Last, run this script to start app 
-```python .\clinicapp\index.py```
+```
+python .\clinicapp\index.py
+```
 
 ##### 5. Test App
 - Go to **http://127.0.0.1:5000/** to see the App
