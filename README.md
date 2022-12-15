@@ -1,4 +1,5 @@
 # Clinic Managing Web Application
+## Deploy at http://165.22.57.62/ and http://www.nguyendinhhuy.tech/
 ## This project was developed with Python([Flask Framework](https://flask.palletsprojects.com/en/2.1.x/)) + HTML/CSS/JS + Jinja2 Template 
 ### We used [MySQL](https://www.mysql.com/downloads/) for Database of this project
 
