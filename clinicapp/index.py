@@ -1,13 +1,15 @@
-
-from __init__ import app, login
+from .utils import *
+from . import utils
+from .__init__ import app, login
 from flask import render_template, redirect, request, jsonify
-from flask_login import login_user, login_required, logout_user
+from flask_login import login_user, login_required, logout_user, current_user
 from flask_admin import expose
 import hashlib
 import cloudinary.uploader
 from flask import url_for, json, session
-import datetime
+from datetime import datetime, date
 import uuid
+from .models import *
 
 
 @app.route("/")
@@ -19,7 +21,7 @@ def homepage():
             return redirect('/doctor-view')
         else:
             return redirect('/admin')
-    comments = utils.get_comment()
+    comments = get_comment()
     return render_template('index.html', comments=comments)
 
 @app.route("/return-admin")
@@ -51,7 +53,7 @@ def get_user(user_id):
 def common_response():
     return {
         "sex": check_sex(current_user),
-        "date_now": datetime.datetime.now().strftime('%Y-%m-%d')
+        "date_now": datetime.now().strftime('%Y-%m-%d')
     }
 
 
@@ -109,21 +111,21 @@ def make_medical_list():
     d = request.args.get('date')
     temp = d
     if not d:
-        temp = utils.get_last_date_of_exam()
+        temp = get_last_date_of_exam()
         d = '-'.join([temp.get('year'), temp.get('month'), temp.get('day')])
     return render_template('make_medical_list.html', last_date=temp,\
-                           med_list=utils.get_patient_in_exam(d), status=utils.get_status_of_exam(d))
+                           med_list=get_patient_in_exam(d), status=get_status_of_exam(d))
 
 @app.route('/nurse-view/pay-the-bill')
 @login_required
 def pay_the_bill():
     d = request.args.get('date')
-    return render_template('pay-the-bill.html', bill=utils.get_bill_from_medicall_bill_in_day(exam_date=d))
+    return render_template('pay-the-bill.html', bill=get_bill_from_medicall_bill_in_day(exam_date=d))
 
 @app.route('/nurse-view/pay-the-bill/<int:bill_id>')
 @login_required
 def detail_pay_the_bill(bill_id):
-    bill = utils.get_bill(bill_id)
+    bill = get_bill(bill_id)
     return render_template('detail-pay-the-bill.html', bill=bill)
 
 @app.route('/api/pay-bill', methods=['post'])
@@ -150,7 +152,7 @@ def pay_momo():
     amount = data.get('amount')
     re_url = data.get('current_url')
     if id and amount and re_url:
-        id = "Clinic-bill-test-" + str(id) + "-" + str(datetime.date.today())
+        id = "Clinic-bill-test-" + str(id) + "-" + str(date.today())
         pay_url = pay_bill_with_momo(id, amount, re_url)
         if pay_url:
             return jsonify({'code': 200, 'pay_url': pay_url})
@@ -185,14 +187,14 @@ def create_medical_bill_by_doctor():
                 if check == 1:
                     med_bill = create_medical_bill(user_id, patient_id, exam_date, diagnosis, symptom)
                 if check >= 1:
-                    temp = utils.create_medical_bill_detail(med_bill.id, unit, medicine[unit]["quantity"],\
+                    temp = create_medical_bill_detail(med_bill.id, unit, medicine[unit]["quantity"],\
                                                         medicine[unit]["use"])
                     if not temp:
                         return jsonify({'code': 400})
-        temp = utils.get_cost()
+        temp = get_cost()
         if check == 0:
             return jsonify({'code': 400})
-        b = utils.get_medical_bill_value(med_bill.id)
+        b = get_medical_bill_value(med_bill.id)
         bill = Bill(medical_bill_id=b[0], value=b[1] + temp)
         try:
             db.session.add(bill)
@@ -208,32 +210,32 @@ def make_a_medical_bill():
     d = request.args.get('date')
     temp = d
     if not d:
-        temp = utils.get_last_date_of_exam(doctor=True)
+        temp = get_last_date_of_exam(doctor=True)
         if temp:
             d = '-'.join([temp.get('year'), temp.get('month'), temp.get('day')])
         else:
             temp = {}
-    pa = utils.get_patient_in_exam(exam_date=d, doctor=True)
-    pati = utils.get_patient_and_medical_bill_in_exam(pa)
+    pa = get_patient_in_exam(exam_date=d, doctor=True)
+    pati = get_patient_and_medical_bill_in_exam(pa)
     return render_template('make_a_medical_bill.html', last_date=temp, pati=pati)
 
 @app.route('/doctor-view/make-a-medical-bill/<int:patient_id>/<string:date>')
 @login_required
 def detail_make_a_medical_bill(patient_id, date):
-    patient = utils.get_patient(patient_id)
+    patient = get_patient(patient_id)
     temp = patient[0]
-    medicine = utils.get_medicine()
+    medicine = get_medicine()
     return render_template('detail-make-a-medical-bill.html', patient=temp, date=date, medicine=medicine)
 
 @app.route('/api/get_medicine', methods=['post'])
 @login_required
 def get_list_medicine_unit():
-    return jsonify(utils.get_medicine_json())
+    return jsonify(get_medicine_json())
 
 @app.route('/api/get_medicine_unit_quantity', methods=['post'])
 @login_required
 def get_quantity_medicine_unit():
-    return jsonify(utils.get_quantity_medicine_unit_json())
+    return jsonify(get_quantity_medicine_unit_json())
 
 
 @app.route('/change-info-user', methods = ['post', 'get'])
@@ -284,8 +286,7 @@ def api_medical_register():
     sex = data.get('sex')
     date_of_birth = data.get('date_of_birth')
     date_of_exam = data.get('date_of_exam')
-    final = medical_register(phone_number=phone_number,first_name= first_name,\
-                             last_name=last_name,sex= sex,date_of_birth= date_of_birth, date_of_exam= date_of_exam)
+    final = utils.medical_register(phone_number, first_name, last_name, sex, date_of_birth, date_of_exam)
     return final
 @app.route('/api/comment', methods=['post'])
 def add_comment():
@@ -295,7 +296,7 @@ def add_comment():
     star_comment = data.get('star_comment')
 
     try:
-        c = utils.add_comment(patient_comment=patient_comment,content_comment=content_comment,star_comment=star_comment)
+        c = add_comment(patient_comment=patient_comment,content_comment=content_comment,star_comment=star_comment)
     except:
         return {'status': 404,'err_msg':'Chuong trinh bi loi'}
 

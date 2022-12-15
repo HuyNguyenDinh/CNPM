@@ -1,11 +1,11 @@
-import datetime
+from datetime import datetime
 from flask import jsonify
-from models import Medical_bill, Medicine, Medicine_unit, Medical_bill_detail, Bill, Unit_tag, User, UserRole,\
+from .models import Medical_bill, Medicine, Medicine_unit, Medical_bill_detail, Bill, Unit_tag, User, UserRole,\
     Examination, Patient, Exam_patient, Sex, Other,Comment
-from __init__ import db
+from .__init__ import db
 from sqlalchemy import func, extract, desc, alias, update
 from twilio.rest import Client
-import hashlib, datetime
+import hashlib
 import cloudinary.uploader
 import urllib.request
 import uuid
@@ -302,7 +302,7 @@ def create_patient(first_name, last_name, sex, date_of_birth, phone_number):
     else:
         sex = Sex.UNSPECIFIED
     patient = Patient(first_name=first_name, last_name=last_name, sex=sex, \
-                      date_of_birth=datetime.datetime(year, month, day), phone_number=phone_number)
+                      date_of_birth=datetime(year, month, day), phone_number=phone_number)
     try:
         db.session.add(patient)
         db.session.commit()
@@ -315,7 +315,7 @@ def create_exam(user_id, exam_date):
     year = int(temp[0])
     month = int(temp[1])
     day = int(temp[2])
-    exam = Examination(user_id=int(user_id), date=datetime.datetime(year, month, day))
+    exam = Examination(user_id=int(user_id), date=datetime(year, month, day))
     try:
         db.session.add(exam)
         db.session.commit()
@@ -328,7 +328,7 @@ def register_into_examination(patient_id, exam_date):
     year = int(temp[0])
     month = int(temp[1])
     day = int(temp[2])
-    exam = get_exam_by_id(exam_date=datetime.datetime(year, month, day)).first()
+    exam = get_exam_by_id(exam_date=datetime(year, month, day)).first()
     patient = get_patient(patient_id).first()
     if not exam:
         exam = create_exam(user_id=1, exam_date=exam_date)
@@ -346,7 +346,7 @@ def create_medical_bill(user_id, patient_id, exam_date, diagnosis, symptom):
     month = int(temp[1])
     day = int(temp[2])
     mb = Medical_bill(user_id=user_id, diagnosis=diagnosis, symptom=symptom,\
-                      create_date=datetime.datetime(year, month, day), patient_id=patient_id)
+                      create_date=datetime(year, month, day), patient_id=patient_id)
     try:
         db.session.add(mb)
         db.session.commit()
@@ -514,7 +514,7 @@ def check_info_for_change(user,avatar = None, name = None, username = None,day_o
                 db.session.commit()
             if day_of_birth:
                 day_of_birth = str(day_of_birth)
-                user_current.date_of_birth = datetime.datetime.strptime(day_of_birth,'%Y-%m-%d')
+                user_current.date_of_birth = datetime.strptime(day_of_birth,'%Y-%m-%d')
                 db.session.commit()
             if phone:
                 user_current.phone_number = str(phone)
