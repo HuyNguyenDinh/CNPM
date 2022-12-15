@@ -1,17 +1,18 @@
 # Clinic Managing Web Application
 ## Deploy at http://165.22.57.62/ and http://www.nguyendinhhuy.tech/
-## This project was developed with Python([Flask Framework](https://flask.palletsprojects.com/en/2.1.x/)) + HTML/CSS/JS + Jinja2 Template 
+## This project was developed with Python3([Flask Framework](https://flask.palletsprojects.com/en/2.1.x/)) + HTML/CSS/JS + Jinja2 Template 
 ### We used [MySQL](https://www.mysql.com/downloads/) for Database of this project
 
 #### How to run this project
 ##### 1. Clone this project to your pc (Of course)
-##### 2. Setup Database
-- Install MySQL on your pc at [here](https://www.mysql.com/downloads/)
-- Create an empty schema for this project with charset/collation **utf8mp4/unicode_ci** and name is option
-##### 3. Config Database connection
-- Go to the folder you have clone
-- Open the file **__init__.py** in the project
-- Go to this line **```app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://user:password@localhost/schema?charset=utf8mb4'```** change this part **```user:password@localhost/schema```** with **user** is your Database username, **password** is your Database user's password, **localhost** is the host where at your MySQL server stay (default is localhost and you may be not change this). **schema** is the name of empty schema which you create at Setup Database step.
+##### 2. Change your current directory to this project on your local machine (Terminal or PowerShell on Window)
+##### 3. Setup Database
+- Run sql script `mysql_script.sql` with 'root' role in MySQL server to create database and user for application (For windows)
+- If you are using linux/ubuntu just run 
+```
+source path/to/CNPM/clinicapp/mysql_script.sh
+```
+!Important check your environment variables for `$DB_HOST $DB_NAME $DB_USER $DB_PASSWORD` if you are using or project cannot connect to database. 
 ##### 4. Setup project
 - Your pc need to install python3 at first (if you didn't install it please go [here](https://www.python.org/downloads/)
 - You need install the python package for creating virtual environment for next step. For me, I choose **venv** so you need to open your terminal and run this script
