@@ -36,15 +36,15 @@ python -m pip install -r requirements.txt
 ```
 - Yolo, it's time for run this project. Run this script to create the models in Database 
 ```
-python .\clinicapp\models.py
+python -m clinicapp.models
 ```
 - Next, run this script to create a bit data samples for app 
 ```
-python .\clinicapp\data_import_for_test.py
+python -m clinicapp.data_import_for_test
 ```
 - Last, run this script to start app 
 ```
-python .\clinicapp\index.py
+python -m clinicapp.index
 ```
 
 ##### 5. Test App
