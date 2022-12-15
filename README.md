@@ -10,7 +10,7 @@
 - Run sql script `mysql_script.sql` with 'root' role in MySQL server to create database and user for application (For windows)
 - If you are using linux/ubuntu just run 
 ```
-source path/to/CNPM/clinicapp/mysql_script.sh
+source ./clinicapp/mysql_script.sh
 ```
 !Important check your environment variables for `$DB_HOST $DB_NAME $DB_USER $DB_PASSWORD` if you are using or project cannot connect to database. 
 ##### 4. Setup project
