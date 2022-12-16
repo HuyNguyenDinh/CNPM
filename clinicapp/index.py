@@ -308,7 +308,6 @@ def add_comment():
     }})
 
 if __name__ == "__main__":
-    from admin import *
     app.run(debug=True)
 
 
