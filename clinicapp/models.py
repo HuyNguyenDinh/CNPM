@@ -1,10 +1,11 @@
 from sqlalchemy import Column, Integer, String, Enum, Float, Boolean, Date, ForeignKey, Text, Table
 from sqlalchemy.orm import relationship, backref
-from .__init__ import db
+from clinicapp.__init__ import db
 from datetime import datetime
 from enum import Enum as UserEnum
 from flask_login import UserMixin
 import hashlib
+
 
 class BaseModel(db.Model):
     __abstract__ = True
