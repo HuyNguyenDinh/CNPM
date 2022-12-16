@@ -1,6 +1,6 @@
-from .utils import *
-from . import utils
-from .__init__ import app, login
+from clinicapp.utils import *
+from clinicapp import utils
+from clinicapp.__init__ import app, login
 from flask import render_template, redirect, request, jsonify
 from flask_login import login_user, login_required, logout_user, current_user
 from flask_admin import expose
@@ -9,7 +9,8 @@ import cloudinary.uploader
 from flask import url_for, json, session
 from datetime import datetime, date
 import uuid
-from .models import *
+from clinicapp.models import *
+from clinicapp.admin import *
 
 
 @app.route("/")
