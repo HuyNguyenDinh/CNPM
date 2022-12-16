@@ -1,13 +1,14 @@
 from flask_admin import BaseView, expose,AdminIndexView
 from flask import redirect, request
 from flask_admin import Admin
-from __init__ import app, db
-import utils
+from clinicapp.__init__ import app, db
+from clinicapp import utils
 from flask_admin.contrib.sqla import ModelView
 from flask_login import current_user, logout_user, login_required
-from models import *
-from utils import *
+from clinicapp.models import *
+from clinicapp.utils import *
 from datetime import date
+
 
 class BackHome(BaseView):
     @expose('/')
